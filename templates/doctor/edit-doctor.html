@@ -1,0 +1,253 @@
+{% extends 'base.html' %}
+{% block title %}Edit Doctor{% endblock %}
+
+{% block content %}
+
+<div class="new-patients main_container">
+    <div class="row page-titles mx-0">
+        <div class="col-sm-6 p-md-0">
+            <div class="welcome-text">
+                <h4 class="text-primary">Edit  doctor</h4>
+            </div>
+        </div>
+        <div class="col-sm-6 p-md-0 justify-content-sm-end mt-2 mt-sm-0 d-flex">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+                <li class="breadcrumb-item active"><a href="/add-doctor.html">Add new doctor</a></li>
+            </ol>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header">
+                    <h4 class="card-title">Personal Information</h4>
+                </div>
+                
+                <div class="card-body">
+                    <div class="basic-form">
+                        <form method="post"
+                        action="{% url 'doctor_update' pk=doctor_data.Doctor_id %}" >
+                            {% csrf_token %}
+                            
+                            <div class="row">
+                                <!-- <div class="col">
+                                    <div class="form-group row widget-3">
+                                        <div class="col">
+                                            <div class="form-input">
+                                                <label class="labeltest" for="file-ip-1">
+                                                    <span> Drop image here or click to upload. </span>
+                                                </label>
+                                                <input type="file" id="file-ip-1" accept="image/*" onchange="showPreview(event);">
+                                                <div class="preview">
+                                                    <img id="file-ip-1-preview" src="#" alt="img">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div> -->
+                                <div class="col">
+                                    <div class="form-group">
+                                        <input type="text" class="form-control" placeholder="First Name" name="first_name" value="{{ doctor_data.first_name }}">
+                                    </div>
+                                    <div class="form-group">
+                                        <input type="text" class="form-control" placeholder="Last Name" name="last_name" value="{{ doctor_data.last_name }}">
+                                    </div>
+                                    <div class="form-group">
+                                        <input type="email" class="form-control" placeholder="Email" name="email" value="{{ doctor_data.email }}">
+                                    </div>
+                                    <div class="form-group">
+                                        <input type="text" class="form-control" placeholder="Mobile No." name="mobile_no" value="{{ doctor_data.mobile_no }}">
+                                    </div>
+                                </div>
+                                <div class="col">
+                                    <div class="form-group">
+                                        <select class="form-control form-select" name="gender">
+                                            <option value="" {% if not doctor_data.gender %}selected{% endif %}>Choose A Gender</option>
+                                            <option value="Female" {% if doctor_data.gender == 'Female' %}selected{% endif %}>Female</option>
+                                            <option value="Male" {% if doctor_data.gender == 'Male' %}selected{% endif %}>Male</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <input type="text" class="form-control" placeholder="Date Of Birth" name="date_of_birth" value="{{ doctor_data.date_of_birth }}">
+                                    </div>
+                                    <div class="form-group">
+                                        <select class="form-control form-select" name="languages">
+                                            <option>Languages</option>
+                                            <option {% if doctor_data.languages == 'Arabic' %}selected{% endif %}>Arabic</option>
+                                            <option {% if doctor_data.languages == 'English' %}selected{% endif %}>English</option>
+                                            <option {% if doctor_data.languages == 'French' %}selected{% endif %}>French</option>
+                                            <option {% if doctor_data.languages == 'German' %}selected{% endif %}>German</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <select class="form-control form-select" name="nationality">
+                                            <option>Nationality</option>
+                                            <option {% if doctor_data.nationality == 'Maroc' %}selected{% endif %}>Maroc</option>
+                                            <option {% if doctor_data.nationality == 'Algerier' %}selected{% endif %}>Algerier</option>
+                                            <option {% if doctor_data.nationality == 'Tunisie' %}selected{% endif %}>Tunisie</option>
+                                            <option {% if doctor_data.nationality == 'Egypt' %}selected{% endif %}>Egypt</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col">
+                                    <div class="form-group row">
+                                        <div class="col">
+                                            <select class="form-control form-select" name="city">
+                                                <option>City</option>
+                                                <option {% if doctor_data.city == 'Rabat' %}selected{% endif %}>Rabat</option>
+                                                <option {% if doctor_data.city == 'Kenitra' %}selected{% endif %}>Kenitra</option>
+                                                <option {% if doctor_data.city == 'Casablanca' %}selected{% endif %}>Casablanca</option>
+                                                <option {% if doctor_data.city == 'Marakesh' %}selected{% endif %}>Marakesh</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col">
+                                    <div class="form-group row">
+                                        <div class="col">
+                                            <input type="text" class="form-control" placeholder="Zip" name="zip" value="{{ doctor_data.zip }}">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col">
+                                    <div class="form-group">
+                                        <select class="form-control" name="user_role">
+                                            <option>User role</option>
+                                            <option {% if doctor_data.user_role == 'Surgery' %}selected{% endif %}>Surgery</option>
+                                            <option {% if doctor_data.user_role == 'Gastroenterologist' %}selected{% endif %}>Gastroenterologist</option>
+                                            <option {% if doctor_data.user_role == 'Endocrinologist' %}selected{% endif %}>Endocrinologist</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col">
+                                    <div class="form-group">
+                                        <textarea class="form-control" placeholder="Address" rows="4" name="address">{{ doctor_data.address }}</textarea>
+                                    </div>
+                                </div>
+                                <div class="col">
+                                    <div class="form-group">
+                                        <textarea class="form-control" placeholder="Bio:" rows="4" name="bio">{{ doctor_data.bio }}</textarea>
+                                    </div>
+                                    <div class="form-group text-right">
+                                        <button type="submit" class="btn btn-primary float-end">Update Doctor</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                        
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row" style="display: none;">
+        <div class="col">
+            <div class="card">
+                <div class="card-header">
+                    <h4 class="card-title">Medical Information</h4>
+                </div>
+                <div class="card-body">
+                    <div class="basic-form">
+                        <form>
+                            <div class="row">
+                                <div class="col-xl-6">
+                                    <div class="form-group">
+                                        <label class="form-label">Main specialization</label>
+                                        <select class="form-control form-select">
+                                            <option>Type 1 Diabetes</option>
+                                            <option>Multiple Sclerosis</option>
+                                            <option>Rheumatoid Arthritis</option>
+                                            <option>Allergies &amp; Asthma</option>
+                                        </select>
+                                        <div class="col">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-xl-6">
+                                    <div class="form-group">
+                                        <label class="form-label">Secondary specialization</label>
+                                        <select class="form-control form-select">
+                                            <option>Secondary specialization</option>
+                                            <option>Celiac Disease</option>
+                                            <option>cancer</option>
+                                            <option>Catarrh</option>
+                                            <option>Conjunctivitis</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-xl-6">
+                                    <div class="form-group">
+                                        <label class="form-label"> Medical Education </label>
+                                        <select class="form-control form-select">
+                                            <option>Medical University</option>
+                                            <option>Medical College</option>
+                                            <option>Nurse School</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-xl-6">
+                                    <div class="form-group">
+                                        <label class="form-label">Period</label>
+                                        <input type="text" class="form-control" placeholder="Period">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group text-right">
+                                <button type="submit" class="btn btn-primary float-end ">Save</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- Add this script in your HTML template -->
+<!-- <script>
+    document.addEventListener("DOMContentLoaded", function() {
+        var doctorData = '{{ doctor_data|safe }}';
+        console.log(doctorData)
+        alert('see console')
+        try {
+            var parsedData = JSON.parse(doctorData);
+        } catch (error) {
+            
+        }
+        function setSelectedValue(selectElement, valueToSet) {
+            for (var i = 0; i < selectElement.options.length; i++) {
+                if (selectElement.options[i].value === valueToSet) {
+                    selectElement.options[i].selected = true;
+                    break;
+                }
+            }
+        }
+
+        // Call the function for each select element
+        var genderSelect = document.querySelector('[name="gender"]');
+        setSelectedValue(genderSelect, doctorData.gender);
+
+        var languagesSelect = document.querySelector('[name="languages"]');
+        setSelectedValue(languagesSelect, doctorData.languages);
+
+        var nationalitySelect = document.querySelector('[name="nationality"]');
+        setSelectedValue(nationalitySelect, doctorData.nationality);
+
+        var citySelect = document.querySelector('[name="city"]');
+        setSelectedValue(citySelect, doctorData.city);
+
+        var userRoleSelect = document.querySelector('[name="user_role"]');
+        setSelectedValue(userRoleSelect, doctorData.user_role);
+    });
+</script> -->
+
+{% endblock %}

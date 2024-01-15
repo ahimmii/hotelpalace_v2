@@ -1,0 +1,196 @@
+{% extends 'base.html' %}
+{% block title %}Add Doctor{% endblock %}
+
+{% block content %}
+
+<div class="new-patients main_container">
+    <div class="row page-titles mx-0">
+        <div class="col-sm-6 p-md-0">
+            <div class="welcome-text">
+                <h4 class="text-primary">Add new doctor</h4>
+            </div>
+        </div>
+        <div class="col-sm-6 p-md-0 justify-content-sm-end mt-2 mt-sm-0 d-flex">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+                <li class="breadcrumb-item active"><a href="/add-doctor.html">Add new doctor</a></li>
+            </ol>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header">
+                    <h4 class="card-title">Personal Information</h4>
+                </div>
+                <div class="card-body">
+                    <div class="basic-form">
+                        <form method="post" action="{% url 'doctor_create' %}">
+                            {% csrf_token %}
+                            <div class="row">
+                                
+                                <div class="col">
+                                    <div class="form-group">
+                                        <input type="text" class="form-control" placeholder="First Name" name="first_name">
+                                    </div>
+                                    <div class="form-group">
+                                        <input type="text" class="form-control" placeholder="Last Name" name="last_name">
+                                    </div>
+                                    <div class="form-group">
+                                        <input type="email" class="form-control" placeholder="Email" name="email">
+                                    </div>
+                                    <div class="form-group">
+                                        <input type="text" class="form-control" placeholder="Mobile No." name="mobile_no">
+                                    </div>
+                                </div>
+                                <div class="col">
+                                    <div class="form-group">
+                                        <select class="form-control form-select" name="gender">
+                                            <option>Choose A Gender</option>
+                                            <option>Female</option>
+                                            <option>Male</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <input type="text" class="form-control" placeholder="Date Of Birth" name="date_of_birth">
+                                    </div>
+                                    <div class="form-group">
+                                        <select class="form-control form-select" name="languages">
+                                            <option>Languages</option>
+                                            <option>Arabic</option>
+                                            <option>English</option>
+                                            <option>French</option>
+                                            <option>German</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <select class="form-control form-select" name="nationality">
+                                            <option>Nationality</option>
+                                            <option>Maroc</option>
+                                            <option>Algerier</option>
+                                            <option>Tunisie</option>
+                                            <option>Egypt</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col">
+                                    <div class="form-group row">
+                                        <div class="col">
+                                            <select class="form-control form-select" name="city">
+                                                <option>City</option>
+                                                <option>Rabat</option>
+                                                <option>Kenitra</option>
+                                                <option>Casablanca</option>
+                                                <option>Marakesh</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col">
+                                    <div class="form-group row">
+                                        <div class="col">
+                                            <input type="text" class="form-control" placeholder="Zip" name="zip">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col">
+                                    <div class="form-group">
+                                        <select class="form-control" name="user_role">
+                                            <option>User role</option>
+                                            <option>Surgery</option>
+                                            <option>Gastroenterologist</option>
+                                            <option>Endocrinologist</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col">
+                                    <div class="form-group">
+                                        <textarea class="form-control" placeholder="Address" rows="4" name="address"></textarea>
+                                    </div>
+                                </div>
+                                <div class="col">
+                                    <div class="form-group">
+                                        <textarea class="form-control" placeholder="Bio:" rows="4" name="bio"></textarea>
+                                    </div>
+                                    <div class="form-group text-right">
+                                        <button type="submit" class="btn btn-primary float-end">Add Doctor</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- <div class="row">
+        <div class="col">
+            <div class="card">
+                <div class="card-header">
+                    <h4 class="card-title">Medical Information</h4>
+                </div>
+                <div class="card-body">
+                    <div class="basic-form">
+                        <form>
+                            <div class="row">
+                                <div class="col">
+                                    <div class="form-group">
+                                        <label class="form-label">Main specialization</label>
+                                        <select class="form-control form-select">
+                                            <option>Type 1 Diabetes</option>
+                                            <option>Multiple Sclerosis</option>
+                                            <option>Rheumatoid Arthritis</option>
+                                            <option>Allergies &amp; Asthma</option>
+                                        </select>
+                                        <div class="col">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col">
+                                    <div class="form-group">
+                                        <label class="form-label">Secondary specialization</label>
+                                        <select class="form-control form-select">
+                                            <option>Secondary specialization</option>
+                                            <option>Celiac Disease</option>
+                                            <option>cancer</option>
+                                            <option>Catarrh</option>
+                                            <option>Conjunctivitis</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col">
+                                    <div class="form-group">
+                                        <label class="form-label"> Medical Education </label>
+                                        <select class="form-control form-select">
+                                            <option>Medical University</option>
+                                            <option>Medical College</option>
+                                            <option>Nurse School</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col">
+                                    <div class="form-group">
+                                        <label class="form-label">Period</label>
+                                        <input type="text" class="form-control" placeholder="Period">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group text-right">
+                                <button type="submit" class="btn btn-primary float-end ">Save</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div> -->
+</div>
+
+{% endblock %}

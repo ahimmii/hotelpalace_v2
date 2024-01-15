@@ -1,0 +1,217 @@
+{% extends 'base.html' %}
+{% block title %}new Patient{% endblock %}
+
+{% block content %}
+
+
+<div class="new-patients main_container">
+    <div class="row page-titles mx-0">
+        <div class="col-sm-6 p-md-0">
+            <div class="welcome-text">
+                <h4 class="text-primary">New Patient</h4>
+            </div>
+        </div>
+        <div class="col-sm-6 p-md-0 justify-content-sm-end mt-2 mt-sm-0 d-flex">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+                <li class="breadcrumb-item active"><a href="/new-patient.html">New Patient</a></li>
+            </ol>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header">
+                    <h4 class="card-title">Personal Information</h4>
+                </div>
+                <div class="card-body">
+                    <div class="basic-form">
+                        <form method="POST" action="{% url 'patient_create' %}">
+                            {% csrf_token %}
+                            <div class="row">
+                                <div class="col">
+                                    <div class="form-group">
+                                        <input type="text" class="form-control" placeholder="First Name"
+                                            name="FirstName">
+                                    </div>
+                                    <div class="form-group">
+                                        <input type="text" class="form-control" placeholder="Last Name" name="LastName">
+                                    </div>
+                                    <div class="form-group">
+                                        <input type="email" class="form-control" placeholder="Email" name="Email">
+                                    </div>
+                                    <div class="form-group">
+                                        <input type="tel" class="form-control" placeholder="Mobile No."
+                                            name="Mobile_No">
+                                    </div>
+                                </div>
+                                <div class="col">
+                                    <div class=" row">
+                                        
+                                        <div class="col-8">
+                                            <input type="number" min="0" max="150" class="form-control"
+                                                placeholder="Age" name="Birthday">
+                                        </div>
+                                        <div class="btn-group btn-group-toggle col-2" data-toggle="buttons">
+                                            <label class="btn btn-primary">
+                                                <input type="radio" value="year" checked name="typeAge"> Year
+                                            </label>
+                                            <label class="btn btn-primary">
+                                                <input type="radio" value="month" name="typeAge"> Month
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <select class="form-control form-select" name="Marital_Status">
+                                            <option>status</option>
+                                            <option>Enfants</option>
+                                            <option>Bébé</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <select class="form-control form-select" name="Gender">
+                                            <option>Sex</option>
+                                            <option>Male</option>
+                                            <option>Female</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <select class="form-control form-select" name="Blood_Group">
+                                            <option>Blood Group</option>
+                                            <option>A+</option>
+                                            <option>A-</option>
+                                            <option>B+</option>
+                                            <option>B-</option>
+                                            <option>O+</option>
+                                            <option>O-</option>
+                                            <option>AB+</option>
+                                            <option>AB-</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col">
+                                    <div class="form-group row">
+                                        <div class="col">
+                                            <input type="text" class="form-control" placeholder="CIN" name="Cin">
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col">
+                                    <div class="form-group row">
+                                        <div class="col">
+                                            <input type="text" class="form-control" placeholder="mutual Number"
+                                                name="CNSSNumber">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                           
+                            <div class="row">
+                                <label for="mutuelleSelect">Choisissez une mutuelle :</label>
+                                <select class="form-control form-select" id="mutuelleSelect" name="mutualType">
+                                    <option value="cnops">Caisse Nationale des Organismes de Prévoyance Sociale (CNOPS)</option>
+                                    <option value="cnss">Caisse Nationale de Sécurité Sociale (CNSS)</option>
+                                    <option value="mam">Mutuelle des Architectes au Maroc (MAM)</option>
+                                    <option value="mamavocat">Mutuelle des Avocats au Maroc (MAMAVOCAT)</option>
+                                    <option value="mmai">Mutuelle Marocaine des Artistes Interprètes (MMAI)</option>
+                                    <option value="mcma">Mutuelle Centrale Marocaine d'Assurance (MCMA)</option>
+                                    <option value="mgcl">Mutuelle Générale des Collectivités Locales (MGCL)</option>
+                                    <option value="mgpap">Mutuelle Générale du Personnel des Administrations Publiques (MGPAP)</option>
+                                    <option value="mmm">Mutuelle des Médecins du Maroc (MMM)</option>
+                                </select>
+                            </div>
+                             <!-- <div class="row">
+                                <div class="col">
+                                    <div class="form-group">
+                                        <textarea class="form-control" placeholder="Address" rows="4"
+                                            name="Address"></textarea>
+                                    </div>
+                                </div>-->
+                                <div class="col">
+                                    <!-- <div class="form-group">
+                                        <textarea class="form-control" placeholder="Patient History" rows="4"
+                                            name="Patient_History"></textarea>
+                                    </div> -->
+                                    <div class="form-group text-right">
+                                        <button type="submit" class="btn btn-primary float-end">Save</button>
+                                    </div>
+                                </div>
+                            </div> 
+                        </form>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row d-none">
+        <div class="col-lg-12">
+            <div class="card">
+                <div class="card-header">
+                    <h4 class="card-title">Medical Information</h4>
+                </div>
+                <div class="card-body">
+                    <div class="basic-form">
+                        <form>
+                            <div class="row">
+                                <div class="col-xl-6">
+                                    <div class="form-group">
+                                        <label class="form-label">known diseases</label>
+                                        <select class="form-control form-select">
+                                            <option>Type 1 Diabetes</option>
+                                            <option>Multiple Sclerosis</option>
+                                            <option>Rheumatoid Arthritis</option>
+                                            <option>Allergies & Asthma</option>
+                                        </select>
+                                        <div class="col-lg-12">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-xl-6">
+                                    <div class="form-group">
+                                        <label class="form-label">Period</label>
+                                        <input class="form-control" type="text" placeholder="Period">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-xl-6">
+                                    <div class="form-group">
+                                        <label class="form-label"> Family History </label>
+                                        <select class="form-control form-select">
+                                            <option>Mother</option>
+                                            <option>Father</option>
+                                            <option>Brother</option>
+                                            <option>Sister</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-xl-6">
+                                    <div class="form-group">
+                                        <label class="form-label">Diseases</label>
+                                        <select class="form-control form-select">
+                                            <option>Type 1 Diabetes</option>
+                                            <option>Multiple Sclerosis</option>
+                                            <option>Rheumatoid Arthritis</option>
+                                            <option>Allergies & Asthma</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group text-right">
+                                <button type="submit" class="btn btn-primary float-end ">Save</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- End section content -->
+
+{% endblock %}

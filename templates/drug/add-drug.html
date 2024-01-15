@@ -1,0 +1,229 @@
+{% extends 'base.html' %}
+{% block title %}Add Drug{% endblock %}
+
+{% block content %}
+
+<div class="new_appointment main_container">
+    <div class="row page-titles mx-0">
+        <div class="col-sm-6 p-md-0">
+            <div class="welcome-text">
+                <h4 class="text-primary">Add Drugs</h4>
+                <p class="mb-0">Add New Drugs</p>
+            </div>
+        </div>
+        <div class="col-sm-6 p-md-0 justify-content-sm-end mt-2 mt-sm-0 d-flex">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+                <li class="breadcrumb-item active"><a href="/add-test.html">Add Drugs</a>
+                </li>
+            </ol>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="card shadow">
+                <div class="card-header fix-card">
+                    <div class="row">
+                        <div class="col-8">
+                            <h4 class="card-title">All Drugs</h4>
+                        </div>
+                        <div class="col-4">
+                            <button type="button" class="btn btn-primary float-end" data-bs-toggle="modal"
+                                data-bs-target="#addDrugs"> Add Drugs</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table id="example1" class="display nowrap">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Trade Name</th>
+                                    <th>Generic Name</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>#1</td>
+                                    <td> Airi Satou </td>
+                                    <td>Alcohol. </td>
+                                    <td class="text-start">
+                                        <a data-bs-toggle='modal' data-bs-target='#addDrugs' class='mr-4'>
+                                            <span class='fas fa-pencil-alt tbl-edit'></span>
+                                        </a>
+                                        <a class='mr-4 delet'><span class='fas fa-trash-alt tbl-delet'></span></a>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>#2</td>
+                                    <td> Angelica Ramos </td>
+                                    <td>Alcohol. </td>
+                                    <td class="text-start">
+                                        <a data-bs-toggle='modal' data-bs-target='#addDrugs' class='mr-4'>
+                                            <span class='fas fa-pencil-alt tbl-edit'></span>
+                                        </a>
+                                        <a class='mr-4 delet'><span class='fas fa-trash-alt tbl-delet'></span></a>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>#3</td>
+                                    <td> Ashton Cox </td>
+                                    <td>Alcohol. </td>
+                                    <td class="text-start">
+                                        <a data-bs-toggle='modal' data-bs-target='#addDrugs' class='mr-4'>
+                                            <span class='fas fa-pencil-alt tbl-edit'></span>
+                                        </a>
+                                        <a class='mr-4 delet'><span class='fas fa-trash-alt tbl-delet'></span></a>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>#4</td>
+                                    <td> Bradley Greer </td>
+                                    <td>Alcohol. </td>
+                                    <td class="text-start">
+                                        <a data-bs-toggle='modal' data-bs-target='#addDrugs' class='mr-4'>
+                                            <span class='fas fa-pencil-alt tbl-edit'></span>
+                                        </a>
+                                        <a class='mr-4 delet'><span class='fas fa-trash-alt tbl-delet'></span></a>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>#5</td>
+                                    <td> Brenden Wagner </td>
+                                    <td>Alcohol. </td>
+                                    <td class="text-start">
+                                        <a data-bs-toggle='modal' data-bs-target='#addDrugs' class='mr-4'>
+                                            <span class='fas fa-pencil-alt tbl-edit'></span>
+                                        </a>
+                                        <a class='mr-4 delet'><span class='fas fa-trash-alt tbl-delet'></span></a>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>#6</td>
+                                    <td> Brenden Wagner </td>
+                                    <td>Alcohol. </td>
+                                    <td class="text-start">
+                                        <a data-bs-toggle='modal' data-bs-target='#addDrugs' class='mr-4'>
+                                            <span class='fas fa-pencil-alt tbl-edit'></span>
+                                        </a>
+                                        <a class='mr-4 delet'><span class='fas fa-trash-alt tbl-delet'></span></a>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>#7</td>
+                                    <td> Brielle Williamson </td>
+                                    <td>Alcohol. </td>
+                                    <td class="text-start">
+                                        <a data-bs-toggle='modal' data-bs-target='#addDrugs' class='mr-4'>
+                                            <span class='fas fa-pencil-alt tbl-edit'></span>
+                                        </a>
+                                        <a class='mr-4 delet'><span class='fas fa-trash-alt tbl-delet'></span></a>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>#8</td>
+                                    <td>Bruno Nash </td>
+                                    <td>Alcohol. </td>
+                                    <td class="text-start">
+                                        <a data-bs-toggle='modal' data-bs-target='#addDrugs' class='mr-4'>
+                                            <span class='fas fa-pencil-alt tbl-edit'></span>
+                                        </a>
+                                        <a class='mr-4 delet'><span class='fas fa-trash-alt tbl-delet'></span></a>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>#9</td>
+                                    <td> Caesar Vance </td>
+                                    <td>Alcohol. </td>
+                                    <td class="text-start">
+                                        <a data-bs-toggle='modal' data-bs-target='#addDrugs' class='mr-4'>
+                                            <span class='fas fa-pencil-alt tbl-edit'></span>
+                                        </a>
+                                        <a class='mr-4 delet'><span class='fas fa-trash-alt tbl-delet'></span></a>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>#10</td>
+                                    <td> Cara Stevens </td>
+                                    <td>Alcohol. </td>
+                                    <td class="text-start">
+                                        <a data-bs-toggle='modal' data-bs-target='#addDrugs' class='mr-4'>
+                                            <span class='fas fa-pencil-alt tbl-edit'></span>
+                                        </a>
+                                        <a class='mr-4 delet'><span class='fas fa-trash-alt tbl-delet'></span></a>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>#11</td>
+                                    <td> Cedric Kelly </td>
+                                    <td>Alcohol. </td>
+                                    <td class="text-start">
+                                        <a data-bs-toggle='modal' data-bs-target='#addDrugs' class='mr-4'>
+                                            <span class='fas fa-pencil-alt tbl-edit'></span>
+                                        </a>
+                                        <a class='mr-4 delet'><span class='fas fa-trash-alt tbl-delet'></span></a>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- change date and time patient -->
+<div class="modal fade selectRefresh" id="addDrugs" tabindex="-1" role="dialog"
+    aria-labelledby="modal-title-addDrug-modal">
+    <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modal-title-addDrug-modal"> Add Drug </h5>
+                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close"><span
+                        aria-hidden="true">&times;</span></button>
+            </div>
+            <div class="modal-body">
+                <form class="row align-items-start">
+                    <div class="col">
+                        <div class="form-group">
+                            <select class="form-control form-select">
+                                <option>Trade Name</option>
+                                <option>Alcohol</option>
+                                <option>Ayahuasca</option>
+                                <option>Cocaine</option>
+                                <option>DMT</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="form-group">
+                            <select class="form-control form-select">
+                                <option>Generic Name</option>
+                                <option>Alcohol</option>
+                                <option>Ayahuasca</option>
+                                <option>Cocaine</option>
+                                <option>DMT</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-lg-12">
+                        <div class="form-group">
+                            <label>Note</label>
+                            <textarea class="form-control" rows="3"></textarea>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">Save changes</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

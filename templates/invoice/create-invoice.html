@@ -1,0 +1,90 @@
+{% extends 'base.html' %}
+{% block title %}Create Invoice{% endblock %}
+
+{% block content %}
+
+
+<div class="create_invoice main_container">
+    <div class="row page-titles mx-0">
+        <div class="col-sm-6 p-md-0">
+            <div class="welcome-text">
+                <h4 class="text-primary">Create-invoice</h4>
+            </div>
+        </div>
+        <div class="col-sm-6 p-md-0 justify-content-sm-end mt-2 mt-sm-0 d-flex">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+                <li class="breadcrumb-item active"><a href="/create-invoice.html">create-invoice</a>
+                </li>
+            </ol>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="card shadow mb-4">
+                <div class="card-header">
+                    <h4 class="card-title"> create invoice </h4>
+                </div>
+                <div class="card-body">
+                    <form>
+                        <div class="row">
+                            <div class="col-lg-4 col-sm-6">
+                                <div class="form-group">
+                                    <select class="form-control form-select">
+                                        <option>Select Patient...</option>
+                                        <option>TEST</option>
+                                        <option>TEST</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-lg-4 col-sm-6">
+                                <div class="form-group">
+                                    <select class="form-control form-select">
+                                        <option>Payment Mode</option>
+                                        <option>Cash</option>
+                                        <option>Cheque</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col">
+                                <div class="form-group">
+                                    <select class="form-control form-select">
+                                        <option>Payment Status</option>
+                                        <option>Paid</option>
+                                        <option>Unpaid</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row ">
+                            <div class="col-lg-4 col-sm-6">
+                                <div class="form-group">
+                                    <input type="text" class="form-control" placeholder="Invoice Title">
+                                </div>
+                            </div>
+                            <div class="col-lg-4 col-sm-6 ">
+                                <div class="form-group">
+                                    <div class="input-group ">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text" id="basic-addon1">$</span>
+                                        </div>
+                                        <input type="text" class="form-control" placeholder="Amount">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col">
+                                <div class="form-group">
+                                    <button type="button" class="btn btn-primary w-100 h-56">Create
+                                        Invoice</button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+{% endblock %}

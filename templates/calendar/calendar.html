@@ -1,0 +1,590 @@
+{% extends 'base.html' %}
+{% block title %}Calendar{% endblock %}
+
+{% block content %}
+
+{% load static %}
+
+
+
+<div class="row page-titles mx-0">
+    <div class="col-sm-6 p-md-0">
+        <div class="welcome-text">
+            <h4 class="text-primary">New Reservation</h4>
+            <p class="mb-0">Add New Reservation</p>
+        </div>
+    </div>
+    <div class="col-sm-6 p-md-0 justify-content-sm-end mt-2 mt-sm-0 d-flex">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="/">Home</a></li>
+            <li class="breadcrumb-item active"><a href="/calendar">New Reservation</a>
+            </li>
+        </ol>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-lg-12">
+        <div class="card shadow">
+            <div class="card-header">
+                <div class="row m-rl w-100">
+
+
+                    <div class="col-lg-3 float-right col-sm-12">
+                        <div class="form-group">
+                            <button type="button" class="btn btn-primary w-100 h-56" data-bs-toggle="modal"
+                                data-bs-target="#newAppointment">New
+                                Reservation</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+
+    <div id="calendar" class="col-12 m-t-2"></div>
+</div>
+<div class="modal fade selectRefresh" id="newAppointment" tabindex="-1" aria-labelledby="exampleModalLabelOne">
+    <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabelOne"> New Reservation </h5>
+                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close"><span
+                        aria-hidden="true">&times;</span></button>
+            </div>
+
+            <div class="modal-body">
+                <form class="row align-items-start" id="eventForm">
+                    {% csrf_token %}
+
+                    <!-- <div class="col-md-6 col-sm-12 form-group">
+                        <select id="patientSelect" class="form-control form-select">
+                            <option>Select Patient...</option>
+                            <option>Airi Satou</option>
+                            <option>Angelica Ramos</option>
+                            <option>Ashton Cox</option>
+                            <option>Bradley Greer</option>
+                            <option>Brenden</option>
+                            <option>Ashton Cox</option>
+                        </select>
+                    </div>
+                    <div class="col-md-6 col-sm-12 form-group">
+                        <select id="doctorSelect" class="form-control form-select">
+                            <option>Select Doctor...</option>
+                            <option>Airi Satou</option>
+                            <option>Angelica Ramos</option>
+                            <option>Ashton Cox</option>
+                            <option>Bradley Greer</option>
+                            <option>Brenden</option>
+                            <option>Ashton Cox</option>
+                        </select>
+                    </div> -->
+
+                    <div class="col-md-6 col-sm-12 form-group">
+                        <select id="patientSelect" class="form-control form-select">
+                            <option>Select Patient...</option>
+                            {% for key, value in Patients.items %}
+
+                            <option value="{{ value.Patient_id }}" id="{{ value.Patient_id }}"> {{ value.FirstName }}
+                                {{value.LastName }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="col-md-6 col-sm-12 form-group">
+                        <select id="doctorSelect" class="form-control form-select">
+                            <option>Select Doctor...</option>
+                            {% for key, value in Doctors.items %}
+                            <option value="{{ value.Doctor_id }}" id="{{ value.Doctor_id }}"> {{ value.first_name }}
+                                {{value.last_name }}</option>
+
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="col-md-6 col-sm-12 form-group">
+                        <label for="startDate">Start Date</label>
+                        <input class="form-control" id="startDate" type="datetime-local">
+                    </div>
+                    <div class="col-md-6 col-sm-12 form-group">
+                        <label for="endDate">End Date</label>
+                        <input class="form-control" id="endDate" type="datetime-local">
+                    </div>
+                    <!-- <div class="col-md-6 col-sm-12 form-group">
+                        <select class="form-control form-select">
+                            <option> 07:00 - 07:30</option>
+                            <option> 07:30 - 08:00</option>
+                            <option> 08:00 - 08:30</option>
+                            <option> 08:30 - 09:00</option>
+                            <option> 09:00 - 09:30</option>
+                            <option> 09:30 - 10:00</option>
+                            <option> 10:00 - 10:30</option>
+                        </select>
+                    </div> -->
+                    <!-- Add these fields inside the modal-body div -->
+                    <div class="col-md-6 col-sm-12 form-group">
+                        <label for="totalPrice">Total Price</label>
+                        <input class="form-control" id="totalPrice" type="number" min="0">
+                    </div>
+                    <div class="col-md-6 col-sm-12 form-group">
+                        <label for="amountPaid">Amount Paid</label>
+                        <input class="form-control" onkeyup="calculateRemainingAmount()" id="amountPaid" type="number"
+                            min="0">
+
+                    </div>
+                    <div class="col-md-12 col-sm-12 form-group">
+                        <label for="remainingAmount">Remaining Amount</label>
+
+                        <i id="paymentStatusIcon" class=""></i>
+
+                        <input class="form-control" id="remainingAmount" type="number" min="0" readonly>
+
+                    </div>
+                    <div class="col-md-12 col-sm-12 form-group">
+                        <label for="remainingAmount">Type of Appointment</label>
+
+                        <select id="typeAppointment" class="form-control form-select">
+                            <option value="consultation">Consultation</option>
+                            <option value="Contrôle">Contrôle</option>
+                            <option value="Plâtre">Plâtre</option>
+                            <option value="Circoncision">Circoncision</option>
+                            <option value="Soin">Soin</option>
+                        </select>
+
+                    </div>
+                    <br>
+                    <div class="col-lg-12">
+                        <div class="form-group">
+                            <label>Motif Patient</label>
+                            <textarea id="motif" class="form-control" rows="3"></textarea>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn badge-primary" onclick="addEvent()">Save changes</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade" id="eventModal" tabindex="-1" aria-labelledby="myModalLabel" aria-hidden="true">
+    <!-- <div > -->
+    <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="myModalLabel">
+                         </h5>
+                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close"><span
+                        aria-hidden="true">&times;</span></button>
+            </div>
+            <div class="modal-body">
+                <div class="insertHere">
+                    <p><strong>Patient Name:</strong> <span id="patientName"></span></p>
+                    <p><strong>Doctor Name:</strong> <span id="doctorName"></span></p>
+                    <p><strong>Type Appointment:</strong> <span id="typeAppointment_display"></span></p>
+                    <p><strong>Start Date:</strong> <span id="startDate_display"></span></p>
+                    <p><strong>End Date:</strong> <span id="endDate_display"></span></p>
+                    <p><strong>Total Price:</strong> <span id="totalPrice_display"></span></p>
+                    <p><strong>Amount Paid:</strong> <span id="amountPaid_display"></span></p>
+                    <p><strong>Remaining Amount:</strong> <span id="remainingAmount_display"></span></p>
+                    <p><strong>Motive:</strong> <span id="motive_display"></span></p>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">Save changes</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.3/main.min.js"></script>
+
+<script>
+    const url = "{% url 'calendar_save' %}";
+    const updateUrl = "{% url 'calendar_edit' pk='pk_placeholder' %}";
+
+    const calendarEl = document.getElementById('calendar');
+
+    // var Patients = JSON.parse('{{ Patients|safe }}');
+
+
+    document.addEventListener('DOMContentLoaded', function () {
+        // var calendarEl = document.getElementById('calendar');
+        const csrfToken = $('[name="csrfmiddlewaretoken"]').val();
+        const url_list = "{% url 'appointment_list' %}"
+        // Initialize your calendar here (you need to have the calendar object)
+        // const calendar = new FullCalendar.Calendar(calendarEl, {
+        //     // your calendar configuration options
+        // });
+
+        // Fetch events from Django and add them to the calendar
+        $.ajax({
+            url: url_list,  // Replace with your Django endpoint to fetch events
+            type: 'post',
+            dataType: 'json',
+            headers: {
+                'X-CSRFToken': csrfToken
+            },
+            success: function (data) {
+                console.log('Onloead', data.events)
+                if (data.success) {
+                    // Loop through the events and add them to the calendar
+                    Object.values(data.events).forEach(function (eventData) {
+                        console.log("eventData?.typeAppointment is", eventData?.typeAppointment)
+                        calendar.addEvent({
+                            title: eventData.Motif,
+                            start: eventData.start,
+                            end: eventData.end,
+                            extendedProps: {
+                                start: eventData.start,
+                                end: eventData.end,
+                                patient_id: eventData.Patient_id,
+                                doctor_id: eventData.Doctor_id,
+                                Motif: eventData?.Motif,
+                                Appointment_id: eventData?.Appointment_id,
+                                totalPrice: eventData?.totalPrice,
+                                amountPaid: eventData?.amountPaid,
+                                Statut_de_paiement: eventData?.Statut_de_paiement,
+                                typeAppointment: eventData?.typeAppointment
+                            }
+                            // Add other event properties as needed
+                        });
+                    });
+
+                    //calendar.render();  // Render the calendar after adding events
+                } else {
+                    console.error('Failed to fetch events.');
+                }
+            },
+            error: function () {
+                console.error('Error making the AJAX request.');
+            }
+        });
+    });
+
+    const calendar = new FullCalendar.Calendar(calendarEl, {
+        initialView: 'dayGridMonth',
+        editable: true,
+        draggable: true,
+        droppable: true,
+        headerToolbar: {
+            left: 'prev,next today',
+            center: 'title',
+            right: 'dayGridMonth,timeGridWeek,timeGridDay'
+        },
+        defaultView: 'timeGridWeek', // Display in week view by default
+        eventTimeFormat: {
+            hour: 'numeric',
+            minute: '2-digit',
+            meridiem: 'short'
+        },
+        slotLabelFormat: {
+            hour: 'numeric',
+            minute: '2-digit',
+            omitZeroMinute: false,
+            meridiem: 'short'
+        },
+        nowIndicator: true,
+        businessHours: {
+            daysOfWeek: [1, 2, 3, 4, 5, 6], // Monday - Friday are working days
+            startTime: '09:00', // Working day start time
+            endTime: '17:00' // Working day end time
+        },
+        dayRender: function (info) {
+            // Check if the day is Sunday
+            if (info.date.getDay() === 0) {
+                // Change the background color of Sunday
+                info.el.style.backgroundColor = 'black'; // Set your desired background color
+            }
+        },
+        events: [
+            // {
+            //     title: 'Meeting with John and a very long title that should wrap to the next line',
+            //     start: new Date('2023-12-05 12:00:00'),
+            //     end: new Date('2023-12-05T12:00:00'),
+            // },
+            // {
+            //     title: 'Conference call',
+            //     start: new Date('2023-12-07 19:00:00'),
+            //     end: new Date('2023-12-07T19:00:00'),
+            // },
+            // {
+            //     title: 'Sunday Morning',
+            //     start: '2023-12-10T09:00:00',
+            //     end: '2023-12-10T12:00:00',
+            // },
+            // {
+            //     title: 'Sunday Afternoon',
+            //     start: '2023-12-10T13:00:00',
+            //     end: '2023-12-10T17:00:00',
+            //     rendering: 'background', // Render as background to indicate day off
+            //     color: '#FF7777' // Set a color to distinguish day off
+            // },
+        ],
+        eventDrop: (eventInfo) => {
+            const newDate = eventInfo.event.start;
+            console.log(eventInfo.event.extendedProps)
+            // alert('check')
+            const updatedEventData = {
+                title: eventInfo.event.title,
+                start: eventInfo.event?.start,
+                end: eventInfo.event?.end,
+                motif: eventInfo.event.extendedProps?.motif,
+                extendedProps: {
+                    patient_id: eventInfo.event.extendedProps?.patient_id,
+                    doctor_id: eventInfo.event.extendedProps?.doctor_id,
+
+                }
+            };
+            var csrfToken = $('[name="csrfmiddlewaretoken"]').val();
+            console.log(updateUrl)
+
+            $.ajax({
+                type: 'POST',
+                url: updateUrl.replace('pk_placeholder', eventInfo.event.extendedProps?.Appointment_id),  // Use the URL name defined in your urls.py
+                data: JSON.stringify(updatedEventData),
+                contentType: 'application/json',
+                beforeSend: function (xhr) {
+                    xhr.setRequestHeader('X-CSRFToken', csrfToken);
+                },
+                success: function (data) {
+                    console.log('data is', data.success)
+                    if (data.success) {
+                        alert('Event updated!');
+                    } else {
+                        alert('Failed to update event data.');
+                    }
+                },
+                error: function () {
+                    alert('Error making the AJAX request.');
+                }
+            });
+
+            alert(`Appointment "${eventInfo.event.title}" moved to ${newDate.toLocaleDateString()}`);
+        },
+        eventContent: function (arg) {
+            return {
+                html: `<div class="fc-content">${customTimeFormat(arg.event.start)}<br>${arg.event.title}</div>`
+            };
+        },
+        eventDidMount: function (arg) {
+            arg.el.querySelector('.fc-content').addEventListener('click', function () {
+
+                console.log('event', arg.event)
+                // alert('event', arg.event)
+                openEventModal(arg.event);
+                // alert('Event clicked! Title: event !!!!!!! ' + arg.event.title);
+            });
+        },
+        eventTimeFormat: { hour: 'numeric', minute: '2-digit', meridiem: 'lowercase' },
+    });
+    calendar.render();
+    calendar.setOption('eventAfterAllRender', function (view) {
+                // Fetch the current date
+                var currentDate = new Date();
+                var currentDateString = currentDate.toISOString().split('T')[0];  // Get the current date as 'YYYY-MM-DD'
+
+                // Find the day cell for the current date and change its background color
+                var currentDayCell = $('.fc-day[data-date="' + currentDateString + '"]');
+                currentDayCell.css('background-color', 'black');  // Change the color as needed
+            });
+
+    function getSelectedOptionId(selectId) {
+        const selectElement = document.getElementById(selectId);
+        const selectedOption = selectElement.options[selectElement.selectedIndex];
+        return selectedOption.value;
+    }
+    function addEvent() {
+        const startDate = document.getElementById('startDate').value;
+        const endDate = document.getElementById('endDate').value;
+
+        const patientSelect = document.getElementById('patientSelect');
+        const doctorSelect = document.getElementById('doctorSelect');
+
+        var totalPrice = parseFloat(document.getElementById('totalPrice').value) || 0;
+        var amountPaid = parseFloat(document.getElementById('amountPaid').value) || 0;
+
+        // const timeRange = document.getElementById('timeSelect').value;
+        const motif = document.getElementById('motif').value;
+        const typeAppointment = document.getElementById('typeAppointment').value;
+        // alert("hiii"+typeAppointment)
+        // const patientName = document.getElementById('patientSelect').value;
+        // const doctorName = document.getElementById('doctorSelect').value;
+
+        const doctorName = doctorSelect.value;
+        const patientName = patientSelect.value;
+        const patienttext = $('#' + patientName).text();
+        const doctorText = $('#' + doctorName).text();
+
+        if (startDate && endDate && patientName !== 'Select Patient...' && doctorName !== 'Select Doctor...' && typeAppointment) {
+
+            var startDateTime = new Date(startDate);
+            var endDateTime = new Date(endDate);
+
+            const eventData = {
+                title: `${patienttext} - ${motif}`,
+                start: startDateTime,
+                end: endDateTime,
+                motif: motif,
+                extendedProps: {
+                    start: startDateTime,
+                    end: endDateTime,
+                    patient_id: getSelectedOptionId('patientSelect'),
+                    doctor_id: getSelectedOptionId('doctorSelect'),
+                    totalPrice: totalPrice,
+                    amountPaid: amountPaid,
+                    Statut_de_paiement: totalPrice - amountPaid == 0,
+                    typeAppointment: typeAppointment
+
+                }
+            };
+            const calendarEl = document.getElementById('calendar');
+
+            var csrfToken = $('[name="csrfmiddlewaretoken"]').val();
+            // console.log('csrf tokken',csrfToken)
+            // console.log('url',url)
+            // alert('check')
+            // alert(`Event added to the calendar!`);
+            $.ajax({
+                type: 'POST',
+                url: url,
+                data: JSON.stringify(eventData),
+                contentType: 'application/json',
+                beforeSend: function (xhr) {
+
+                    xhr.setRequestHeader('X-CSRFToken', csrfToken);
+                },
+                success: function (data) {
+                    // console.log('data is ', data)
+                    if (data.success) {
+                        // const calendarEl = $('#calendar')[0];
+                        // calendar.addEvent(eventData);
+                        calendar.addEvent(eventData);
+
+                        alert('Event added to the calendar!');
+                        // document.getElementById('eventForm').reset();
+
+                    } else {
+                        alert('Failed to save event data.');
+                    }
+                },
+                error: function () {
+                    alert('Error making the AJAX request.');
+                }
+            });
+
+            document.getElementById('eventForm').reset();
+        } else {
+            alert('Please fill in all fields.');
+        }
+    }
+    //document.addEventListener('DOMContentLoaded', function () {
+    function openEventModal(event) {
+        var modalBody = document.getElementById('eventModalBody');
+        console.log('event is ', event.extendedProps)
+        // Update spans with event details
+        document.getElementById('myModalLabel').textContent=$('#' + event.extendedProps.patient_id).text() +":"+event.extendedProps.Motif
+        document.getElementById('patientName').textContent = $('#' + event.extendedProps.patient_id).text();
+        document.getElementById('doctorName').textContent = $('#' + event.extendedProps.doctor_id).text();
+        document.getElementById('typeAppointment_display').textContent = event.extendedProps.typeAppointment;
+        document.getElementById('startDate_display').textContent = moment(event.extendedProps.start).format('DD/MM/YYYY HH:mm');
+        document.getElementById('endDate_display').textContent = moment(event.extendedProps.end).format('DD/MM/YYYY HH:mm') ?? 'N/A';
+        document.getElementById('motive_display').textContent = event.extendedProps.Motif;
+        document.getElementById('amountPaid_display').textContent = event.extendedProps.amountPaid;
+        document.getElementById('totalPrice_display').textContent = event.extendedProps.totalPrice;
+        const paymentStatusIcon = document.getElementById('remainingAmount_display');
+        paymentStatusIcon.textContent = event.extendedProps.totalPrice - event.extendedProps.amountPaid;
+
+        if (event.extendedProps.totalPrice - event.extendedProps.amountPaid === 0) {
+            paymentStatusIcon.className = 'fas fa-check-circle text-success'; // Icon for payment complete
+        } else {
+            paymentStatusIcon.className = 'fas fa-exclamation-circle text-warning'; // Icon for remaining amount
+        }// Open the modal
+        $('#eventModal').modal('show');
+    }
+
+
+    // Function to format time as needed
+    function customTimeFormat(date) {
+        const options = { hour: 'numeric', minute: '2-digit', hour12: true };
+        return new Intl.DateTimeFormat('en-US', options).format(date);
+    }
+    //});
+
+
+    // function getNameById(selectId, targetId) {
+    //     var names = selectId === 'patientSelect' ? Patients : {};
+    //     return names[targetId] || null; // Return null if ID is not found
+    // }
+
+    // var patientName = getNameById('patientSelect', 'Patient_0cf40861-d2e0-4358-8e3e-245a62efd741');
+    // console.log('Patient Name with ID 2:', patientName);
+    function calculateRemainingAmount() {
+        var totalPrice = parseFloat(document.getElementById('totalPrice').value) || 0;
+        var amountPaid = parseFloat(document.getElementById('amountPaid').value) || 0;
+
+        var remainingAmount = totalPrice - amountPaid;
+        document.getElementById('remainingAmount').value = remainingAmount.toFixed(2);
+        var paymentStatusIcon = document.getElementById('paymentStatusIcon');
+        console.log(remainingAmount);
+        if (remainingAmount === 0) {
+            paymentStatusIcon.className = 'fas fa-check-circle text-success'; // Icon for payment complete
+        } else {
+            paymentStatusIcon.className = 'fas fa-exclamation-circle text-warning'; // Icon for remaining amount
+        }
+    }
+</script>
+<!-- <script>
+    const calendarEl = document.getElementById('calendar');
+    console.log(calendarEl)
+    const calendar = new FullCalendar.Calendar(calendarEl, {
+        initialView: 'dayGridMonth',
+        editable: true,
+        draggable: true,
+        droppable: true,
+        events: [
+            {
+                title: 'Meeting with John ',
+                start: new Date('2023-12-05'),
+                end: new Date('2023-12-05T12:00:00'),
+            },
+            {
+                title: 'Conference call',
+                start: new Date('2023-12-07'),
+                end: new Date('2023-12-07T15:00:00'),
+            },
+        ],
+        eventDrop: (eventInfo) => {
+            const newDate = eventInfo.event.start;
+            alert(`Appointment "${eventInfo.event.title}" moved to ${newDate.toLocaleDateString()}`);
+        },
+    });
+
+    calendar.render();
+</script> -->
+
+<style>
+    /* Custom CSS for event title word wrapping */
+    .fc-event-title {
+        white-space: normal !important;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    .fc-non-business {
+        background-color: rgba(255, 0, 0, 0.603) !important;
+    }
+    /* .fc-event-today{
+        background-color: black;
+    } */
+</style>
+
+
+{% endblock %}

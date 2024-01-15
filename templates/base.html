@@ -1,0 +1,532 @@
+{% load static %}
+{% if user.is_authenticated %}
+<!DOCTYPE html>
+<html lang="en">
+
+
+
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %} {% endblock %}-Doctor</title>
+    <meta charset="utf-8">
+    <!-- Favicon icon -->
+    <link rel="icon" type="image/png" href="{% static "images/favicon-32x32.png" %}">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.3/main.min.css">
+    <link rel="stylesheet" href="{% static "plugins/calendar/fullcalendar.min.css" %}">
+    <link rel="stylesheet" href="{% static "plugins/calendar/fullcalendar.print.min.css" %}" media="print">
+    <!-- Base Styling  -->
+    <link rel="stylesheet" href="{% static "main/css/fonts.css" %}">
+    <link rel="stylesheet" href="{% static "main/css/style.css" %}">
+    <!-- Add this line to include Font Awesome CSS -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous">
+
+    
+</head>
+<!-- Add your CSS and other head elements here -->
+
+
+<body>
+    <div id="main-wrapper" class="show">
+
+
+        <!-- Side Panel -->
+        <div class="in-demo-panel">
+            <div class="demo-panel nice-scroll">
+                <div class="setting-panel-header">
+                    <h6>Theme Customizer</h6>
+                </div>
+                <div class="select-Layout">
+                    <h6 class="d-none">Select </h6>
+                    <div class="items-panel layout-version">
+                        <ul class="list-unstyled">
+                            <li class="in-light-version dm-1">
+                                <a href="javascript:void()">
+                                    <img src="{% static " images/light.png" %}" alt="light demo">
+                                </a>
+                                <h6>Light</h6>
+                            </li>
+                            <hr>
+                            <li class="in-dark-version dm-2">
+                                <a href="javascript:void()">
+                                    <img src="{% static " images/dark.png" %}" alt="dark demo">
+                                </a>
+                                <h6>Dark</h6>
+                            </li>
+                        </ul>
+                    </div>
+                    {% comment %} <div class="items-panel layout_direction">
+                        <h6>LTR and RTL VERSIONS</h6>
+                        <ul>
+                            <li class="ltr-version active">LTR Version</li>
+                            <li class="rtl-version">RTL Version</li>
+                        </ul>
+                    </div>
+                    <div class="items-panel sidebar_size">
+                        <h6>Sidemenu layout Styles</h6>
+                        <ul>
+                            <li class="sidebar-size-default active">Default Menu</li>
+                            <li class="sidebar-size-compact">Icon with Text</li>
+                            <li class="sidebar-size-small">Small (Icon View)</li>
+                            <li class="sidebar-size-close">Closed Sidemenu</li>
+                        </ul>
+                    </div>
+                    <div class="items-panel sidebar_size1 layout_width">
+                        <h6>Layout Width Styles</h6>
+                        <ul>
+                            <li class="layout-width-full active">Full Width</li>
+                            <li class="layout-width-boxed">Boxed</li>
+                        </ul>
+                    </div>
+                    <div class="items-panel sidebar_size1 layout_positions">
+                        <h6>Layout Positions</h6>
+                        <ul>
+                            <li class="layout-positions-fixed active">Fixed</li>
+                            <li class="layout-positions-scrollable">Scrollable</li>
+                        </ul>
+                    </div>
+                    <div class="items-panel list_my_color nav_header_top">
+                        <h6>Navigation Header</h6>
+                        <ul>
+                            <li data-nav-header-top="primary_color_1" class="primary_color_1"></li>
+                            <li data-nav-header-top="primary_color_2" class="primary_color_2"></li>
+                            <li data-nav-header-top="primary_color_3" class="primary_color_3"></li>
+                            <li data-nav-header-top="primary_color_4" class="primary_color_4"></li>
+                            <li data-nav-header-top="primary_color_5" class="primary_color_5"></li>
+                            <li data-nav-header-top="primary_color_6" class="primary_color_6"></li>
+                            <li data-nav-header-top="primary_color_7" class="primary_color_7"></li>
+                            <li data-nav-header-top="primary_color_8" class="primary_color_8"></li>
+                            <li data-nav-header-top="primary_color_9" class="primary_color_9"></li>
+                            <li data-nav-header-top="primary_color_10" class="primary_color_10"></li>
+                            <li data-nav-header-top="primary_color_11" class="primary_color_11"></li>
+                            <li data-nav-header-top="primary_color_12" class="primary_color_12"></li>
+                            <li data-nav-header-top="primary_color_13" class="primary_color_13"></li>
+                            <li data-nav-header-top="primary_color_14" class="primary_color_14"></li>
+                        </ul>
+                    </div>
+                    <div class="items-panel list_my_color sidebar_color">
+                        <h6>Sidebar Color</h6>
+                        <ul>
+                            <li data-sidebar-color="primary_color_1" class="primary_color_1"></li>
+                            <li data-sidebar-color="primary_color_2" class="primary_color_2"></li>
+                            <li data-sidebar-color="primary_color_3" class="primary_color_3"></li>
+                            <li data-sidebar-color="primary_color_4" class="primary_color_4"></li>
+                            <li data-sidebar-color="primary_color_5" class="primary_color_5"></li>
+                            <li data-sidebar-color="primary_color_6" class="primary_color_6"></li>
+                            <li data-sidebar-color="primary_color_7" class="primary_color_7"></li>
+                            <li data-sidebar-color="primary_color_8" class="primary_color_8"></li>
+                            <li data-sidebar-color="primary_color_9" class="primary_color_9"></li>
+                            <li data-sidebar-color="primary_color_10" class="primary_color_10"></li>
+                            <li data-sidebar-color="primary_color_11" class="primary_color_11"></li>
+                            <li data-sidebar-color="primary_color_12" class="primary_color_12"></li>
+                            <li data-sidebar-color="primary_color_13" class="primary_color_13"></li>
+                            <li data-sidebar-color="primary_color_14" class="primary_color_14"></li>
+                        </ul>
+                    </div>
+                    <div class="items-panel list_my_color topbar-color">
+                        <h6>Topbar Color</h6>
+                        <ul>
+                            <li data-topbar-color="primary_color_1" class="light primary_color_1"></li>
+                            <li data-topbar-color="primary_color_2" class="blue primary_color_2"></li>
+                            <li data-topbar-color="primary_color_3" class="dark primary_color_3"></li>
+                            <li data-topbar-color="primary_color_4" class="primary_color_4"></li>
+                            <li data-topbar-color="primary_color_5" class="primary_color_5"></li>
+                            <li data-topbar-color="primary_color_6" class="primary_color_6"></li>
+                            <li data-topbar-color="primary_color_7" class="primary_color_7"></li>
+                            <li data-topbar-color="primary_color_8" class="primary_color_8"></li>
+                            <li data-topbar-color="primary_color_9" class="primary_color_9"></li>
+                            <li data-topbar-color="primary_color_10" class="primary_color_10"></li>
+                            <li data-topbar-color="primary_color_11" class="primary_color_11"></li>
+                            <li data-topbar-color="primary_color_12" class="primary_color_12"></li>
+                            <li data-topbar-color="primary_color_13" class="primary_color_13"></li>
+                            <li data-topbar-color="primary_color_14" class="primary_color_14"></li>
+                        </ul>
+                    </div> {% endcomment %}
+                </div>
+                <div class="mainicon sidebaricon">
+                    <span class="fa fa-life-ring"></span>
+                </div>
+            </div>
+            <!-- <div class="bg-close"></div> -->
+        </div>
+        <!-- Side Panel -->
+
+
+        <!-- start section sidebar -->
+        <aside class="left-panel nicescroll-box">
+            <nav class="navigation">
+                <ul class="list-unstyled main-menu">
+                    <li class="has-submenu active">
+                        <a href="{% url 'dashboard' %}">
+                            <i class="fas fa-th-large"></i>
+                            <span class="nav-label">Dashboard</span>
+                        </a>
+                    </li>
+                    {% comment %} <li class="has-submenu">
+                        <a href="javascript:void()" class="has-arrow mm-collapsed">
+                            <i class="fa fa-table"></i>
+                            <span class="nav-label">Layouts</span>
+                            <span class="badge bg-danger rounded-pill ms-2">New</span>
+                        </a>
+                        <ul class="list-unstyled mm-collapse">
+                            <li><a href="index-dark.html">Dark Dashboard</a></li>
+                            <li><a href="index-rtl.html">RTL Dashboard</a></li>
+                        </ul>
+                    </li> {% endcomment %}
+                    {% if user.groups.all.0.name == 'admin' %}
+                    {% comment %} <li class="has-submenu">
+                        <a href="javascript:void()" class="has-arrow mm-collapsed">
+                            <i class="fas fa-user-md"></i>
+                            <span class="nav-label">Doctors</span>
+                        </a>
+                        <ul class="list-unstyled mm-collapse">
+                            <li><a href="{% url 'doctor_create' %}">Add Doctor</a></li>
+                            <li><a href="{% url 'doctor_list' %}">All Doctors</a></li>
+                        </ul>
+                    </li> {% endcomment %}
+                    {% endif %}
+                    {% comment %} <li class="has-submenu">
+                        <a href="javascript:void()" class="has-arrow mm-collapsed">
+                            <i class="fas fa-users"></i>
+                            <span class="nav-label">Patients</span>
+                        </a>
+                        <ul class="list-unstyled mm-collapse">
+                            <li><a href="{% url 'patient_create' %}">New Patient</a></li>
+                            <li><a href="{% url 'patient_list' %}">All Patients</a></li>
+                        </ul>
+                    </li> {% endcomment %}
+                    <li class="has-submenu">
+                        <a href="{% url 'appointment_list' %}">
+                            <i class="fas fa-calendar-plus"></i>
+                            <span class="nav-label">Reservation</span>
+                        </a>
+                    </li>
+                    {% comment %} <li class="has-submenu">
+                        <a href="javascript:void()" class="has-arrow mm-collapsed">
+                            <i class="fas fa-book-medical"></i>
+                            <span class="nav-label">Prescriptions</span>
+                        </a>
+                        <ul class="list-unstyled mm-collapse">
+                            <li><a href="{% url 'prescription_create' %}">New Prescription</a></li>
+                            <li><a href="{% url 'prescription_list' %}">All Prescriptions</a></li>
+                        </ul>
+                    </li> {% endcomment %}
+                    {% comment %} <li class="has-submenu">
+                        <a href="{% url 'drug_create' %}">
+                            <i class="fas fa-pills"></i>
+                            <span class="nav-label">Add Drug</span>
+                        </a>
+                    </li>
+                    <li class="has-submenu">
+                        <a href="javascript:void()" class="has-arrow mm-collapsed">
+                            <i class="fas fa-heartbeat"></i>
+                            <span class="nav-label">Tests</span>
+                        </a>
+                        <ul class="list-unstyled mm-collapse">
+                            <li><a href="{% url 'test_create' %}">Add Test</a></li>
+                            <li><a href="{% url 'test_list' %}">All Tests</a></li>
+                        </ul>
+                    </li> {% endcomment %}
+                    <li class="has-submenu">
+                        <a href="{% url 'calendar_list' %}">
+                            <i class="fas fa-calendar-alt"></i>
+                            <span class="nav-label">calendar</span>
+                        </a>
+                    </li>
+                    <li class="has-submenu">
+                        <a href="{% url 'appointment_list' %}">
+                            <i class="fas fa-archive"></i>
+                            <span class="nav-label">Stock</span>
+                        </a>
+                    </li>
+                    {% comment %} <li class="has-submenu">
+                        <a href="{% url 'report_list' %}">
+                            <i class="fas fa-chart-pie"></i>
+                            <span class="nav-label">Reports</span>
+                        </a>
+                    </li> {% endcomment %}
+                    {% comment %} <li class="has-submenu">
+                        <a href="javascript:void()" class="has-arrow mm-collapsed">
+                            <i class="fas fa-file-invoice"></i>
+                            <span class="nav-label">Billing</span>
+                        </a>
+                        <ul class="list-unstyled mm-collapse">
+                            <li><a href="{% url 'invoice_create' %}">Create Invoice</a></li>
+                            <li><a href="{% url 'billing_list' %}">Billing List</a></li>
+                        </ul>
+                    </li> {% endcomment %}
+                    <li class="has-submenu">
+                        <a href="javascript:void()" class="has-arrow mm-collapsed">
+                            <i class="fas fa-cog"></i>
+                            <span class="nav-label">Settings</span>
+                        </a>
+                        <ul class="list-unstyled mm-collapse">
+                            <li><a href="{% url 'doctor_settings' %}">Profile Settings</a></li>
+                            {% comment %} <li><a href="{% url 'prescriptions_settings' %}">Prescription Settings</a></li> {% endcomment %}
+                        </ul>
+                    </li>
+                    {% comment %} <li class="has-submenu">
+                        <a href="javascript:void()" class="has-arrow mm-collapsed">
+                            <i class="fa fa-tag"></i>
+                            <span class="nav-label">Authentication</span>
+                        </a>
+                        <ul class="list-unstyled mm-collapse">
+                            <li><a href="empty-page.html">Empty Page</a></li>
+                            <li><a href="page-login.html">Login simple</a></li>
+                            <li><a href="page-login-one.html">Login with Bg Image</a></li>
+                            <li><a href="page-register.html">Register simple</a></li>
+                            <li><a href="page-register-one.html">Register with Bg Image</a></li>
+                            <li><a href="page-lock-screen.html">Lock Screen</a></li>
+                            <li><a href="page-forgot-password.html">Page forgot password</a></li>
+                            <li><a href="page-error-404.html">Error 404</a></li>
+                            <li><a href="page-error-500.html">Error 500</a></li>
+                        </ul>
+                    </li> {% endcomment %}
+                </ul>
+            </nav>
+            <div class="sidebar-widgets">
+                <div class="top-sidebar box-shadow mx-25 m-b-30 p-b-20 text-center">
+                    <a href="new-appointment.html">
+                        <img src="{% static "images/Logo+.png" %}" class="side-img" alt="img">
+                    </a>
+                    {% comment %} <a href="#">
+                        <h4 class="text-primary mb-0">Make an Appointments</h4>
+                    </a> {% endcomment %}
+                </div>
+                {% comment %} <div class="copyright text-center">
+                    <p class="mb-0"> Tabib Dashboard</p>
+                    <p class="mb-0"> © 2022 </p>
+                </div> {% endcomment %}
+            </div>
+        </aside>
+        <!-- End section sidebar -->
+
+
+        <!-- start logo components -->
+        <div class="nav-header">
+            <div class="brand-logo">
+                <a href="{% url 'dashboard' %}"> <img class="logo-tabib" src="{% static "images/download.png" %}" alt=""></a>
+                <a href="{% url 'dashboard' %}"><img class="brand-title" src="{% static "images/logo.png" %}" alt=""></a>
+            </div>
+        </div>
+        <!-- End logo components -->
+
+
+        <!-- start section header -->
+        <div class="header">
+            <header class="top-head container-fluid">
+                <div class="nav-control">
+                    <div class="hamburger">
+                        <span class="line"></span><span class="line"></span><span class="line"></span>
+                    </div>
+                    
+                </div>
+                <div class="header-right">
+                    <div class="fullscreen notification_dropdown widget-5">
+                        <div class="full">
+                            <a class="text-dark" href="#!" onclick="javascript:toggleFullScreen()">
+                                <i class="fas fa-expand"></i>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="widget-6">
+                        <div class="cart-wrapper">
+                            <div class="cart-icon">
+                                <a class="cart-control" href="#">
+                                    <i class="fas fa-bell"></i>
+                                    <div class="pulse-css"></div>
+                                </a>
+                            </div>
+                            <div class="cart-dropdown-form dropdown-container">
+                                <div class="form-content">
+                                    <div class="widget-media main-scroll nicescroll-box">
+                                        <ul class="timeline">
+                                            <li>
+                                                <h6 class="mb-0">Notitications</h6>
+                                            </li>
+                                            <li>
+                                                <div class="timeline-panel">
+                                                    <div class="media mr-2">
+                                                        <img alt="image"
+                                                            src="https://via.placeholder.com/150/f8f8f8/2b2b2b">
+                                                    </div>
+                                                    <div class="media-body">
+                                                        <h6 class="mb-1 ">Incoming Message</h6>
+                                                        <small class="d-block">29 July 2020 - 02:26 PM</small>
+                                                    </div>
+                                                </div>
+                                            </li>
+                                            <li>
+                                                <div class="timeline-panel">
+                                                    <div class="media mr-2 media-info">
+                                                        <img alt="image"
+                                                            src="https://via.placeholder.com/150/f8f8f8/2b2b2b">
+                                                    </div>
+                                                    <div class="media-body">
+                                                        <h6 class="mb-1">You got a new email</h6>
+                                                        <small class="d-block">29 July 2020 - 02:26 PM</small>
+                                                    </div>
+                                                </div>
+                                            </li>
+                                            <li>
+                                                <div class="timeline-panel">
+                                                    <div class="media mr-2 media-success">
+                                                        <img alt="image"
+                                                            src="https://via.placeholder.com/150/f8f8f8/2b2b2b">
+                                                    </div>
+                                                    <div class="media-body">
+                                                        <h6 class="mb-1">Hello world!</h6>
+                                                        <small class="d-block">29 July 2020 - 02:26 PM</small>
+                                                    </div>
+                                                </div>
+                                            </li>
+                                            <li>
+                                                <div class="timeline-panel">
+                                                    <div class="media mr-2">
+                                                        <img alt="image"
+                                                            src="https://via.placeholder.com/150/f8f8f8/2b2b2b">
+                                                    </div>
+                                                    <div class="media-body">
+                                                        <h6 class="mb-1">Beep Boop. Beee...</h6>
+                                                        <small class="d-block">29 July 2020 - 02:26 PM</small>
+                                                    </div>
+                                                </div>
+                                            </li>
+                                            <li>
+                                                <div class="timeline-panel">
+                                                    <div class="media mr-2 media-danger">
+                                                        <img alt="image"
+                                                            src="https://via.placeholder.com/150/f8f8f8/2b2b2b">
+                                                    </div>
+                                                    <div class="media-body">
+                                                        <h6 class="mb-1">Hello world!</h6>
+                                                        <small class="d-block">29 July 2020 - 02:26 PM</small>
+                                                    </div>
+                                                </div>
+                                            </li>
+                                            <li>
+                                                <div class="timeline-panel">
+                                                    <div class="media mr-2 media-primary">
+                                                        <img alt="image"
+                                                            src="https://via.placeholder.com/150/f8f8f8/2b2b2b">
+                                                    </div>
+                                                    <div class="media-body">
+                                                        <h6 class="mb-1">Incoming Message</h6>
+                                                        <small class="d-block">29 July 2020 - 02:26 PM</small>
+                                                    </div>
+                                                </div>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    <a class="all-notification btn btn-primary" href="#">
+                                        See all notifications
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="my-account-wrapper widget-7">
+                        <div class="account-wrapper">
+                            <div class="account-control">
+                                <a class="login header-profile" href="#" title="Sign in">
+                                    <div class="header-info">
+                                        <span>{{ user.first_name }}</span>
+                                        <small>{{ user.groups.all.0.name }}</small>
+                                    </div>
+                                    <img src="https://via.placeholder.com/150/f8f8f8/2b2b2b" alt="people">
+                                </a>
+                                <div class="account-dropdown-form dropdown-container">
+                                    <div class="form-content">
+                                        <a href="/doctor-settings">
+                                            <i class="far fa-user"></i>
+                                            <span class="ml-2">Profile</span>
+                                        </a>
+                                        {% comment %} <a href="#">
+                                            <i class="far fa-envelope"></i>
+                                            <span class="ml-2">Inbox</span>
+                                        </a> {% endcomment %}
+                                        <a href="/logout">
+                                            <i class="fas fa-sign-in-alt"></i>
+                                            <span class="ml-2">Logout </span>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </header>
+        </div>
+        <!-- End section header -->
+
+
+        <!-- start section content -->
+        <div class="content-body">
+            <div class="warper container-fluid">
+                {% block content %}
+                {% endblock %}
+            </div>
+        </div>
+        <!-- End section content -->
+
+
+        <!-- start section footer -->
+        <div class="footer">
+            <div class="copyright">
+                <p class="mb-0">Copyright © Designed &amp; Developed by <a href="Himmi" target="_blank">Himmi</a>
+                    2023
+                </p>
+            </div>
+        </div>
+        <!-- End section footer -->
+
+
+    </div>
+
+    <!-- JQuery v3.5.1 -->
+    <script src="{% static "plugins/jquery/jquery.min.js" %}"></script>    
+    <script src="{% static "plugins/jquery/jquery3-2.1.min.js" %}"></script>
+    
+    <!-- popperjs -->
+    <script src="{% static "plugins/popper/popper.min.js" %}"></script>
+    <!-- Bootstrap -->
+    <script src="{% static "plugins/bootstrap/js/bootstrap.js" %}"></script>
+    <!-- Moment -->
+    <script src="{% static "plugins/moment/moment.min.js" %}"></script>
+    <!-- Date Range Picker -->
+    <script src="{% static "plugins/daterangepicker/daterangepicker.min.js" %}"></script>
+    <script src="{% static "plugins/jquery-ui/jquery-ui.min.js" %}"></script>
+
+    <!-- Datatable -->
+    <script src="{% static "plugins/datatables/jquery.dataTables.min.js" %}"></script>
+    <script src="{% static "js/init-tdatatable.js" %}"></script>
+    <!-- Chartjs -->
+    <script src="{% static "plugins/chart/chart/Chart.min.js" %}"></script>
+    <script src="{% static "js/charts-custom.js" %}"></script>
+    <!-- Main Custom JQuery -->
+    <script src="{% static "js/toggleFullScreen.js" %}"></script>
+    <script src="{% static "js/main.js" %}"></script>
+    <script src="{% static "js/option-themes.js" %}"></script>
+    
+    <!-- <script src="{% static "plugins/calendar/fullcalendar.min.js" %}"></script> -->
+<!-- <script src="{% static "plugins/calendar/calendar-init.js" %}"></script> -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-/bQdsTh/da6pkI1MST/rWKFNjaCP5gBSY4sEBT38Q/9RBh9AH40zEOg7Hlq2THRZ"
+    crossorigin="anonymous"></script>
+
+    <!-- Popper.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.10.2/umd/popper.min.js"></script>
+
+<!-- Bootstrap.js -->
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+<!-- <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script> -->
+<!-- Calender -->
+
+
+</body>
+
+</html>{% else %}
+<script>
+  window.location.pathname = '/login'
+</script>
+{% endif %} 

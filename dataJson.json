@@ -1,0 +1,122 @@
+{
+    "Users": {
+      "type": "object",
+      "properties": {
+        "UserId": { "type": "integer" },
+        "FirstName": { "type": "string" },
+        "LastName": { "type": "string" },
+        "Email": { "type": "string", "format": "email" },
+        "PasswordHash": { "type": "string" },
+        "RoleId": { "type": "integer" },
+        "CreatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["UserId", "FirstName", "LastName", "Email", "PasswordHash", "RoleId", "CreatedAt"]
+    },
+  
+    "Roles": {
+      "type": "object",
+      "properties": {
+        "RoleId": { "type": "integer" },
+        "RoleName": { "type": "string" }
+      },
+      "required": ["RoleId", "RoleName"]
+    },
+  
+    "Patients": {
+      "type": "object",
+      "properties": {
+        "PatientId": { "type": "integer" },
+        "FirstName": { "type": "string" },
+        "LastName": { "type": "string" },
+        "Blood": { "type": "string" },
+        "Tel": { "type": "string" },
+        "CNSSNumber": { "type": "string" },
+        "Email": { "type": "string", "format": "email" },
+        "DateOfBirth": { "type": "string", "format": "date" },
+        "Gender": { "type": "string" },
+        "ContactNumber": { "type": "string" },
+        "Address": { "type": "string" }
+      },
+      "required": ["PatientId", "FirstName", "LastName", "Blood", "Tel", "CNSSNumber", "Email", "DateOfBirth", "Gender", "ContactNumber", "Address"]
+    },
+  
+    "Doctors": {
+      "type": "object",
+      "properties": {
+        "DoctorId": { "type": "integer" },
+        "UserId": { "type": "integer" },
+        "Specialization": { "type": "string" },
+        "Qualifications": { "type": "string" },
+        "LicenseNumber": { "type": "string" }
+      },
+      "required": ["DoctorId", "UserId", "Specialization", "Qualifications", "LicenseNumber"]
+    },
+  
+    "Medicines": {
+      "type": "object",
+      "properties": {
+        "MedicineId": { "type": "integer" },
+        "Name": { "type": "string" }
+      },
+      "required": ["MedicineId", "Name"]
+    },
+  
+    "Appointments": {
+      "type": "object",
+      "properties": {
+        "AppointmentId": { "type": "integer" },
+        "PatientId": { "type": "integer" },
+        "DoctorId": { "type": "integer" },
+        "AppointmentDateTime": { "type": "string", "format": "date-time" },
+        "Status": { "type": "string" },
+        "Motif": { "type": "string" },
+        "review": { "type": "string" },
+        "paiedStatus": { "type": "boolean" },
+        "paidPrice": { "type": "number", "format": "decimal" },
+        "CreatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["AppointmentId", "PatientId", "DoctorId", "AppointmentDateTime", "Status", "Motif", "paiedStatus", "CreatedAt"]
+    },
+  
+    "MedicalRecords": {
+      "type": "object",
+      "properties": {
+        "RecordId": { "type": "integer" },
+        "PatientId": { "type": "integer" },
+        "DoctorId": { "type": "integer" },
+        "AppointmentId": { "type": "integer" },
+        "Diagnosis": { "type": "string" },
+        "Prescription": { "type": "string" },
+        "MedicineId": { "type": "integer" },
+        "CreatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["RecordId", "PatientId", "DoctorId", "AppointmentId", "Diagnosis", "Prescription", "MedicineId", "CreatedAt"]
+    },
+  
+    "Receipts": {
+      "type": "object",
+      "properties": {
+        "ReceiptId": { "type": "integer" },
+        "PatientId": { "type": "integer" },
+        "MedicalRecordId": { "type": "object" },  
+        "TotalAmount": { "type": "number", "format": "decimal" },
+        "PaymentStatus": { "type": "string" },
+        "PaymentMethod": { "type": "string" },
+        "CreatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["ReceiptId", "PatientId", "MedicalRecordId", "TotalAmount", "PaymentStatus", "PaymentMethod", "CreatedAt"]
+    },
+  
+    "Notifications": {
+      "type": "object",
+      "properties": {
+        "NotificationId": { "type": "integer" },
+        "UserId": { "type": "integer" },
+        "Message": { "type": "string" },
+        "IsRead": { "type": "boolean" },
+        "CreatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["NotificationId", "UserId", "Message", "IsRead", "CreatedAt"]
+    }
+  }
+  

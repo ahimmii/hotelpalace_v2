@@ -1,0 +1,214 @@
+
+{% extends 'base.html' %}
+{% block title %}Settings{% endblock %}
+
+{% block content %}
+
+
+<div class="doctorino_settings main_container">
+    <div class="row page-titles mx-0">
+        <div class="col-sm-6 p-md-0">
+            <div class="welcome-text">
+                <h4 class="text-primary">Doctor Settings</h4>
+            </div>
+        </div>
+        <div class="col-sm-6 p-md-0 justify-content-sm-end mt-2 mt-sm-0 d-flex">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+                <li class="breadcrumb-item active"><a href="/doctor-settings.html">Doctor Settings</a>
+                </li>
+            </ol>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card shadow mb-4">
+                <div class="card-header">
+                    <h4 class="card-title"> Doctor Settings </h4>
+                </div>
+                <div class="card-body">
+                    <form>
+                        <div class="row">
+                            <div class="col-xl-6">
+                                <div class="form-group row">
+                                    <label class="col-lg-4 col-form-label">System Name
+                                        <span class="text-danger">*</span>
+                                    </label>
+                                    <div class="col-lg-6">
+                                        <input type="text" class="form-control" placeholder="Mr. Doctor">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-xl-6">
+                                <div class="form-group row">
+                                    <label class="col-lg-4 col-form-label">Title <span
+                                            class="text-danger">*</span></label>
+                                    <div class="col-lg-6">
+                                        <input type="text" class="form-control" placeholder="Dr. M Abdellaoui">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-xl-6">
+                                <div class="form-group row">
+                                    <label class="col-lg-4 col-form-label">Address <span
+                                            class="text-danger">*</span></label>
+                                    <div class="col-lg-6">
+                                        <input type="text" class="form-control" placeholder="address">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-xl-6">
+                                <div class="form-group row">
+                                    <label class="col-lg-4 col-form-label">Phone<span
+                                            class="text-danger">*</span></label>
+                                    <div class="col-lg-6">
+                                        <input type="text" class="form-control" placeholder="212658543469">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-xl-6">
+                                <div class="form-group row">
+                                    <label class="col-lg-4 col-form-label">Hospital Email<span
+                                            class="text-danger">*</span></label>
+                                    <div class="col-lg-6">
+                                        <input type="text" class="form-control" placeholder="tabibligne@gmail.com">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-xl-6">
+                                <div class="form-group row">
+                                    <label class="col-lg-4 col-form-label">Currency<span
+                                            class="text-danger">*</span></label>
+                                    <div class="col-lg-6">
+                                        <input type="text" class="form-control" placeholder="MAD">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-xl-6">
+                                <div class="form-group row">
+                                    <label class="col-lg-4 col-form-label">VAT<span class="text-danger">*</span></label>
+                                    <div class="col-lg-6">
+                                        <input type="text" class="form-control" placeholder="VAT">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-xl-6">
+                                <div class="form-group row">
+                                    <label class="col-lg-4 col-form-label">Language</label>
+                                    <div class="col-lg-6">
+                                        <select class="form-control form-select">
+                                            <option>English</option>
+                                            <option>French</option>
+                                            <option>English</option>
+                                            <option>Spanish</option>
+                                            <option>Dutch</option>
+                                            <option>Bengali</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <hr>
+                            <div class="col-xl-6">
+                                <div class="form-group row">
+                                    <label class="col-lg-4 col-form-label">APPT Interval</label>
+                                    <div class="col-lg-6">
+                                        <select class="form-control form-select">
+                                            <option>30 mn</option>
+                                            <option>10 mn</option>
+                                            <option>15 mn</option>
+                                            <option>20 mn</option>
+                                            <option>25 mn</option>
+                                            <option>30 mn</option>
+                                            <option>35 mn</option>
+                                            <option>40 mn</option>
+                                            <option>45 mn</option>
+                                            <option>50 mn</option>
+                                            <option>55 mn</option>
+                                            <option>60 mn</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <hr>
+                        </div>
+                        <div class="row">
+                            <label class="col-sm-4 col-md-3 col-form-label">Saturday</label>
+                            <div class="col-sm-4 col-md-4">
+                                <div class="form-group"> <input type="time" class="form-control"></div>
+                            </div>
+                            <div class="col-sm-4 col-md-4">
+                                <div class="form-group"><input type="time" class="form-control"></div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <label class="col-sm-4 col-md-3 col-form-label">Sunday</label>
+                            <div class="col-sm-4 col-md-4">
+                                <div class="form-group"><input type="time" class="form-control"></div>
+                            </div>
+                            <div class="col-sm-4 col-md-4">
+                                <div class="form-group"> <input type="time" class="form-control"></div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <label class="col-sm-4 col-md-3 col-form-label">Monday</label>
+                            <div class="col-sm-4 col-md-4">
+                                <div class="form-group"> <input type="time" value="08:00" class="form-control"></div>
+                            </div>
+                            <div class="col-sm-4 col-md-4">
+                                <div class="form-group"> <input type="time" value="17:00" class="form-control"></div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <label class="col-sm-4 col-md-3 col-form-label">Tuesday</label>
+                            <div class="col-sm-4 col-md-4">
+                                <div class="form-group"> <input type="time" value="08:00" class="form-control"></div>
+                            </div>
+                            <div class="col-sm-4 col-md-4">
+                                <div class="form-group"> <input type="time" value="17:00" class="form-control"></div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <label class="col-sm-4 col-md-3 col-form-label">Wednseday</label>
+                            <div class="col-sm-4 col-md-4">
+                                <div class="form-group">
+                                    <input type="time" value="08:00" class="form-control">
+                                </div>
+                            </div>
+                            <div class="col-sm-4 col-md-4">
+                                <div class="form-group"><input type="time" value="17:00" class="form-control"></div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <label class="col-sm-4 col-md-3 col-form-label">Thurday</label>
+                            <div class="col-sm-4 col-md-4">
+                                <div class="form-group"><input type="time" value="08:00" class="form-control"></div>
+                            </div>
+                            <div class="col-sm-4 col-md-4">
+                                <div class="form-group"> <input type="time" value="17:00" class="form-control"></div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <label class="col-sm-4 col-md-3 col-form-label">Friday</label>
+                            <div class="col-sm-4 col-md-4">
+                                <div class="form-group">
+                                    <input type="time" value="08:00" class="form-control">
+                                </div>
+                            </div>
+                            <div class="col-sm-4 col-md-4">
+                                <div class="form-group"><input type="time" value="17:00" class="form-control"></div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-11">
+                                <div class="form-group"><button type="submit"
+                                        class="btn btn-primary float-end">Save</button></div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

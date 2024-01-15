@@ -1,0 +1,206 @@
+{% extends 'base.html' %}
+{% block title %}Doctors{% endblock %}
+
+{% block content %}
+{% load static %}
+<!-- start section content -->
+
+<div class="all-patients main_container">
+    <div class="row page-titles mx-0">
+        <div class="col-sm-6 p-md-0">
+            <div class="welcome-text">
+                <h4 class="text-primary">Doctors List</h4>
+            </div>
+        </div>
+        <div class="col-sm-6 p-md-0 justify-content-sm-end mt-2 mt-sm-0 d-flex">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+                <li class="breadcrumb-item active"><a href="/doctor-list.html">Doctors List</a></li>
+            </ol>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="widget-media list-doctors best-doctor">
+                <div class="timeline row">
+
+                    {% for key, value in doctors.items %}
+
+                    <div class="col-sm-6 col-lg-4">
+                        <div class="timeline-panel card p-4 mb-4">
+                            <div class="media">
+                                <img alt="image"
+                                    src="{% if value.gender == 'Male' or value.gender == 'M' %}{% static 'images/doctors/men.png' %}{% else %}{% static 'images/doctors/woman.png' %}{% endif %}">
+                            </div>
+                            <div class="media-body">
+                                <a href="#">
+                                    <h4 class="mb-2">{{value.last_name}} {{value.first_name}}</h4>
+                                </a>
+
+                                <p class="mb-2">{{value.user_role}}</p>
+                                <div class="star-review">
+                                    <i class="fa fa-star text-orange"></i>
+                                    <i class="fa fa-star text-orange"></i>
+                                    <i class="fa fa-star text-orange"></i>
+                                    <i class="fa fa-star text-gray"></i>
+                                    <i class="fa fa-star text-gray"></i>
+                                </div>
+                            </div>
+                            <div class="btn-group-style-1">
+                                <div class="btn-content">
+                                    <button type="button" class="btn btn-secondary dropdown-toggle"
+                                        data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        <i class="fas fa-ellipsis-v"></i>
+                                    </button>
+                                    <div class="dropdown-menu">
+                                        <div class="form-content">
+                                            {% csrf_token %}
+
+                                            <button class="action_btn profile-btn" data-id="{{ value.Doctor_id }}">
+                                                <span class="ml-2">View Profile</span>
+                                            </button>
+                                            <button class="action_btn edit-btn" data-id="{{ value.Doctor_id }}">
+                                                <span class="ml-2">Edit</span>
+                                            </button>
+                                            <button class="action_btn delete-btn" data-id="{{ value.Doctor_id }}">
+                                                <span class="ml-2">Delete</span>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    {% endfor %}
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- End section content -->
+
+
+
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+
+<script>
+    var deleteUrl = "{% url 'doctor_delete' pk='pk_placeholder' %}";
+    var updateUrl = "{% url 'doctor_edit' pk='pk_placeholder' %}";
+    var profile = "{% url 'doctor_detail' pk='pk_placeholder' %}";
+    function delete_doctor(params) {
+        alert(params)
+    }
+    jQuery(document).ready(function () {
+
+
+
+        // View Profile
+        $(".profile-btn").click(function () {
+            var doctorId = $(this).data("id");
+            console.log("View Profile clicked for Doctor ID:", doctorId);
+            profile = profile.replace('pk_placeholder', doctorId)
+            var csrfToken = $('[name="csrfmiddlewaretoken"]').val();
+
+            // Perform AJAX request with doctorId
+            jQuery.ajax({
+                url: profile,
+                type: "POST",
+                data: { ajax_request: true },
+                beforeSend: function (xhr) {
+
+                    xhr.setRequestHeader('X-CSRFToken', csrfToken);
+                }, success: function (response) {
+                    console.log(response);
+                    // alert('DONE')
+                     window.location.href = response.redirect_url;
+                    // Optionally, you can perform additional actions after successful deletion
+                },
+                error: function (error) {
+                    alert("EDIT NOT WORK PLEASE RECHECK");
+                    console.error(error);
+                }
+            });
+        });
+
+        // Edit
+        $(".edit-btn").click(function () {
+            var doctorId = $(this).data("id");
+            console.log("Edit clicked for Doctor ID:", doctorId);
+            var csrfToken = $('[name="csrfmiddlewaretoken"]').val();
+            var doctorId = $(this).data("id");
+            updateUrl = updateUrl.replace('pk_placeholder', doctorId)
+            // alert(updateUrl)
+            jQuery.ajax({
+                url: updateUrl,
+                type: "GET",
+                data: { ajax_request: 1 },
+                beforeSend: function (xhr) {
+
+                    xhr.setRequestHeader('X-CSRFToken', csrfToken);
+                }, success: function (response) {
+                    console.log(response);
+                    // alert('DONE')
+                    window.location.href = response.redirect_url;
+                    // Optionally, you can perform additional actions after successful deletion
+                },
+                error: function (error) {
+                    alert("EDIT NOT WORK PLEASE RECHECK");
+                    console.error(error);
+                }
+            });
+            console.log("UPDATE clicked for Doctor ID:", doctorId);
+            // Perform AJAX request with doctorId for deletion
+            // ...
+        });
+
+    });
+
+    // Delete
+    $(".delete-btn").click(function () {
+        // alert('DELETED')
+        var csrfToken = $('[name="csrfmiddlewaretoken"]').val();
+        var doctorId = $(this).data("id");
+        deleteUrl = deleteUrl.replace('pk_placeholder', doctorId)
+        jQuery.ajax({
+            url: deleteUrl,
+            type: "POST",
+            beforeSend: function (xhr) {
+                xhr.setRequestHeader('X-CSRFToken', csrfToken);
+            }, success: function (response) {
+                console.log(response);
+                window.location.href = response.redirect_url;
+                // Optionally, you can perform additional actions after successful deletion
+            },
+            error: function (error) {
+                alert("DELETE NOT WORK PLEASE RECHECK");
+                console.error(error);
+            }
+        })
+        console.log("Delete clicked for Doctor ID:", doctorId);
+        // Perform AJAX request with doctorId for deletion
+        // ...
+    });
+
+
+</script>
+
+<style>
+    .action_btn {
+        padding: 8px 24px;
+        font-size: 16px;
+        color: #7e7e7e;
+        display: inherit;
+        font-weight: 400;
+        line-height: 1.5;
+        font-size: 14px;
+        border: none;
+        background-color: transparent;
+        margin-left: 5px;
+        margin-right: 5px;
+    }
+</style>
+{% endblock %}

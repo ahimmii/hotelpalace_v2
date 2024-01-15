@@ -1,0 +1,550 @@
+{% extends 'base.html' %}
+{% block title %}Patients{% endblock %}
+
+{% block content %}
+{% load static %}
+
+<!-- {{patients}} -->
+<div class="all-patients main_container">
+    <div class="row page-titles mx-0">
+        <div class="col-sm-6 p-md-0">
+            <div class="welcome-text">
+                <h4 class="text-primary">New Patient</h4>
+            </div>
+        </div>
+        <div class="col-sm-6 p-md-0 justify-content-sm-end mt-2 mt-sm-0 d-flex">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+                <li class="breadcrumb-item active"><a href="/new-patient.html">New Patient</a></li>
+            </ol>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="card">
+                <div class="card-header fix-card">
+                    <div class="row">
+                        <div class="col-8">
+                            <h4 class="card-title"> All Patients </h4>
+                        </div>
+                        <div class="col-4 float-end">
+                            <a href="{% url 'patient_create' %}" class="btn btn-primary float-end">New
+                                Patient</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table id="example2" class="display nowrap">
+                            <thead>
+                                <tr>
+                                    <!-- <th></th>
+                                    <th>First Name</th>
+                                    <th>Last name</th>
+                                    <th>Mobile No</th>
+                                    <th>CIN</th>
+                                    <th>CNSS </th> -->
+                                    <!-- <th>Sex</th> -->
+                                    <!-- <th>Blood</th> -->
+                                    <!--   <th>Email</th>
+                                    <th>Birthday</th>
+                                    >
+                                     <th>Marital status</th>
+                                    <th>Address</th>
+                                    <th>Patient History</th> -->
+                                    <!-- <th>Action</th> -->
+
+
+                                    <th></th>
+                                    <th>First Name</th>
+                                    <th>Last name</th>
+                                    <th>Mobile No.</th>
+                                    <th>CIN</th>
+                                    <th>Mutual Number</th>
+                                    <th class="d-none">Email</th>
+                                    <th class="d-none">Age type</th>
+                                    <th class="d-none">Sex</th>
+                                    <th class="d-none">Blood Group</th>
+                                    <th class="d-none">Patient Weight</th>
+                                    <th class="d-none">Patient Height</th>
+                                    <th class="d-none">Address</th>
+                                    <th class="d-none">Patient History</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <!-- {% for key, value in patients.items %}
+                                <tr>
+                                    <td><img class="rounded-circle" width="35"
+                                            src="{% if value.Gender == 'Male' or value.Gender == 'M' %}{% static 'images/gender/male.png' %}{% else %}{% static 'images/gender/female.png' %}{% endif %}"
+                                            alt=""></td>
+                                    <td>Airi </td>
+                                    <td>Satou</td>
+                                    <td>test@gmail.com</td>
+                                    <td>658543469</td>
+                                    <td>2011/04/25</td>
+                                    <td>Maried</td>
+                                    <td>Male</td>
+                                    <td>A +</td>
+                                    <td>61</td>
+                                    <td>41</td>
+                                    <td>lorem ipsum kwjhdkj jkdhjkfds</td>
+                                    <td>lorem ipsum kwjhdkj jkdhjkfds</td>
+                                    <td>
+                                        <a class='mr-4 vue'>
+                                            <span class='fa fa-eye tbl-eye' aria-hidden='true'></span>
+                                        </a>
+                                        <a data-bs-toggle='modal' data-bs-target='#modal-edit' class='mr-4'>
+                                            <span class='fas fa-pencil-alt tbl-edit'></span>
+                                        </a>
+                                        <a class='mr-4 delet'>
+                                            <span class='fas fa-trash-alt tbl-delet'></span>
+                                        </a>
+                                    </td>
+                                </tr>
+
+                                {% endfor %} -->
+                                {% for key, value in patients.items %}
+                                
+                                <tr id="row{{ key }}">
+                                    <td><img class="rounded-circle" width="35"
+                                            src="{% if value.Gender == 'Male' or value.Gender == 'M' %}{% static 'images/gender/male.png' %}{% else %}{% static 'images/gender/female.png' %}{% endif %}"
+                                            alt=""></td>
+                                    <td class="first-name-column">{{ value.FirstName|default:"no data" }}</td>
+                                    <td class="last-name-column">{{ value.LastName|default:"no LastName data" }}</td>
+                                    <td class="mobile-column">{{ value.Mobile_No|default:"no Mobile" }}</td>
+                                    <td class="cin-column">{{ value.CIN|default:"No cin data" }}</td>
+                                    <td class="cnss-column">{{ value.CNSSNumber|default:"No CNSS Data" }}</td>
+                                    <td class="age-type-column  d-none">{{ value.typeAge|default:"No typeAge Data" }}</td>
+                                    <td class="email-column  d-none">{{ value.Email|default:"No Email Data" }}</td>
+                                    <td class="gender-column  d-none">{{ value.Gender|default:"No Gender Data" }}</td>
+                                    <td class="blood-group-column  d-none">{{ value.Blood_Group|default:"No Blod Data"}}
+                                    </td>
+                                    <td class="birthday-column d-none">{{ value.Birthday|default:"No Birthday Data" }}
+                                    </td>
+                                    <td class="id-column d-none">{{ value.Patient_id|default:"No id Data" }}</td>
+                                    <td class="status-column d-none">{{ value.Marital_Status|default:"No  Status Data" }}</td>
+                                    <td class="mutualType-column d-none">{{ value.mutualType|default:"No mutualType Data"}}
+                                    </td>
+                                    <td>
+                                        <a class='mr-4 vue'>
+                                            <span class='fa fa-eye tbl-eye' aria-hidden='true'></span>
+                                        </a>
+                                        <a data-bs-toggle='modal' data-bs-target='#modal-edit' class='mr-4 edit-btn'
+                                            data-row-id="row{{ key }}">
+                                            <span class='fas fa-pencil-alt tbl-edit'></span>
+                                        </a>
+                                        {% if user.groups.all.0.name == 'admin' %}
+                                        <a class='mr-4 delete' onclick="deleteRecord('{{ value.Patient_id }}')" data-bs-target="#confirmDelete">
+                                            <span class='fas fa-trash-alt tbl-delet'></span>
+                                        {% endif %}
+                                        </a>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <!-- Modal -->
+        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        ...
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-primary">Save changes</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+
+<!-- Show data patient -->
+<div class="modal fade" id="myModal" tabindex="-1" aria-labelledby="myModalLabel" aria-hidden="true">
+    <!-- <div > -->
+    <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="myModalLabel"><img class="rounded-circle" width="35"
+                        src="https://via.placeholder.com/150/f8f8f8/2b2b2b" alt=""> Tiger Nixon </h5>
+                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close"><span
+                        aria-hidden="true">&times;</span></button>
+            </div>
+            <div class="modal-body">
+                <div class="insertHere"></div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">Save changes</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- End Show data patient -->
+
+
+<!-- Modal -->
+<div class="modal fade" id="modal-edit" tabindex="-1" aria-labelledby="modal-title-edit-row" aria-hidden="true">    
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modal-title-edit-row">Angelica Ramos</h5>
+                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="basic-form">
+                            <form>
+                                {% csrf_token %}
+                                <div class="row">
+                                    <div class="col">
+                                        <div class="form-group row">
+                                            <label for="first_name_input" class="col-lg-12 col-form-label">First
+                                                Name</label>
+                                            <div class="col-lg-12">
+                                                <input type="text" class="form-control" placeholder="First Name"
+                                                    id="first_name_input">
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label for="last_name_input" class="col-lg-12 col-form-label">Last
+                                                Name</label>
+                                            <div class="col-lg-12">
+                                                <input type="text" class="form-control" placeholder="Last name"
+                                                    id="last_name_input">
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label for="email_input" class="col-lg-12 col-form-label">Email</label>
+                                            <div class="col-lg-12">
+                                                <input type="email" class="form-control" placeholder="Email"
+                                                    id="email_input">
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label for="mobile_no_input" class="col-lg-12 col-form-label">Mobile
+                                                No.</label>
+                                            <div class="col-lg-12">
+                                                <input type="text" class="form-control" placeholder="Mobile No."
+                                                    id="mobile_no_input">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col">
+                                        <div class="  row">
+                                            <label for="birthday_input_edit"
+                                                class="col-lg-12 col-form-label">Age</label>
+                                            <div class="col-8">
+                                                <div class="input-group">
+                                                    <input type="number" name="Birthday" class="form-control" placeholder="Age"
+                                                        id="birthday_input_edit">
+                                                </div>
+                                            </div>
+                                            <div class="btn-group btn-group-toggle col-2" data-toggle="buttons">
+                                                <label class="btn btn-primary">
+                                                    <input type="radio"  name="typeAge" value="Year" id="Year_edit" > Year
+                                                </label>
+                                                <label class="btn btn-primary">
+                                                    <input type="radio" name="typeAge" value="Month" id="Month_edit" > Month
+                                                </label>
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label for="marital_status_input" class="col-lg-12 col-form-label">
+                                                Status</label>
+                                            <div class="col-lg-12">
+                                                <select class="form-control form-select" id="marital_status_input">
+                                                    <option> Status </option>
+                                                    <option>Enfants</option>
+                                                    <option>Bébé</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label for="sex_input" class="col-lg-12 col-form-label">Sex</label>
+                                            <div class="col-lg-12">
+                                                <select class="form-control form-select" id="gender_input">
+                                                    <option>Sex</option>
+                                                    <option>Male</option>
+                                                    <option>Female</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label for="blood_group_input" class="col-lg-12 col-form-label">Blood
+                                                Group</label>
+                                            <div class="col-lg-12">
+                                                <select class="form-control form-select" id="blood_group_input_edit">
+                                                    <option>Blood Group</option>
+                                                    <option>A+</option>
+                                                    <option>A-</option>
+                                                    <option>B+</option>
+                                                    <option>B-</option>
+                                                    <option>O+</option>
+                                                    <option>O-</option>
+                                                    <option>AB+</option>
+                                                    <option>AB-</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+
+                                    <div class="col">
+                                        <div class="form-group row">
+                                            <label for="patient_cin_input" class="col-lg-12 col-form-label">CIN</label>
+                                            <div class="col-lg-12">
+                                                <input type="text" class="form-control" placeholder="CIN"
+                                                    id="patient_cin_input">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col">
+                                        <div class="form-group row">
+                                            <label for="patient_cnss_input"
+                                                class="col-lg-12 col-form-label">Mutual Number</label>
+                                            <div class="col-lg-12">
+                                                <input type="text" class="form-control" placeholder="Mutual Number"
+                                                    id="patient_cnss_input">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col">
+                                        <div class="form-group row">
+                                            <label for="mutuelle_type_input" class="col-lg-12 col-form-label">Choisissez une mutuelle :</label>
+                                            <div class="col-lg-12">
+                                <select class="form-control form-select" id="mutuelle_type_input" name="mutualType">
+                                    <option value="cnops">Caisse Nationale des Organismes de Prévoyance Sociale (CNOPS)</option>
+                                    <option value="cnss">Caisse Nationale de Sécurité Sociale (CNSS)</option>
+                                    <option value="mam">Mutuelle des Architectes au Maroc (MAM)</option>
+                                    <option value="mamavocat">Mutuelle des Avocats au Maroc (MAMAVOCAT)</option>
+                                    <option value="mmai">Mutuelle Marocaine des Artistes Interprètes (MMAI)</option>
+                                    <option value="mcma">Mutuelle Centrale Marocaine d'Assurance (MCMA)</option>
+                                    <option value="mgcl">Mutuelle Générale des Collectivités Locales (MGCL)</option>
+                                    <option value="mgpap">Mutuelle Générale du Personnel des Administrations Publiques (MGPAP)</option>
+                                    <option value="mmm">Mutuelle des Médecins du Maroc (MMM)</option>
+                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <input type="hidden" name="id" id="id_input">
+                                    
+                                </div>
+                            </form>
+
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" onclick="submitForm()">Save changes</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!--End Modal -->
+<script>
+    var deleteUrl = "{% url 'patient_delete' pk='pk_placeholder' %}";
+    var updateUrl = "{% url 'patient_update' pk='pk_placeholder' %}";
+    document.querySelectorAll('.edit-btn').forEach(function (button) {
+        button.addEventListener('click', function () {
+            var rowId = this.getAttribute('data-row-id');
+            var row = document.getElementById(rowId);
+            populateModal(row);
+        });
+    });
+
+    function populateModal(row) {
+        console.log('RAW IS', row)
+        if (row) {
+            var firstName = row.querySelector('.first-name-column').innerText;
+            var lastName = row.querySelector('.last-name-column').innerText;
+            var mobile = row.querySelector('.mobile-column').innerText;
+            var cin = row.querySelector('.cin-column').innerText;
+            var cnss = row.querySelector('.cnss-column').innerText;
+            // var birthday = row.querySelector('.birthday-column').innerText;
+            var birthday = document.querySelector('.birthday-column').innerText;
+            var imgSrc = row.getElementsByTagName("img")[0];
+            var mutualType = row.querySelector('.mutualType-column').innerText;
+
+            
+            var ageType = row.querySelector('.age-type-column')?.innerText;
+            var email = row.querySelector('.age-type-column')?.innerText;
+            console.log('ageType',row.querySelector('.age-type-column'))
+            ageType ==="month" ? $('#Month_edit').prop("checked", true) : $('#Year_edit').prop("checked", true) 
+            var id = row.querySelector('.id-column')?.innerText;
+            var gender = row.querySelector('.gender-column')?.innerText;
+            var bloodGroup = row.querySelector('.blood-group-column')?.innerText;
+            var status = row.querySelector('.status-column')?.innerText;
+            // Add more variables for other columns
+            console.log("bloodGroup", bloodGroup.substring(0, 4), bloodGroup.substring(0, 4).length)
+            console.log("gender", gender)
+            console.log("birthday", birthday.replace(/\s/g, ''),birthday.replace(/\s/g, '').length)
+
+            // Now you can use these variables to populate your modal fields
+            var modal = document.querySelector('#modal-edit');
+            // var modal = document.querySelector('#modal-edit');
+            modal.querySelector('.modal-title').innerText = firstName + ' ' + lastName;
+            modal.querySelector('#first_name_input').value = firstName;
+            modal.querySelector('#last_name_input').value = lastName;
+            modal.querySelector('#mobile_no_input').value = mobile;
+            modal.querySelector('#patient_cin_input').value = cin;
+            modal.querySelector('#patient_cnss_input').value = cnss;
+            modal.querySelector('#email_input').value = email;
+            modal.querySelector('#gender_input').value = gender;
+            modal.querySelector('#id_input').value = id;
+            // modal.querySelector('#blood_group_input_edit').value = bloodGroup.substring(0, 4);
+            // let date = formatDateStringForInput(birthday);
+            //console.log("DATE IS ", date, date.length);
+            //$("#birthday_input_edit").val("2015-12-28")
+            $("#marital_status_input").val(status)
+            $("#mutuelle_type_input").val(mutualType.replace(/\s/g, ''))
+            console.log(mutualType,mutualType.length)
+            $('#blood_group_input_edit').val(bloodGroup.replace(/\s/g, '') );
+            $("#birthday_input_edit").val(birthday.replace(/\s/g, ''))
+            
+            
+            // $('#blood_group_input_edit').val("AB+");
+
+            // modal.querySelector('#birthday_input_edit').value = formatDateStringForInput(birthday);
+            // console.log("Before:", birthday);
+            // birthday = "20-01-2001";
+            // console.log("After:", birthday);
+
+
+            // Add more lines to populate additional fields
+        }
+    }
+    function formatDateStringForInput(originalDateString) {
+        // Split the original date string into an array ["yyyy", "mm", "dd"]
+        var dateParts = originalDateString.split("-");
+
+        // Create a new date string in the "yyyy-mm-dd" format
+        var newDateString = dateParts[0] + "-" + dateParts[1] + "-" + dateParts[2];
+
+        return newDateString.replace(/\s/g, '');
+    }
+
+    function submitForm() {
+        // Get form data
+        var typeAge = $('input[name="typeAge"]:checked').val();
+        const id= $('#id_input').val();
+        // alert('id'+id)
+        var formData = {
+            first_name: $('#first_name_input').val(),
+            last_name: $('#last_name_input').val(),
+            email: $('#email_input').val(),
+            mobile_no: $('#mobile_no_input').val(),
+            birthday: $('#birthday_input_edit').val(),
+            marital_status: $('#marital_status_input').val(),
+            gender: $('#gender_input').val(),
+            blood_group: $('#blood_group_input_edit').val(),
+            patient_cin: $('#patient_cin_input').val(),
+            patient_cnss: $('#patient_cnss_input').val(),
+            mutualType: $('#mutuelle_type_input').val(),
+            typeAge:typeAge,
+            // address: $('#address_input').val(),
+            // patient_history: $('#patient_history_input').val(),
+            id: id,
+        };
+        console.log("formData",formData)
+        var csrfToken = $('[name="csrfmiddlewaretoken"]').val();
+        // Send data using AJAX
+        $.ajax({
+            type: 'POST',
+            url: updateUrl.replace('pk_placeholder', id),  // Use the URL name defined in your urls.py
+            
+            data: formData,
+            beforeSend: function (xhr) {
+            xhr.setRequestHeader('X-CSRFToken', csrfToken);
+        },
+            success: function(response) {
+                // Handle the success response
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Success',
+                    text: 'Updated  ',
+            });
+            // $('#modal-edit').hide();
+                console.log(response);
+            },
+            error: function(error) {
+                // Handle the error
+                console.error(error);
+            }
+        });
+    }
+    
+function deleteRecord(pk) {
+    // alert('PK IS ')
+
+    var csrfToken = $('[name="csrfmiddlewaretoken"]').val();
+
+
+    Swal.fire({
+            title: 'Are you sure?',
+            text: 'You won\'t be able to revert this!',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#d33',
+            cancelButtonColor: '#3085d6',
+            confirmButtonText: 'Yes, delete it!'
+        })
+        .then((result) => {
+            // alert('YES patient')
+
+            // If the user clicks "Yes", proceed with the delete
+            if (result.isConfirmed) {
+                    // Send data using AJAX
+                    $.ajax({
+                        type: 'POST',
+                        url: deleteUrl.replace('pk_placeholder', pk),  // Replace with the actual URL pattern
+                        data: {},
+                        beforeSend: function (xhr) {
+                            xhr.setRequestHeader('X-CSRFToken', csrfToken);
+                        },
+                        success: function (response) {
+                            // Handle the success response
+                            console.log(response);
+                            $(`#row${pk}`).hide();
+                            // Optionally, you can perform additional actions after successful deletion
+                        },
+                        error: function (error) {
+                            // Handle the error
+                            alert("DELETE NOT WORK PLEASE RECHECK");
+                            console.error(error);
+                        }
+                    });
+            }})
+}
+</script>
+
+{% endblock %}

@@ -1,0 +1,228 @@
+{% extends 'base.html' %}
+{% block title %}Prescriptions{% endblock %}
+
+{% block content %}
+
+<div class="all_prescriptions main_container">
+    <div class="row page-titles mx-0">
+        <div class="col-sm-6 p-md-0">
+            <div class="welcome-text">
+                <h4 class="text-primary">All Prescriptions</h4>
+            </div>
+        </div>
+        <div class="col-sm-6 p-md-0 justify-content-sm-end mt-2 mt-sm-0 d-flex">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+                <li class="breadcrumb-item active"><a href="{% url 'prescription_create' %}">New Prescription</a>
+                </li>
+            </ol>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="card">
+                <div class="card-header fix-card">
+                    <div class="row">
+                        <div class="col-8">
+                            <h4 class="card-title"> All Prescriptions </h4>
+                        </div>
+                        <div class="col-4">
+                            <a href="{% url 'prescription_create' %}" class="btn btn-primary float-end">New
+                                Prescription </a>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table id="example1" class="display nowrap">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Patient Name</th>
+                                    <th>Date</th>
+                                    <th>Content</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Pr-0001</td>
+                                    <td>Airi Satou</td>
+                                    <td>01 Apr 2022</td>
+                                    <td> 3 Drugs | 1 Tests </td>
+                                    <td>
+                                        <a href='#' class='mr-4'>
+                                            <span class='fa fa-eye tbl-eye' aria-hidden='true'></span>
+                                        </a>
+                                        <a class='mr-4'>
+                                            <span class='fas fa-print tbl-print'></span>
+                                        </a>
+                                        <a class='mr-4 delet'>
+                                            <span class='fas fa-trash-alt tbl-delet tbl-delet'></span>
+                                        </a>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Pr-0002</td>
+                                    <td>Airi Satou</td>
+                                    <td>01 Apr 2022</td>
+                                    <td> 3 Drugs | 1 Tests </td>
+                                    <td>
+                                        <a href='#' class='mr-4'>
+                                            <span class='fa fa-eye tbl-eye' aria-hidden='true'></span>
+                                        </a>
+                                        <a class='mr-4'>
+                                            <span class='fas fa-print tbl-print'></span>
+                                        </a>
+                                        <a class='mr-4 delet'>
+                                            <span class='fas fa-trash-alt tbl-delet'></span>
+                                        </a>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Pr-0003</td>
+                                    <td>Airi Satou</td>
+                                    <td>01 Apr 2022</td>
+                                    <td> 3 Drugs | 1 Tests </td>
+                                    <td>
+                                        <a href='#' class='mr-4'>
+                                            <span class='fa fa-eye tbl-eye' aria-hidden='true'></span>
+                                        </a>
+                                        <a class='mr-4'>
+                                            <span class='fas fa-print tbl-print'></span>
+                                        </a>
+                                        <a class='mr-4 delet'>
+                                            <span class='fas fa-trash-alt tbl-delet'></span>
+                                        </a>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Pr-0004</td>
+                                    <td>Airi Satou</td>
+                                    <td>01 Apr 2022</td>
+                                    <td> 3 Drugs | 1 Tests </td>
+                                    <td>
+                                        <a href='#' class='mr-4'>
+                                            <span class='fa fa-eye tbl-eye' aria-hidden='true'></span>
+                                        </a>
+                                        <a class='mr-4'>
+                                            <span class='fas fa-print tbl-print'></span>
+                                        </a>
+                                        <a class='mr-4 delet'>
+                                            <span class='fas fa-trash-alt tbl-delet'></span>
+                                        </a>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Pr-0005</td>
+                                    <td>Airi Satou</td>
+                                    <td>01 Apr 2022</td>
+                                    <td> 3 Drugs | 1 Tests </td>
+                                    <td>
+                                        <a href='#' class='mr-4'>
+                                            <span class='fa fa-eye tbl-eye' aria-hidden='true'></span>
+                                        </a>
+                                        <a class='mr-4'>
+                                            <span class='fas fa-print tbl-print'></span>
+                                        </a>
+                                        <a class='mr-4 delet'>
+                                            <span class='fas fa-trash-alt tbl-delet'></span>
+                                        </a>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Pr-0006</td>
+                                    <td>Airi Satou</td>
+                                    <td>01 Apr 2022</td>
+                                    <td> 3 Drugs | 1 Tests </td>
+                                    <td>
+                                        <a href='#' class='mr-4'>
+                                            <span class='fa fa-eye tbl-eye' aria-hidden='true'></span>
+                                        </a>
+                                        <a class='mr-4'>
+                                            <span class='fas fa-print tbl-print'></span>
+                                        </a>
+                                        <a class='mr-4 delet'>
+                                            <span class='fas fa-trash-alt tbl-delet'></span>
+                                        </a>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Pr-0007</td>
+                                    <td>Airi Satou</td>
+                                    <td>01 Apr 2022</td>
+                                    <td> 3 Drugs | 1 Tests </td>
+                                    <td>
+                                        <a href='#' class='mr-4'>
+                                            <span class='fa fa-eye tbl-eye' aria-hidden='true'></span>
+                                        </a>
+                                        <a class='mr-4'>
+                                            <span class='fas fa-print tbl-print'></span>
+                                        </a>
+                                        <a class='mr-4 delet'>
+                                            <span class='fas fa-trash-alt tbl-delet'></span>
+                                        </a>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Pr-0008</td>
+                                    <td>Airi Satou</td>
+                                    <td>01 Apr 2022</td>
+                                    <td> 3 Drugs | 1 Tests </td>
+                                    <td>
+                                        <a href='#' class='mr-4'>
+                                            <span class='fa fa-eye tbl-eye' aria-hidden='true'></span>
+                                        </a>
+                                        <a class='mr-4'>
+                                            <span class='fas fa-print tbl-print'></span>
+                                        </a>
+                                        <a class='mr-4 delet'>
+                                            <span class='fas fa-trash-alt tbl-delet'></span>
+                                        </a>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Pr-0009</td>
+                                    <td>Airi Satou</td>
+                                    <td>01 Apr 2022</td>
+                                    <td> 3 Drugs | 1 Tests </td>
+                                    <td>
+                                        <a href='#' class='mr-4'>
+                                            <span class='fa fa-eye tbl-eye' aria-hidden='true'></span>
+                                        </a>
+                                        <a class='mr-4'>
+                                            <span class='fas fa-print tbl-print'></span>
+                                        </a>
+                                        <a class='mr-4 delet'>
+                                            <span class='fas fa-trash-alt tbl-delet'></span>
+                                        </a>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Pr-0010</td>
+                                    <td>Airi Satou</td>
+                                    <td>01 Apr 2022</td>
+                                    <td> 3 Drugs | 1 Tests </td>
+                                    <td>
+                                        <a href='#' class='mr-4'>
+                                            <span class='fa fa-eye tbl-eye' aria-hidden='true'></span>
+                                        </a>
+                                        <a class='mr-4'>
+                                            <span class='fas fa-print tbl-print'></span>
+                                        </a>
+                                        <a class='mr-4 delet'>
+                                            <span class='fas fa-trash-alt tbl-delet'></span>
+                                        </a>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+{% endblock %}

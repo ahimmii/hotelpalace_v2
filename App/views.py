@@ -577,9 +577,12 @@ def appointment_list(request):
     total = 0
     start_date = datetime.today().strftime('01/01/%Y')
     end_date = datetime.today().strftime('%d/%m/%Y')
+    appointments = database.child("Appointments").get()
 
+    if request.method == "POST":
+        return JsonResponse({"success": True, "events": appointments.val()})
     data = database.child('Client').order_by_child("Fait").start_at(start_date).end_at(end_date).get()
-
+    
     for entry in data.each():
         if datetime.strptime(entry.val().get('Fait'), '%d/%m/%Y') >= datetime.strptime(start_date, '%d/%m/%Y') and datetime.strptime(entry.val().get('Fait'), '%d/%m/%Y') <= datetime.strptime(end_date, '%d/%m/%Y'):
             input_date = datetime.strptime(entry.val().get('Fait'), '%d/%m/%Y')
@@ -805,27 +808,42 @@ def save_calendar(request):
 
     if request.method == "POST":
         data = json.loads(request.body)
-        id = database.child('Client').order_by_child("Fait").limit_to_last(1)
+        # id = database.child('Client').order_by_child("Fait").limit_to_last(1)
+        rendem_id = "Appointment_" + str(uuid.uuid4())
+
         print(id)
-        # print(data)
+        print(data)
         # Save the event data to the database
         # Example: You might have a model named Event and save data like this
-        test = {
-            "ID": id,
-            "start": data["start"],
-            "end": data["end"],
-            "Patient_id": data["extendedProps"]["patient_id"],
-            "Doctor_id": data["extendedProps"]["doctor_id"],
-            "title": data["title"],
-            "Motif": data["motif"],
-            # ---------------------- new data ----------------------
-            "totalPrice": data["extendedProps"]["totalPrice"],
-            "amountPaid": data["extendedProps"]["amountPaid"],
-            # "Rest": data[""],
-            "Statut_de_paiement": data["extendedProps"]["Statut_de_paiement"],
-            "typeAppointment": data["extendedProps"]["typeAppointment"],
+        # test = {
+        #     "ID": id,
+        #     "start": data["start"],
+        #     "end": data["end"],
+        #     "Patient_id": data["extendedProps"]["patient_id"],
+        #     "Doctor_id": data["extendedProps"]["doctor_id"],
+        #     "title": data["title"],
+        #     "Motif": data["motif"],
+        #     # ---------------------- new data ----------------------
+        #     "totalPrice": data["extendedProps"]["totalPrice"],
+        #     "amountPaid": data["extendedProps"]["amountPaid"],
+        #     # "Rest": data[""],
+        #     "Statut_de_paiement": data["extendedProps"]["Statut_de_paiement"],
+        #     "typeAppointment": data["extendedProps"]["typeAppointment"],
+        # }
+        test={
+            "startDate":data["startDate"],
+            "endDate":data["endDate"],
+            "firstName":data["firstName"],
+            "lastName":data["lastName"],
+            "chamber":data["chamber"],
+            # "motif":data["motif"],
+            "totalPrice":data['extendedProps']["totalPrice"],
+            "amountPaid":data['extendedProps']["amountPaid"],
+            "remainingAmount":data['extendedProps']["remainingAmount"],
+            "typeAppointment":data['extendedProps']["typeAppointment"],
         }
-        print(test)
+
+        # print(test)
         database.child("Appointments").child(rendem_id).set(test)
 
         # event.save()

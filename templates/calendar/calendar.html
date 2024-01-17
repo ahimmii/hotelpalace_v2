@@ -10,14 +10,14 @@
 <div class="row page-titles mx-0">
     <div class="col-sm-6 p-md-0">
         <div class="welcome-text">
-            <h4 class="text-primary">New Reservation</h4>
-            <p class="mb-0">Add New Reservation</p>
+            <h4 class="text-primary">New Calendar</h4>
+            <p class="mb-0">Add New Calendar</p>
         </div>
     </div>
     <div class="col-sm-6 p-md-0 justify-content-sm-end mt-2 mt-sm-0 d-flex">
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="/">Home</a></li>
-            <li class="breadcrumb-item active"><a href="/calendar">New Reservation</a>
+            <li class="breadcrumb-item active"><a href="/calendar">New Calendar</a>
             </li>
         </ol>
     </div>
@@ -34,7 +34,7 @@
                         <div class="form-group">
                             <button type="button" class="btn btn-primary w-100 h-56" data-bs-toggle="modal"
                                 data-bs-target="#newAppointment">New
-                                Reservation</button>
+                                Calendar</button>
                         </div>
                     </div>
                 </div>
@@ -58,78 +58,75 @@
             <div class="modal-body">
                 <form class="row align-items-start" id="eventForm">
                     {% csrf_token %}
-
-                    <!-- <div class="col-md-6 col-sm-12 form-group">
-                        <select id="patientSelect" class="form-control form-select">
-                            <option>Select Patient...</option>
-                            <option>Airi Satou</option>
-                            <option>Angelica Ramos</option>
-                            <option>Ashton Cox</option>
-                            <option>Bradley Greer</option>
-                            <option>Brenden</option>
-                            <option>Ashton Cox</option>
-                        </select>
+                    <input type="hidden" id="id_input" value="">
+                    <div class="col-md-6 col-sm-12 form-group">
+                        <label for="endDate">First Name</label>
+                        <input class="form-control"  id="ferst_Name" >
                     </div>
                     <div class="col-md-6 col-sm-12 form-group">
-                        <select id="doctorSelect" class="form-control form-select">
-                            <option>Select Doctor...</option>
-                            <option>Airi Satou</option>
-                            <option>Angelica Ramos</option>
-                            <option>Ashton Cox</option>
-                            <option>Bradley Greer</option>
-                            <option>Brenden</option>
-                            <option>Ashton Cox</option>
-                        </select>
-                    </div> -->
-
-                    <div class="col-md-6 col-sm-12 form-group">
-                        <select id="patientSelect" class="form-control form-select">
-                            <option>Select Patient...</option>
-                            {% for key, value in Patients.items %}
-
-                            <option value="{{ value.Patient_id }}" id="{{ value.Patient_id }}"> {{ value.FirstName }}
-                                {{value.LastName }}</option>
-                            {% endfor %}
-                        </select>
+                        <label for="endDate">Last Name</label>
+                        <input class="form-control"  id="last_name">
                     </div>
-                    <div class="col-md-6 col-sm-12 form-group">
-                        <select id="doctorSelect" class="form-control form-select">
-                            <option>Select Doctor...</option>
-                            {% for key, value in Doctors.items %}
-                            <option value="{{ value.Doctor_id }}" id="{{ value.Doctor_id }}"> {{ value.first_name }}
-                                {{value.last_name }}</option>
+                    <div class="col-md-12 col-sm-12 form-group">
+                        <label for="remainingAmount">Type of Appointment</label>
 
-                            {% endfor %}
+                        <select id="chamber" class="form-control form-select">
+                            <option value="01">01</option>
+                            <option value="02">02</option>
+                            <option value="03">03</option>
+                            <option value="04">04</option>
+                            <option value="05">05</option>
+                            <option value="06">06</option>
+                            <option value="07">07</option>
+                            <option value="08">08</option>
+                            <option value="09">09</option>
+                            <option value="10">10</option>
+                            <option value="11">11</option>
+                            <option value="12">12</option>
+                            <option value="13">13</option>
+                            <option value="14">14</option>
+                            <option value="15">15</option>
+                            <option value="16">16</option>
+                            <option value="17">17</option>
+                            <option value="18">18</option>
+                            <option value="19">19</option>
+                            <option value="20">20</option>
+                            <option value="21">21</option>
+                            <option value="22">22</option>
+                            <option value="23">23</option>
+                            <option value="24">24</option>
+                            <option value="25">25</option>
+                            <option value="26">26</option>
+                            <option value="27">27</option>
+                            <option value="28">28</option>
+                            <option value="29">29</option>
+                            <option value="30">30</option>
+                            <option value="31">31</option>
+                            <option value="32">32</option>
+                            <option value="33">33</option>
+                            <option value="34">34</option>
+                            <option value="35">35</option>
                         </select>
+
                     </div>
                     <div class="col-md-6 col-sm-12 form-group">
                         <label for="startDate">Start Date</label>
-                        <input class="form-control" id="startDate" type="datetime-local">
+                        <input class="form-control" id="startDate" type="date">
                     </div>
                     <div class="col-md-6 col-sm-12 form-group">
                         <label for="endDate">End Date</label>
-                        <input class="form-control" id="endDate" type="datetime-local">
+                        <input class="form-control" id="endDate" type="date">
                     </div>
-                    <!-- <div class="col-md-6 col-sm-12 form-group">
-                        <select class="form-control form-select">
-                            <option> 07:00 - 07:30</option>
-                            <option> 07:30 - 08:00</option>
-                            <option> 08:00 - 08:30</option>
-                            <option> 08:30 - 09:00</option>
-                            <option> 09:00 - 09:30</option>
-                            <option> 09:30 - 10:00</option>
-                            <option> 10:00 - 10:30</option>
-                        </select>
-                    </div> -->
+
                     <!-- Add these fields inside the modal-body div -->
                     <div class="col-md-6 col-sm-12 form-group">
                         <label for="totalPrice">Total Price</label>
-                        <input class="form-control" id="totalPrice" type="number" min="0">
+                        <input class="form-control" id="totalPrice" onkeyup="calculateRemainingAmount(1)" type="number" min="0">
                     </div>
                     <div class="col-md-6 col-sm-12 form-group">
                         <label for="amountPaid">Amount Paid</label>
-                        <input class="form-control" onkeyup="calculateRemainingAmount()" id="amountPaid" type="number"
-                            min="0">
+                        <input class="form-control" onkeyup="calculateRemainingAmount(1)" id="amountPaid"
+                            type="number" min="0">
 
                     </div>
                     <div class="col-md-12 col-sm-12 form-group">
@@ -141,24 +138,25 @@
 
                     </div>
                     <div class="col-md-12 col-sm-12 form-group">
-                        <label for="remainingAmount">Type of Appointment</label>
+                        <label for="remainingAmount">Type of Reservation</label>
 
                         <select id="typeAppointment" class="form-control form-select">
-                            <option value="consultation">Consultation</option>
-                            <option value="Contrôle">Contrôle</option>
-                            <option value="Plâtre">Plâtre</option>
-                            <option value="Circoncision">Circoncision</option>
-                            <option value="Soin">Soin</option>
+                            <option value="Booking">Booking</option>
+                            <option value="directly">Directly</option>
+                            <option value="Expedia Group">Expedia Group</option>
+                            <option value="Airbnb">Airbnb</option>
+                            <option value="Instagram">Instagram</option>
+                            <option value="Reservation">Reservation</option>
                         </select>
 
                     </div>
                     <br>
-                    <div class="col-lg-12">
+                    {% comment %} <div class="col-lg-12">
                         <div class="form-group">
                             <label>Motif Patient</label>
                             <textarea id="motif" class="form-control" rows="3"></textarea>
                         </div>
-                    </div>
+                    </div> {% endcomment %}
                 </form>
             </div>
             <div class="modal-footer">
@@ -237,17 +235,17 @@
                 if (data.success) {
                     // Loop through the events and add them to the calendar
                     Object.values(data.events).forEach(function (eventData) {
-                        console.log("eventData?.typeAppointment is", eventData?.typeAppointment)
+                        console.log("eventData", eventData)
                         calendar.addEvent({
-                            title: eventData.Motif,
-                            start: eventData.start,
-                            end: eventData.end,
+                            title: eventData?.Motif,
+                            start: eventData?.startDate,
+                            end: eventData?.endDate,
                             extendedProps: {
-                                start: eventData.start,
-                                end: eventData.end,
-                                patient_id: eventData.Patient_id,
-                                doctor_id: eventData.Doctor_id,
-                                Motif: eventData?.Motif,
+                                start: eventData?.start,
+                                end: eventData?.end,
+                                patient_id: eventData?.Patient_id,
+                                doctor_id: eventData?.Doctor_id,
+                                Motif: eventData?.Motif ?? "Motif",
                                 Appointment_id: eventData?.Appointment_id,
                                 totalPrice: eventData?.totalPrice,
                                 amountPaid: eventData?.amountPaid,
@@ -263,7 +261,8 @@
                     console.error('Failed to fetch events.');
                 }
             },
-            error: function () {
+            error: function (err) {
+                console.log("erorre is ",err)
                 console.error('Error making the AJAX request.');
             }
         });
@@ -401,89 +400,186 @@
         const selectedOption = selectElement.options[selectElement.selectedIndex];
         return selectedOption.value;
     }
+    // function addEvent() {
+    //     const startDate = document.getElementById('startDate').value;
+    //     const endDate = document.getElementById('endDate').value;
+
+    //     const patientSelect = document.getElementById('patientSelect');
+    //     const doctorSelect = document.getElementById('doctorSelect');
+
+    //     var totalPrice = parseFloat(document.getElementById('totalPrice').value) || 0;
+    //     var amountPaid = parseFloat(document.getElementById('amountPaid').value) || 0;
+
+    //     // const timeRange = document.getElementById('timeSelect').value;
+    //     const motif = document.getElementById('motif').value;
+    //     const typeAppointment = document.getElementById('typeAppointment').value;
+    //     // alert("hiii"+typeAppointment)
+    //     // const patientName = document.getElementById('patientSelect').value;
+    //     // const doctorName = document.getElementById('doctorSelect').value;
+
+    //     const doctorName = doctorSelect.value;
+    //     const patientName = patientSelect.value;
+    //     const patienttext = $('#' + patientName).text();
+    //     const doctorText = $('#' + doctorName).text();
+
+    //     if (startDate && endDate && patientName !== 'Select Patient...' && doctorName !== 'Select Doctor...' && typeAppointment) {
+
+    //         var startDateTime = new Date(startDate);
+    //         var endDateTime = new Date(endDate);
+
+    //         const eventData = {
+    //             title: `${patienttext} - ${motif}`,
+    //             start: startDateTime,
+    //             end: endDateTime,
+    //             // motif: motif,
+    //             extendedProps: {
+    //                 start: startDateTime,
+    //                 end: endDateTime,
+    //                 patient_id: getSelectedOptionId('patientSelect'),
+    //                 doctor_id: getSelectedOptionId('doctorSelect'),
+    //                 totalPrice: totalPrice,
+    //                 amountPaid: amountPaid,
+    //                 Statut_de_paiement: totalPrice - amountPaid == 0,
+    //                 typeAppointment: typeAppointment
+
+    //             }
+    //         };
+    //         const calendarEl = document.getElementById('calendar');
+
+    //         var csrfToken = $('[name="csrfmiddlewaretoken"]').val();
+    //         // console.log('csrf tokken',csrfToken)
+    //         // console.log('url',url)
+    //         // alert('check')
+    //         // alert(`Event added to the calendar!`);
+    //         $.ajax({
+    //             type: 'POST',
+    //             url: url,
+    //             data: JSON.stringify(eventData),
+    //             contentType: 'application/json',
+    //             beforeSend: function (xhr) {
+
+    //                 xhr.setRequestHeader('X-CSRFToken', csrfToken);
+    //             },
+    //             success: function (data) {
+    //                 // console.log('data is ', data)
+    //                 if (data.success) {
+    //                     // const calendarEl = $('#calendar')[0];
+    //                     // calendar.addEvent(eventData);
+    //                     calendar.addEvent(eventData);
+
+    //                     alert('Event added to the calendar!');
+    //                     // document.getElementById('eventForm').reset();
+
+    //                 } else {
+    //                     alert('Failed to save event data.');
+    //                 }
+    //             },
+    //             error: function () {
+    //                 alert('Error making the AJAX request.');
+    //             }
+    //         });
+
+    //         document.getElementById('eventForm').reset();
+    //     } else {
+    //         alert('Please fill in all fields.');
+    //     }
+    // }
+
+
     function addEvent() {
+        // Your form validation logic goes here
+        const ferstName = document.getElementById('ferst_Name').value;
+        const lastName = document.getElementById('last_name').value;
+        const chamber = document.getElementById('chamber').value;
         const startDate = document.getElementById('startDate').value;
         const endDate = document.getElementById('endDate').value;
-
-        const patientSelect = document.getElementById('patientSelect');
-        const doctorSelect = document.getElementById('doctorSelect');
-
-        var totalPrice = parseFloat(document.getElementById('totalPrice').value) || 0;
-        var amountPaid = parseFloat(document.getElementById('amountPaid').value) || 0;
-
-        // const timeRange = document.getElementById('timeSelect').value;
-        const motif = document.getElementById('motif').value;
+        const totalPrice = parseFloat(document.getElementById('totalPrice').value) || 0;
+        const amountPaid = parseFloat(document.getElementById('amountPaid').value) || 0;
+        const remainingAmount = parseFloat(document.getElementById('remainingAmount').value) || 0;
         const typeAppointment = document.getElementById('typeAppointment').value;
-        // alert("hiii"+typeAppointment)
-        // const patientName = document.getElementById('patientSelect').value;
-        // const doctorName = document.getElementById('doctorSelect').value;
 
-        const doctorName = doctorSelect.value;
-        const patientName = patientSelect.value;
-        const patienttext = $('#' + patientName).text();
-        const doctorText = $('#' + doctorName).text();
+        // Clear previous error messages
+        $('.error-message').text('');
 
-        if (startDate && endDate && patientName !== 'Select Patient...' && doctorName !== 'Select Doctor...' && typeAppointment) {
-
-            var startDateTime = new Date(startDate);
-            var endDateTime = new Date(endDate);
-
-            const eventData = {
-                title: `${patienttext} - ${motif}`,
-                start: startDateTime,
-                end: endDateTime,
-                motif: motif,
-                extendedProps: {
-                    start: startDateTime,
-                    end: endDateTime,
-                    patient_id: getSelectedOptionId('patientSelect'),
-                    doctor_id: getSelectedOptionId('doctorSelect'),
-                    totalPrice: totalPrice,
-                    amountPaid: amountPaid,
-                    Statut_de_paiement: totalPrice - amountPaid == 0,
-                    typeAppointment: typeAppointment
-
-                }
-            };
-            const calendarEl = document.getElementById('calendar');
-
-            var csrfToken = $('[name="csrfmiddlewaretoken"]').val();
-            // console.log('csrf tokken',csrfToken)
-            // console.log('url',url)
-            // alert('check')
-            // alert(`Event added to the calendar!`);
-            $.ajax({
-                type: 'POST',
-                url: url,
-                data: JSON.stringify(eventData),
-                contentType: 'application/json',
-                beforeSend: function (xhr) {
-
-                    xhr.setRequestHeader('X-CSRFToken', csrfToken);
-                },
-                success: function (data) {
-                    // console.log('data is ', data)
-                    if (data.success) {
-                        // const calendarEl = $('#calendar')[0];
-                        // calendar.addEvent(eventData);
-                        calendar.addEvent(eventData);
-
-                        alert('Event added to the calendar!');
-                        // document.getElementById('eventForm').reset();
-
-                    } else {
-                        alert('Failed to save event data.');
-                    }
-                },
-                error: function () {
-                    alert('Error making the AJAX request.');
-                }
+        // Validation logic
+        var isValid = true;
+        console.log(ferstName, lastName, chamber, startDate, endDate, totalPrice, amountPaid, remainingAmount, typeAppointment)
+        if (!ferstName || !lastName || chamber === "Select Chamber..." || !startDate || !endDate ||
+            isNaN(totalPrice) || isNaN(amountPaid) || isNaN(remainingAmount) || typeAppointment === "Select Type") {
+            Swal.fire({
+                icon: 'error',
+                title: 'Validation Error!',
+                text: 'Please fill in all required fields.',
             });
-
-            document.getElementById('eventForm').reset();
-        } else {
-            alert('Please fill in all fields.');
+            return;
         }
+
+        // Check if end date is greater than start date
+        var startDateTime = new Date(startDate);
+        var endDateTime = new Date(endDate);
+
+        if (endDateTime <= startDateTime) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Validation Error!',
+                text: 'End date must be greater than the start date.',
+            });
+            return;
+        }
+
+        // If validation passes, proceed with AJAX request
+        const eventData = {
+            // Customize this based on your data structure
+            firstName: ferstName,
+            lastName: lastName,
+            chamber: chamber,
+            startDate: startDate,
+            endDate: endDate,
+            extendedProps: {
+                totalPrice: totalPrice,
+                amountPaid: amountPaid,
+                remainingAmount: remainingAmount,
+                typeAppointment: typeAppointment,
+            }
+        };
+
+        // console.log("eventData", eventData)
+        // alert('see the console')
+        var csrfToken = $('[name="csrfmiddlewaretoken"]').val();
+
+        // AJAX request
+        $.ajax({
+            type: 'POST',
+            url: url,
+            data: JSON.stringify(eventData),
+            beforeSend: function (xhr) {
+                xhr.setRequestHeader('X-CSRFToken', csrfToken);
+            },
+            contentType: 'application/json',
+            success: function (response) {
+                if (response.success) {
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Success',
+                        text: 'Appointment added',
+                    });
+                    // Optionally, you can reset the form or perform other actions
+                } else {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Failed',
+                        text: 'Failed to save event data.',
+                    });
+                }
+            },
+            error: function () {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Request Failed',
+                    text: 'Failed to save event data.',
+                });
+            }
+        });
     }
     //document.addEventListener('DOMContentLoaded', function () {
     function openEventModal(event) {

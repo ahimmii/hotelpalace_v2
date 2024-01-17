@@ -1,0 +1,12 @@
+-appointments 
+	: save not working
+	
+
+-calendar
+	: save not working
+
+
+-Stock
+	: change titles to Stock
+	: also change datatable columns
+	

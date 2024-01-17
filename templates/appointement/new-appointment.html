@@ -32,7 +32,7 @@
                         </div>
                         <div class="col-lg-3 col-sm-12">
                             <div class="form-group">
-                                <input id="daterange" class="form-control input-daterange-datepicker" >
+                                <input id="daterange" class="form-control input-daterange-datepicker">
                             </div>
                         </div>
                         <div class="col-lg-3 col-sm-12">
@@ -67,32 +67,45 @@
                             </thead>
                             <tbody>
                                 {% for appointment_data in appointments %}
-                                
+
                                 <tr id="{{appointment_data.id}}">
 
                                     <td class="Start_time-column">
                                         {{ appointment_data.id }}</td>
                                     <td class="Start_Date-column">{{ appointment_data.Fait}}</td>
-                                    <td class="Patient_name-column">{{ appointment_data.nom }} {{ appointment_data.prenom }}</td>
+                                    <td class="Patient_name-column">{{ appointment_data.nom }} {{appointment_data.prenom }}</td>
                                     <td class="Doctor_name-column">{{ appointment_data.N_chamber }}</td>
                                     <td class="Phone-column">{{ appointment_data.Prix }}</td>
                                     <td class="status-column">
                                         {% if appointment_data.Status %}
-                                            <i class="fas fa-check-circle text-success"></i> <!-- Change to your preferred icon classes -->
+                                        <i class="fas fa-check-circle text-success"></i>
+                                        <!-- Change to your preferred icon classes -->
                                         {% else %}
-                                            <i class="fas fa-times-circle text-danger"></i> <!-- Change to your preferred icon classes -->
+                                        <i class="fas fa-times-circle text-danger"></i>
+                                        <!-- Change to your preferred icon classes -->
                                         {% endif %}
                                     </td>
-                                    
-                                    <div class="Doctor_id-column  d-none"  id="{{appointment_data.id}}"></div>
-                                    <div class="Patient_id-column  d-none" id="{{appointment_data.id}}">{{appointment_data.id|default:"NoPatient_id Data" }}</div>
-                                    <div class="start-column  d-none" id="start{{appointment_data.id}}">{{ appointment_data.start|default:"No start Data"}}</div>
-                                    <div class="end-column  d-none" id="end{{appointment_data.id}}">{{ appointment_data.end|default:"No end Data" }}</div>
-                                    <div class="totalPrice-column  d-none"  id="totalPrice_{{appointment_data.id}}">{{ appointment_data.totalPrice|default:"NototalPrice Data" }}</div>
-                                    <div class="amountPaid-column  d-none"  id="amountPaid_{{appointment_data.id}}">{{ appointment_data.amountPaid|default:"NoamountPaid Data" }}</div>
-                                    <div class="Statut_de_paiement-column  d-none"  id="Statut_de_paiement_{{appointment_data.id}}">{{appointment_data.Statut_de_paiement|default:"No Statut_de_paiement Data" }}</div>
-                                    <div class="typeAppointment-column  d-none"  id="typeAppointment_{{appointment_data.id}}">{{appointment_data.typeAppointment|default:"No typeAppointment Data" }}</div>
-                                    <div class="Motif-column  d-none"  id="Motif_{{appointment_data.id}}">{{ appointment_data.Motif|default:"No Motif Data"}}</div>
+
+                                    <div class="Doctor_id-column  d-none" id="{{appointment_data.id}}"></div>
+                                    <div class="Patient_id-column  d-none" id="{{appointment_data.id}}">
+                                        {{appointment_data.id|default:"NoPatient_id Data" }}</div>
+                                    <div class="start-column  d-none" id="start{{appointment_data.id}}">{{
+                                        appointment_data.start|default:"No start Data"}}</div>
+                                    <div class="end-column  d-none" id="end{{appointment_data.id}}">{{
+                                        appointment_data.end|default:"No end Data" }}</div>
+                                    <div class="totalPrice-column  d-none" id="totalPrice_{{appointment_data.id}}">{{
+                                        appointment_data.totalPrice|default:"NototalPrice Data" }}</div>
+                                    <div class="amountPaid-column  d-none" id="amountPaid_{{appointment_data.id}}">{{
+                                        appointment_data.amountPaid|default:"NoamountPaid Data" }}</div>
+                                    <div class="Statut_de_paiement-column  d-none"
+                                        id="Statut_de_paiement_{{appointment_data.id}}">
+                                        {{appointment_data.Statut_de_paiement|default:"No Statut_de_paiement Data" }}
+                                    </div>
+                                    <div class="typeAppointment-column  d-none"
+                                        id="typeAppointment_{{appointment_data.id}}">
+                                        {{appointment_data.typeAppointment|default:"No typeAppointment Data" }}</div>
+                                    <div class="Motif-column  d-none" id="Motif_{{appointment_data.id}}">{{
+                                        appointment_data.Motif|default:"No Motif Data"}}</div>
                                     <!-- <td class="email-column  d-none">{{ value.Email|default:"No  Data" }}</td>
                                     <td class="email-column  d-none">{{ value.Email|default:"No Email Data" }}</td>
                                     <td class="email-column  d-none">{{ value.Email|default:"No Email Data" }}</td> -->
@@ -101,15 +114,25 @@
                                         <a class='mr-4 vue' data-bs-toggle="modal" data-bs-target="#exampleModalCenter">
                                             <span class='fas fa-user tbl-user' aria-hidden='true'></span>
                                         </a>
-                                        <a class=' mr-4 edit' data-bs-toggle='modal' data-row-id="{{ appointment_data.id }}" data-row-nom="{{ appointment_data.nom }}" data-row-prenom="{{ appointment_data.prenom }}" 
-                                        data-row-Fait="{{ appointment_data.Fait }}" data-row-N-chamber="{{ appointment_data.N_chamber }}" data-row-Prix="{{ appointment_data.Prix }}" data-row-Prix-R="{{ appointment_data.Prix_R }}" 
-                                        data-row-Check-in="{{ appointment_data.Check_in }}" data-row-Check-out="{{ appointment_data.Check_out }}" data-bs-target='#changeTimeAndDate'>
+                                        <a class=' mr-4 edit' data-bs-toggle='modal'
+                                            data-row-id="{{ appointment_data.id }}"
+                                            data-row-nom="{{ appointment_data.nom }}"
+                                            data-row-prenom="{{ appointment_data.prenom }}"
+                                            data-row-Fait="{{ appointment_data.Fait }}"
+                                            data-row-N-chamber="{{ appointment_data.N_chamber }}"
+                                            data-row-Prix="{{ appointment_data.Prix }}"
+                                            data-row-Prix-R="{{ appointment_data.Prix_R }}"
+                                            data-row-Check-in="{{ appointment_data.Check_in }}"
+                                            data-row-Check-out="{{ appointment_data.Check_out }}"
+                                            data-bs-target='#changeTimeAndDate'>
                                             <span class='fas fa-pencil-alt tbl-edit'></span>
                                         </a>
-                                        <a class="delete" data-bs-toggle="modal" onclick="deleteAppointment('{{appointment_data.id}}')" data-bs-target="#confirmDelete">
+                                        <a class="delete" data-bs-toggle="modal"
+                                            onclick="deleteAppointment('{{appointment_data.id}}')"
+                                            data-bs-target="#confirmDelete">
                                             <span class="fas fa-trash-alt tbl-delete"></span>
                                         </a>
-                                        
+
                                     </td>
                                 </tr>
                                 {% endfor %}
@@ -223,11 +246,11 @@
                     <input type="hidden" id="id_input" value="">
                     <div class="col-md-6 col-sm-12 form-group">
                         <label for="endDate">First Name</label>
-                        <input class="form-control"  id="ferst_Name_update" >
+                        <input class="form-control" id="ferst_Name_update">
                     </div>
                     <div class="col-md-6 col-sm-12 form-group">
                         <label for="endDate">Last Name</label>
-                        <input class="form-control"  id="last_name_update">
+                        <input class="form-control" id="last_name_update">
                     </div>
                     <div class="col-md-12 col-sm-12 form-group">
                         <label for="remainingAmount">Type of Appointment</label>
@@ -283,7 +306,8 @@
                     <!-- Add these fields inside the modal-body div -->
                     <div class="col-md-6 col-sm-12 form-group">
                         <label for="totalPrice">Total Price</label>
-                        <input class="form-control" id="totalPrice_update" onkeyup="calculateRemainingAmount(1)" type="number" min="0">
+                        <input class="form-control" id="totalPrice_update" onkeyup="calculateRemainingAmount(1)"
+                            type="number" min="0">
                     </div>
                     <div class="col-md-6 col-sm-12 form-group">
                         <label for="amountPaid">Amount Paid</label>
@@ -343,16 +367,16 @@
                     <input type="hidden" id="id_input" value="">
                     <div class="col-md-6 col-sm-12 form-group">
                         <label for="endDate">First Name</label>
-                        <input class="form-control"  id="ferst_Name_update" >
+                        <input class="form-control" id="ferst_Name">
                     </div>
                     <div class="col-md-6 col-sm-12 form-group">
                         <label for="endDate">Last Name</label>
-                        <input class="form-control"  id="last_name_update">
+                        <input class="form-control" id="last_name">
                     </div>
                     <div class="col-md-12 col-sm-12 form-group">
                         <label for="remainingAmount">Type of Appointment</label>
 
-                        <select id="chamber_update" class="form-control form-select">
+                        <select id="chamber" class="form-control form-select">
                             <option value="01">01</option>
                             <option value="02">02</option>
                             <option value="03">03</option>
@@ -393,22 +417,23 @@
                     </div>
                     <div class="col-md-6 col-sm-12 form-group">
                         <label for="startDate">Start Date</label>
-                        <input class="form-control" id="startDate_update" type="date">
+                        <input class="form-control" id="startDate" type="date">
                     </div>
                     <div class="col-md-6 col-sm-12 form-group">
                         <label for="endDate">End Date</label>
-                        <input class="form-control" id="endDate_update" type="date">
+                        <input class="form-control" id="endDate" type="date">
                     </div>
 
                     <!-- Add these fields inside the modal-body div -->
                     <div class="col-md-6 col-sm-12 form-group">
                         <label for="totalPrice">Total Price</label>
-                        <input class="form-control" id="totalPrice_update" onkeyup="calculateRemainingAmount(1)" type="number" min="0">
+                        <input class="form-control" id="totalPrice" onkeyup="calculateRemainingAmount(1)" type="number"
+                            min="0">
                     </div>
                     <div class="col-md-6 col-sm-12 form-group">
                         <label for="amountPaid">Amount Paid</label>
-                        <input class="form-control" onkeyup="calculateRemainingAmount(1)" id="amountPaid_update"
-                            type="number" min="0">
+                        <input class="form-control" onkeyup="calculateRemainingAmount(1)" id="amountPaid" type="number"
+                            min="0">
 
                     </div>
                     <div class="col-md-12 col-sm-12 form-group">
@@ -416,7 +441,7 @@
 
                         <i id="paymentStatusIcon" class=""></i>
 
-                        <input class="form-control" id="remainingAmount_update" type="number" min="0" readonly>
+                        <input class="form-control" id="remainingAmount" type="number" min="0" readonly>
 
                     </div>
                     <div class="col-md-12 col-sm-12 form-group">
@@ -448,6 +473,7 @@
         </div>
     </div>
 </div>
+>
 
 <!-- End Modal  -->
 
@@ -474,8 +500,8 @@
             var intRowPrix = parseInt(rowPrix, 10);
             var intRowPrixR = parseInt(rowPrixR, 10);
 
-            
-            
+
+
             ///////////////// OPEN UPDATE MODAL ///////////////////////////////////////
 
             $("#ferst_Name_update").val(rowNom)
@@ -494,12 +520,12 @@
             $('#id_input').val(id)
         });
     });
-    
+
 
 
     function populateModal(row, id) {
         console.log('RAW IS', row)
-        console.log('ID IS', id,`Doctor_id_${id.nom}`)
+        console.log('ID IS', id, `Doctor_id_${id.nom}`)
         if (row) {
 
             // var Patient_id = row.querySelector('.Patient_id-column').innerText.replace(/\s/g, '');
@@ -593,47 +619,25 @@
     }
 
     function addEvent() {
+        // Your form validation logic goes here
+        const ferstName = document.getElementById('ferst_Name').value;
+        const lastName = document.getElementById('last_name').value;
+        const chamber = document.getElementById('chamber').value;
         const startDate = document.getElementById('startDate').value;
         const endDate = document.getElementById('endDate').value;
-
-        const patientSelect = document.getElementById('patientSelect');
-        const doctorSelect = document.getElementById('doctorSelect');
-        const typeAppointment = document.getElementById('typeAppointment').value;
-
         const totalPrice = parseFloat(document.getElementById('totalPrice').value) || 0;
         const amountPaid = parseFloat(document.getElementById('amountPaid').value) || 0;
+        const remainingAmount = parseFloat(document.getElementById('remainingAmount').value) || 0;
+        const typeAppointment = document.getElementById('typeAppointment').value;
 
-        // const timeRange = document.getElementById('timeSelect').value;
-        const motif = document.getElementById('motif').value;
-        // const patientName = document.getElementById('patientSelect').value;
-        // const doctorName = document.getElementById('doctorSelect').value;
+        // Clear previous error messages
+        $('.error-message').text('');
 
-        const doctorName = doctorSelect.value;
-        const patientName = patientSelect.value;
-        // console.log('!startDate.value',!startDate.value)
-        // console.log('!endDate.value',!endDate.value)
-        // console.log('!totalPrice.value',!totalPrice.value)
-        // console.log('!amountPaid.value',!amountPaid.value)
-        // console.log('!motif.value',!motif.value)
-        // console.log('!patientSelect.value',patientSelect.value=="Select Patient...")
-        // console.log('!doctorSelect.value',doctorSelect.value=="Select Doctor...")
-
-
-
-        console.log('!startDate.value',!startDate)
-        console.log('!endDate.value', !endDate)
-        console.log('!totalPrice.value', isNaN( totalPrice))
-        console.log('!amountPaid.value', isNaN( amountPaid))
-        console.log('!motif.value', !motif)
-        console.log('!typeAppointment.value', !typeAppointment)
-        console.log('!patientSelect.value', patientSelect.value == "Select Patient...")
-        console.log('!doctorSelect.value', doctorSelect.value == "Select Doctor...")
-
-        
-
-            
-        if (patientSelect.value == 'Select Patient...' || doctorSelect.value == 'Select Doctor...'
-            || !startDate || !endDate || isNaN(totalPrice) || isNaN(amountPaid) || !typeAppointment) {
+        // Validation logic
+        var isValid = true;
+        console.log(ferstName, lastName, chamber, startDate, endDate, totalPrice, amountPaid, remainingAmount, typeAppointment)
+        if (!ferstName || !lastName || chamber === "Select Chamber..." || !startDate || !endDate ||
+            isNaN(totalPrice) || isNaN(amountPaid) || isNaN(remainingAmount) || typeAppointment === "Select Type") {
             Swal.fire({
                 icon: 'error',
                 title: 'Validation Error!',
@@ -654,57 +658,45 @@
             });
             return;
         }
-        const patienttext = $('#' + patientName).text();
-        const doctorText = $('#' + doctorName).text();
+
+        // If validation passes, proceed with AJAX request
         const eventData = {
-            title: `${patienttext} - ${motif}`,
-            start: startDateTime,
-            end: endDateTime,
-            motif: motif,
+            // Customize this based on your data structure
+            firstName: ferstName,
+            lastName: lastName,
+            chamber: chamber,
+            startDate: startDate,
+            endDate: endDate,
             extendedProps: {
-                start: `${startDateTime}`,
-                end:   `${endDateTime}`,
-                patient_id: getSelectedOptionId('patientSelect'),
-                doctor_id: getSelectedOptionId('doctorSelect'),
                 totalPrice: totalPrice,
                 amountPaid: amountPaid,
-                Statut_de_paiement: totalPrice - amountPaid == 0,
-                typeAppointment: typeAppointment
-
+                remainingAmount: remainingAmount,
+                typeAppointment: typeAppointment,
             }
         };
-        // const calendarEl = document.getElementById('calendar');
 
+        // console.log("eventData", eventData)
+        // alert('see the console')
         var csrfToken = $('[name="csrfmiddlewaretoken"]').val();
-        // console.log('csrf tokken',csrfToken)
-        // console.log('url',url)
-        // alert('check')
-        // alert(`Event added to the calendar!`);
+
+        // AJAX request
         $.ajax({
             type: 'POST',
             url: url,
             data: JSON.stringify(eventData),
-            contentType: 'application/json',
             beforeSend: function (xhr) {
-
                 xhr.setRequestHeader('X-CSRFToken', csrfToken);
             },
-            success: function (data) {
-                // console.log('data is ', data)
-                if (data.success) {
-                    // const calendarEl = $('#calendar')[0];
-                    // calendar.addEvent(eventData);
-                    // calendar.addEvent(eventData);
+            contentType: 'application/json',
+            success: function (response) {
+                if (response.success) {
                     Swal.fire({
                         icon: 'success',
                         title: 'Success',
-                        text: 'Appointment added ',
+                        text: 'Appointment added',
                     });
-                    // alert('Event added to the calendar!');
-                    // document.getElementById('eventForm').reset();
-
+                    // Optionally, you can reset the form or perform other actions
                 } else {
-                    // alert('Failed to save event data.');
                     Swal.fire({
                         icon: 'error',
                         title: 'Failed',
@@ -713,7 +705,6 @@
                 }
             },
             error: function () {
-                alert('Error making the AJAX request.');
                 Swal.fire({
                     icon: 'error',
                     title: 'Request Failed',
@@ -721,13 +712,13 @@
                 });
             }
         });
-
-        // document.getElementById('eventForm').reset();
-
     }
 
 
+
     function submitForm() {
+
+        alert("submit")
         // Get form data
         const id = $('#id_input').val();
         // alert('id'+id)
@@ -794,33 +785,33 @@
             cancelButtonColor: '#3085d6',
             confirmButtonText: 'Yes, delete it!'
         })
-        .then((result) => {
-            // If the user clicks "Yes", proceed with the delete
-            if (result.isConfirmed) {
-                // Perform the delete action using AJAX
-                $.ajax({
-                    type: 'POST',  // Use 'DELETE' if your server supports it
-                    url: deleteUrl.replace('pk_placeholder', appointmentId),  // Replace with your actual delete endpoint
-                    data: {
-                        appointment_id: appointmentId
-                    },
-                    beforeSend: function (xhr) {
-                        xhr.setRequestHeader('X-CSRFToken', csrfToken);
-                    },
-                    success: function (response) {
-                        // Handle the success response (e.g., show a success message)
-                        Swal.fire('Deleted!', 'Your appointment has been deleted.', 'success');
-                        // Optionally, you can reload the page or update the UI
-                        // location.reload();  // Reload the page after deletion
+            .then((result) => {
+                // If the user clicks "Yes", proceed with the delete
+                if (result.isConfirmed) {
+                    // Perform the delete action using AJAX
+                    $.ajax({
+                        type: 'POST',  // Use 'DELETE' if your server supports it
+                        url: deleteUrl.replace('pk_placeholder', appointmentId),  // Replace with your actual delete endpoint
+                        data: {
+                            appointment_id: appointmentId
+                        },
+                        beforeSend: function (xhr) {
+                            xhr.setRequestHeader('X-CSRFToken', csrfToken);
+                        },
+                        success: function (response) {
+                            // Handle the success response (e.g., show a success message)
+                            Swal.fire('Deleted!', 'Your appointment has been deleted.', 'success');
+                            // Optionally, you can reload the page or update the UI
+                            // location.reload();  // Reload the page after deletion
                             $(`#${appointmentId}`).hide()
-                    },
-                    error: function (error) {
-                        // Handle the error response (e.g., show an error message)
-                        Swal.fire('Error', 'An error occurred while deleting the appointment.', 'error');
-                    }
-                });
-            }
-        });
+                        },
+                        error: function (error) {
+                            // Handle the error response (e.g., show an error message)
+                            Swal.fire('Error', 'An error occurred while deleting the appointment.', 'error');
+                        }
+                    });
+                }
+            });
     }
 
 
@@ -835,19 +826,19 @@
 
     //////////////////////// ONKEY UP /////////////////////////////
     function calculateRemainingAmount(update = null) {
-        var totalPrice="";
-        var amountPaid="";
-        var remainingAmount="";
-        if (!update){ 
+        var totalPrice = "";
+        var amountPaid = "";
+        var remainingAmount = "";
+        if (!update) {
             totalPrice = parseFloat(document.getElementById('totalPrice').value) || 0;
             amountPaid = parseFloat(document.getElementById('amountPaid').value) || 0;
-            remainingAmountClass="remainingAmount"  
-        }else{
+            remainingAmountClass = "remainingAmount"
+        } else {
             totalPrice = parseFloat(document.getElementById('totalPrice_update').value) || 0;
-            amountPaid = parseFloat(document.getElementById('amountPaid_update').value) || 0; 
-            remainingAmountClass="remainingAmount_update";
+            amountPaid = parseFloat(document.getElementById('amountPaid_update').value) || 0;
+            remainingAmountClass = "remainingAmount_update";
         }
-        console.log(totalPrice,amountPaid,remainingAmountClass)
+        console.log(totalPrice, amountPaid, remainingAmountClass)
         var remainingAmount = totalPrice - amountPaid;
         document.getElementById(remainingAmountClass).value = remainingAmount.toFixed(2);
         var paymentStatusIcon = document.getElementById('paymentStatusIcon');

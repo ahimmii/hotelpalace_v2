@@ -56,7 +56,7 @@
                             <i class="fas fa-user-plus fa-2x"></i>
                         </span>
                         <div class="media-body">
-                            <span class="text-white">Available rooms</span>
+                            <span class="text-white">Available rooms </span>
                             <h3 class="mb-0 text-white">{{ total_Rooms_N_Av }}</h3>
                         </div>
                     </div>
@@ -71,26 +71,31 @@
                             <i class="fas fa-database fa-2x"></i>
                         </span>
                         <div class="media-body">
-                            <span class="text-white"> Total Revenue In This Month</span>
-                            <h3 class="mb-0 text-white">... DH</h3>
+                            <span class="text-white"> Cash / Visa Card</span>
+                            <h4 class="mb-0 text-white">{{total_prix_Cash}}DH / {{total_prix_Card}}DH </h4>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
-    <div class="row">
-        <div class="col-lg-8">
-            <div class="card shadow widget1">
-                <div class="card-header">
-                    <h4 class="card-title">Activity</h4>
-                    <span class="subtitle">{{date_today}}</span>
-                </div>
-                <div class="card-body"><div style="position: absolute; inset: 0px; overflow: hidden; pointer-events: none; visibility: hidden; z-index: -1;" class="chartjs-size-monitor"><div class="chartjs-size-monitor-expand" style="position:absolute;left:0;top:0;right:0;bottom:0;overflow:hidden;pointer-events:none;visibility:hidden;z-index:-1;"><div style="position:absolute;width:1000000px;height:1000000px;left:0;top:0"></div></div><div class="chartjs-size-monitor-shrink" style="position:absolute;left:0;top:0;right:0;bottom:0;overflow:hidden;pointer-events:none;visibility:hidden;z-index:-1;"><div style="position:absolute;width:200%;height:200%;left:0; top:0"></div></div></div>
-                    <canvas id="chart1" width="814" height="325" style="display: block; width: 814px; height: 325px;" class="chartjs-render-monitor"></canvas>
+        <!-- <div class="col-sm-6 col-xl-3 col-lg-6">
+            <div class="widget card card-primary bg-card4">
+                <div class="card-body">
+                    <div class="media text-center">
+                        <span>
+                            <i class="fas fa-database fa-2x"></i>
+                        </span>
+                        <div class="media-body">
+                            <span class="text-white"> total month</span>
+                            <h4 class="mb-0 text-white">{{total_prix_month}}DH</h4>
+                        </div>
+                    </div>
                 </div>
             </div>
-        </div>
+        </div> -->
+    </div>
+    <div class="row">
+        
         
         {% comment %} <div class="col-lg-6">
             <div class="card shadow widget1">
@@ -248,7 +253,7 @@
                                     <th>Rest</th>
                                     <th>N_T</th>
                                     <th>Status</th>
-                                    <th>Action</th>
+                                    <!-- <th>Action</th> -->
                                 </tr>
                             </thead>
                             <tbody>
@@ -276,12 +281,12 @@
                                             <span class="badge badge-primary">Check in</span>
                                         </td>
                                     {% endif %}
-                                    <td>
+                                    <!-- <td>
                                         <a href="javascript:void()" class='mr-4 check'> <span
                                                 class='fas fa-check'></span></a>
                                         <a href="javascript:void()" class='delet'> <span
                                                 class='fas fa-trash-alt tbl-delet'></span> </a>
-                                    </td>
+                                    </td> -->
                                 </tr>
                                 {% endfor %}
                             </tbody>
@@ -295,9 +300,7 @@
 
 <script>
     var total_price_per_day_data = [
-        {% for date, total_price in total_price_per_day.items %}
-            {{ total_price }},
-        {% endfor %}
+        
     ];
     var last7DaysData = total_price_per_day_data.slice(-7);
 </script>

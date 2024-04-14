@@ -48,7 +48,6 @@ firebase = pyrebase.initialize_app(config)
 authe = firebase.auth()
 database = firebase.database()
 
-
 class LoginForm(forms.Form):
     username = forms.CharField(max_length=50)
     password = forms.CharField(widget=forms.PasswordInput)
@@ -91,25 +90,29 @@ def user_login(request):
 
 def user_dashboard(request):
     # return render(request, "index-3.html", {"form": []})
-    start_date = datetime.today().strftime('01/%m/%Y')
-    end_date = datetime.today().strftime('%d/%m/%Y')
+    start_date = datetime.today().strftime('01/01/%Y')
+    end_date = datetime.today().strftime('31/12/%Y')
+    end_date = datetime.today().strftime('31/12/%Y')
     date_today = datetime.today().strftime('%d/%m/%Y')
 
     stack = database.child('Client').order_by_child("Fait").start_at(start_date).end_at(end_date).get()
 
     total_prix = 0
-    total_prix_month = 0
+    total_prix_Cash = 0
+    total_prix_Card = 0
     total_Rooms_Av = 0
+    total_prix_month = 0
     Rooms_Av = 0
     total_Rooms_N_Av = 35
     total_price_per_day = {}
 
     for entry in stack.each():
         entry_date = datetime.strptime(entry.val().get('Fait'), '%d/%m/%Y')
-        if datetime.strptime(entry.val().get('Fait'), '%d/%m/%Y') >= datetime.strptime(start_date, '%d/%m/%Y') and datetime.strptime(entry.val().get('Fait'), '%d/%m/%Y') <= datetime.strptime(end_date, '%d/%m/%Y'):
+        if datetime.strptime(entry.val().get('Fait'), '%d/%m/%Y') >= datetime.strptime(datetime.today().strftime('01/%m/%Y'), '%d/%m/%Y') and datetime.strptime(entry.val().get('Fait'), '%d/%m/%Y') <= datetime.strptime(datetime.today().strftime('30/%m/%Y'), '%d/%m/%Y'):
             prix_value = entry.val().get('Prix')
+            print(entry.val().get('Fait'))
             if prix_value and prix_value.strip() != '':
-                total_prix_month += int(prix_value) 
+                total_prix_month += int(prix_value)
                 total_price_per_day.setdefault(entry_date.date(), 0)
                 total_price_per_day[entry_date.date()] += int(prix_value)
 
@@ -120,27 +123,36 @@ def user_dashboard(request):
     data_av = []
     data_in = []
     data_out = []
+
     stack = database.child('Client').order_by_child("Fait").equal_to(datetime.today().strftime('%d/%m/%Y')).get()  
 
     for entry in stack.each():
         # print(entry.val().get('Fait'))
-        if  int(entry.val().get("Prix")) > 0:
-            data_new.append({
-                "nom":entry.val().get("Nom"),
-                "prenom":entry.val().get("Prenom"),
-                "Prix":entry.val().get('Prix'),
-            })
         prix_value = entry.val().get('Prix')
+        try:
+            if int(prix_value) > 0:
+                data_new.append({
+                    "nom":entry.val().get("Nom"),
+                    "prenom":entry.val().get("Prenom"),
+                    "Prix":entry.val().get('Prix'),
+                })
+        except ValueError:
+            prix_value = 0
         if prix_value and prix_value.strip() != '':
             if prix_value:
                 total_prix += int(prix_value)
+                if entry.val().get("modepaiment") == "Cash":
+                    total_prix_Cash += int(entry.val().get("Prix"))
+                if entry.val().get("modepaiment") == "Visa Card":
+                    total_prix_Card += int(entry.val().get("Prix"))
+        
     
 
     Rooms = database.child('Client').order_by_child("Check_out").start_at(datetime.today().strftime('%d/%m/%Y')).get()
     
     for entry in Rooms.each():
         # print(entry.val().get('Check_out'))
-        if datetime.strptime(entry.val().get('Check_out'), '%d/%m/%Y') > datetime.strptime(date_today, '%d/%m/%Y'):
+        if datetime.strptime(entry.val().get('Check_out'), '%d/%m/%Y') > datetime.strptime(date_today, '%d/%m/%Y') and datetime.strptime(entry.val().get('Check_in'), '%d/%m/%Y') <= datetime.strptime(date_today, '%d/%m/%Y'):
             
             Rooms_Av = entry.val().get('N_chamber')
             Rooms_n = entry.val().get('Fait')
@@ -180,7 +192,8 @@ def user_dashboard(request):
                     # Handle the case where the expression cannot be evaluated as an integer
                         print(f"Error: {e}")
                         
-        if datetime.strptime(entry.val().get('Check_in'), '%d/%m/%Y') == datetime.strptime(date_today, '%d/%m/%Y'):
+        check_in_value = entry.val().get('Check_in')
+        if check_in_value is not None and datetime.strptime(check_in_value, '%d/%m/%Y') == datetime.strptime(date_today, '%d/%m/%Y'):
             Rooms_Av = entry.val().get('N_chamber')
             if Rooms_Av and Rooms_Av.strip() != '':
                 try:
@@ -236,6 +249,8 @@ def user_dashboard(request):
         'data_new': data_new,
         'stack': stack.val(),
         'total_prix': total_prix,
+        'total_prix_Cash': total_prix_Cash,
+        'total_prix_Card': total_prix_Card,
         'total_prix_month': total_prix_month,
         'total_Rooms_Av': total_Rooms_Av,
         'total_Rooms_N_Av': total_Rooms_N_Av - total_Rooms_Av,
@@ -572,13 +587,15 @@ def appointment_list(request):
     # appointments = Appointment.objects.all()
     # return render(request, 'appointment_list.html', {'appointments': appointments})
     new_data = []
+    N_chamber_T = ["01","02","03","04","05","06","07","08","09","10","11","12","13","14","15","16","17","18","19","20","21","22","23","24","25","26","27","28","29","30"]
     total_lidkal = 0
     total_likhrej = 0
     total = 0
     start_date = datetime.today().strftime('01/01/%Y')
-    end_date = datetime.today().strftime('%d/%m/%Y')
-    appointments = database.child("Appointments").get()
+    end_date = datetime.today().strftime('31/12/%Y')
+    appointments = database.child('Client').order_by_child("Fait").start_at(start_date).end_at(end_date).get()
 
+    
     if request.method == "POST":
         return JsonResponse({"success": True, "events": appointments.val()})
     data = database.child('Client').order_by_child("Fait").start_at(start_date).end_at(end_date).get()
@@ -588,29 +605,116 @@ def appointment_list(request):
             input_date = datetime.strptime(entry.val().get('Fait'), '%d/%m/%Y')
             
             prix_str = entry.val().get('Prix')
+            Prix_R_str = entry.val().get('Prix_R')
             # Remove non-numeric characters (except for dots) from the Prix string
             prix_str = ''.join(char if char.isdigit() or char == '-' else '' for char in prix_str)
+            Prix_R_str = ''.join(char if char.isdigit() or char == '-' else '' for char in Prix_R_str)
+            
 
             # print(prix_str)
-            if prix_str and prix_str.strip() != '':
+            if datetime.strptime(entry.val().get('Check_out'), '%d/%m/%Y') > datetime.strptime(datetime.today().strftime('%d/%m/%Y'), '%d/%m/%Y') and datetime.strptime(entry.val().get('Check_in'), '%d/%m/%Y') <= datetime.strptime(datetime.today().strftime('%d/%m/%Y'), '%d/%m/%Y'):
+                if entry.val().get('N_chamber') in N_chamber_T:
+                    N_chamber_T.remove(entry.val().get('N_chamber'))
+            if prix_str and prix_str.strip() != '' and Prix_R_str and Prix_R_str.strip() != '':
                 prix_value = int(prix_str)
-                if prix_value > 0:
+                Prix_R_value = int(Prix_R_str)
+                
+                if prix_value >= 0:
                     total_lidkal += prix_value
-                    if int(entry.val().get("Prix_R")) == 0:
-                        status = True
-                    else:
-                        status = False
+                    # if entry.val().get("Prix_R") == 0:
+                    #     status = True
+                    # else:
+                    #     status = False
                     new_data.append({
                         "nom" : entry.val().get("Nom"),
                         "prenom" : entry.val().get("Prenom"),
+                        "Domicile" : entry.val().get("Domicile"),
+                        "User" : entry.val().get("N_T"),
                         "Prix" : prix_value,
-                        "Prix_R" : int(entry.val().get("Prix_R")),
+                        "Prix_R" : Prix_R_value,
                         "N_chamber": entry.val().get('N_chamber'),
                         "Check_in": convert_date_to_timestamp(entry.val().get('Check_in')),
                         "Check_out": convert_date_to_timestamp(entry.val().get('Check_out')),
                         "id" : entry.val().get('ID'),
                         "Fait" : input_date.strftime('%Y-%m-%d'),
-                        "Status" : status,
+                        "Typedereservation": entry.val().get('Typedereservation'),
+                        "modepaiment": entry.val().get('modepaiment'),
+                        
+                        # "Status" : status,
+                    })
+                    # print(convert_date_to_timestamp(entry.val().get('Check_in')))
+                if prix_value < 0:
+                    total_likhrej += prix_value
+                total += prix_value
+
+
+    # print(total_lidkal)
+    # print(total_likhrej)
+    # print(total)
+    return render(
+        request,
+        "appointement/new-appointment.html",
+        {
+            "appointments": new_data,
+            "Total" : total_lidkal,
+            "N_chamber_T" : N_chamber_T,
+        },
+    )
+
+def withdrawal_list(request):
+    # appointments = Appointment.objects.all()
+    # return render(request, 'appointment_list.html', {'appointments': appointments})
+    new_data = []
+    total_lidkal = 0
+    total_likhrej = 0
+    total = 0
+    start_date = datetime.today().strftime('01/01/%Y')
+    end_date = datetime.today().strftime('31/12/%Y')
+    appointments = database.child('Client').order_by_child("Fait").start_at(start_date).end_at(end_date).get()
+
+    
+    if request.method == "POST":
+        return JsonResponse({"success": True, "events": appointments.val()})
+    data = database.child('Client').order_by_child("Fait").start_at(start_date).end_at(end_date).get()
+    
+    for entry in data.each():
+        if datetime.strptime(entry.val().get('Fait'), '%d/%m/%Y') >= datetime.strptime(start_date, '%d/%m/%Y') and datetime.strptime(entry.val().get('Fait'), '%d/%m/%Y') <= datetime.strptime(end_date, '%d/%m/%Y'):
+            input_date = datetime.strptime(entry.val().get('Fait'), '%d/%m/%Y')
+            
+            prix_str = entry.val().get('Prix')
+            Prix_R_str = entry.val().get('Prix_R')
+            # Remove non-numeric characters (except for dots) from the Prix string
+            prix_str = ''.join(char if char.isdigit() or char == '-' else '' for char in prix_str)
+            Prix_R_str = ''.join(char if char.isdigit() or char == '-' else '' for char in Prix_R_str)
+            
+
+            # print(prix_str)
+            if prix_str and prix_str.strip() != '' and Prix_R_str and Prix_R_str.strip() != '':
+                prix_value = int(prix_str)
+                Prix_R_value = int(Prix_R_str)
+                
+                if prix_value < 0:
+                    total_lidkal += prix_value
+                    # if entry.val().get("Prix_R") == 0:
+                    #     status = True
+                    # else:
+                    #     status = False
+                    new_data.append({
+                        "nom" : entry.val().get("Nom"),
+                        "prenom" : entry.val().get("Prenom"),
+                        "Domicile" : entry.val().get("Domicile"),
+                        "User" : entry.val().get("N_T"),
+                        "Prix" : prix_value,
+                        "Prix_R" : Prix_R_value,
+                        "N_chamber": entry.val().get('N_chamber'),
+                        "Check_in": convert_date_to_timestamp(entry.val().get('Check_in')),
+                        "Check_out": convert_date_to_timestamp(entry.val().get('Check_out')),
+                        "id" : entry.val().get('ID'),
+                        "Fait" : input_date.strftime('%Y-%m-%d'),
+                        "Typedereservation": entry.val().get('Typedereservation'),
+                        "modepaiment": entry.val().get('modepaiment'),
+                        
+                        # "Status" : status,
                     })
                     # print(convert_date_to_timestamp(entry.val().get('Check_in')))
                 if prix_value < 0:
@@ -662,28 +766,48 @@ def appointment_edit(request, pk):
     if request.method == "POST":
         # print(request.POST)
         data=request.POST
+        check_in = data.get("startDate_update", "")
+        check_out = data.get("endDate_update", "")
+
+        # Assuming the incoming format is "YYYY-MM-DD" and you want to convert it to "DD/MM/YYYY"
+        format_in = "%Y-%m-%d"
+        format_out = "%d/%m/%Y"
+
+        # Convert "Check_in"
+        try:
+            check_in_date = datetime.strptime(check_in, format_in)
+            check_in_str = check_in_date.strftime(format_out)
+        except ValueError:
+            check_in_str = ""  # Or handle the error as appropriate for your application
+
+        # Convert "Check_out"
+        try:
+            check_out_date = datetime.strptime(check_out, format_in)
+            check_out_str = check_out_date.strftime(format_out)
+        except ValueError:
+            check_out_str = "" 
         # data = json.loads(request.body)
         # # print(data)
         updateData = {
-            "start": data["start"],
-            "end": data["end"],
-            "Patient_id": data["nom"],
-            "Doctor_id": data["Doctor_id"],
-            # "title": data["title"] ,
-            "totalPrice":data["totalPrice"],
-            "typeAppointment":data['typeAppointment_update'],
-            "remainingAmount":float(data["remainingAmount_update"]),
-            "amountPaid":float(data["amountPaid_update"]),
-            "Motif": data["motif"],
+            "ID":data["id"],
+            "Check_in":check_in_str,
+            "Check_out":check_out_str,
+            "Cin_Pas":"",
+            "DateN":"",
+            "Domicile":"",
+            "Prenom":data["ferst_Name_update"],
+            "Nom":data["last_name_update"],
+            "N_chamber":str(data["chamber_update"]),
+            "Nationalite":"",
+            "N_T":data["N_T_update"],
+            "Prix":str(data["totalPrice"]),
+            "Prix_R":str(data["amountPaid_update"]),
+            "modepaiment":data["modepaiment_update"],
+            "Typedereservation":data["Typedereservation_update"],
         }
-        # First_Name = request.POST['nom']
-        # Last_Name = request.POST['prenom']
-        # Check_in = request.POST['check_in']
-        # Check_out = request.POST['check_out']
-        # Room = request.POST['n_chamber']
-        # Prix = request.POST['prix']
-        print(updateData['Motif'])
-        database.child("Appointments").child(pk).update(updateData)
+        # print(updateData)
+       
+        database.child("Client").child(pk).update(updateData)
     return JsonResponse({"success": True})
 
     return render(request, "appointment_form.html")
@@ -692,12 +816,16 @@ def appointment_edit(request, pk):
 def appointment_delete(request, pk):
     # appointment = get_object_or_404(Appointment, pk=pk)
     # appointment.delete()
-    database.child("Appointments").child(pk).remove()
-    if request.method == "POST":
-        return JsonResponse({"success": True})
+    entered_pin = request.POST.get('pin_code')
+    correct_pin = '0297'
+    if entered_pin == correct_pin:
+        database.child("Client").child(pk).remove()
+
+    if entered_pin == correct_pin:
+        return JsonResponse({"success": True, "message": "Appointment deleted successfully"})
            
 
-    return redirect("appointment_list")
+    return JsonResponse({"success": False, "message": "Incorrect PIN code"})
 
 
 ################################# prescription ################################
@@ -804,15 +932,18 @@ def test_delete(request, pk):
 
 def save_calendar(request):
 
-    
 
     if request.method == "POST":
         data = json.loads(request.body)
         # id = database.child('Client').order_by_child("Fait").limit_to_last(1)
-        rendem_id = "Appointment_" + str(uuid.uuid4())
+        last_record = database.child('Client').order_by_child("ID").order_by_key().limit_to_last(1).get()
 
-        print(id)
-        print(data)
+        for entry in last_record.each():
+            ID_S = entry.val().get('ID')
+        ID = int(ID_S) + 1
+
+        # print(id)
+        # print(data)
         # Save the event data to the database
         # Example: You might have a model named Event and save data like this
         # test = {
@@ -831,20 +962,25 @@ def save_calendar(request):
         #     "typeAppointment": data["extendedProps"]["typeAppointment"],
         # }
         test={
-            "startDate":data["startDate"],
-            "endDate":data["endDate"],
-            "firstName":data["firstName"],
-            "lastName":data["lastName"],
-            "chamber":data["chamber"],
-            # "motif":data["motif"],
-            "totalPrice":data['extendedProps']["totalPrice"],
-            "amountPaid":data['extendedProps']["amountPaid"],
-            "remainingAmount":data['extendedProps']["remainingAmount"],
-            "typeAppointment":data['extendedProps']["typeAppointment"],
+            "Check_in":data["startDate"],
+            "Check_out":data["endDate"],
+            "Cin_Pas":"",
+            "DateN":"",
+            "Domicile":"",
+            "Fait":datetime.today().strftime('%d/%m/%Y'),
+            "ID":str(ID),
+            "Prenom":data["firstName"],
+            "Nom":data["lastName"],
+            "N_chamber":str(data["chamber"]),
+            "Nationalite":"",
+            "N_T":data['extendedProps']["N_T"],
+            "Prix":str(data['extendedProps']["totalPrice"]),
+            "Prix_R":str(data['extendedProps']["amountPaid"]),
+            "modepaiment":data['extendedProps']["modepaiment"],
+            "Typedereservation":data['extendedProps']["typeAppointment"],
         }
 
-        # print(test)
-        database.child("Appointments").child(rendem_id).set(test)
+        database.child("Client").child(str(ID)).set(test)
 
         # event.save()
 
@@ -875,7 +1011,9 @@ def calendar_edit(request, pk):
             # "Motif": data["Motif"],
         }
         print(updateData)
-        database.child("Appointments").child(pk).update(updateData)
+        # database.child("Appointments").child(pk).update(updateData)
+        print("cal")
+        print(pk)
     return JsonResponse({"success": True})
 
 def calendar(request):
@@ -1011,20 +1149,6 @@ def prescriptions_settings(request):
     #     database.child("Patients").child(entry.val().get("Patient_id")).remove()
 
     return render(request, "test.html")
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 def convert_to_human_date(date_str):
     if not date_str:

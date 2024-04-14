@@ -2669,6 +2669,25 @@ Card Palettes
 /************************** 
 * layouts
 ***************************/
+.pin-code input:focus { 
+  border: 1px solid #573D8B;
+  outline: none;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Additional styles to match the uploaded design */
+.pin-code input {
+  width: 50px; /* Adjust as necessary */
+  padding: 10px; /* Adjust for better spacing */
+  border: 1px solid #ccc; /* Default border color */
+  border-radius: 4px; /* Rounded corners */
+  text-align: center; /* Center the text */
+}
 /*****************************
 sidebar toggled
 *****************************/
@@ -4945,5 +4964,7 @@ Topbar Color
 /************************** 
 * layouts
 ***************************/
+
+
 
 /*# sourceMappingURL=style.css.map */

@@ -137,11 +137,7 @@ $('#example2 tbody').on('click', '.delet', function() {
 
 var ex3 = jQuery('#example3').DataTable({
     dom: 'lrtip',
-    "ordering": false,
-    "bPaginate": true,
-    "bInfo": true,
-    "bSort": false,
-    "lengthChange": false,
+    
 
 });
 

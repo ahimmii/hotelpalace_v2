@@ -200,6 +200,12 @@
                             <span class="nav-label">Reservation</span>
                         </a>
                     </li>
+                    <li class="has-submenu">
+                        <a href="{% url 'withdrawal_list' %}">
+                            <i class="fas fa-calendar-minus"></i>
+                            <span class="nav-label">Withdrawal</span>
+                        </a>
+                    </li>
                     {% comment %} <li class="has-submenu">
                         <a href="javascript:void()" class="has-arrow mm-collapsed">
                             <i class="fas fa-book-medical"></i>
@@ -233,7 +239,7 @@
                         </a>
                     </li>
                     <li class="has-submenu">
-                        <a href="{% url 'appointment_list' %}">
+                        <a href="#">
                             <i class="fas fa-archive"></i>
                             <span class="nav-label">Stock</span>
                         </a>
@@ -254,7 +260,7 @@
                             <li><a href="{% url 'billing_list' %}">Billing List</a></li>
                         </ul>
                     </li> {% endcomment %}
-                    <li class="has-submenu">
+                    <!-- <li class="has-submenu">
                         <a href="javascript:void()" class="has-arrow mm-collapsed">
                             <i class="fas fa-cog"></i>
                             <span class="nav-label">Settings</span>
@@ -263,7 +269,7 @@
                             <li><a href="{% url 'doctor_settings' %}">Profile Settings</a></li>
                             {% comment %} <li><a href="{% url 'prescriptions_settings' %}">Prescription Settings</a></li> {% endcomment %}
                         </ul>
-                    </li>
+                    </li> -->
                     {% comment %} <li class="has-submenu">
                         <a href="javascript:void()" class="has-arrow mm-collapsed">
                             <i class="fa fa-tag"></i>
@@ -285,7 +291,7 @@
             </nav>
             <div class="sidebar-widgets">
                 <div class="top-sidebar box-shadow mx-25 m-b-30 p-b-20 text-center">
-                    <a href="new-appointment.html">
+                    <a href="#">
                         <img src="{% static "images/Logo+.png" %}" class="side-img" alt="img">
                     </a>
                     {% comment %} <a href="#">
@@ -328,7 +334,7 @@
                             </a>
                         </div>
                     </div>
-                    <div class="widget-6">
+                    <!-- <div class="widget-6">
                         <div class="cart-wrapper">
                             <div class="cart-icon">
                                 <a class="cart-control" href="#">
@@ -336,7 +342,7 @@
                                     <div class="pulse-css"></div>
                                 </a>
                             </div>
-                            <div class="cart-dropdown-form dropdown-container">
+                            <!-- <div class="cart-dropdown-form dropdown-container">
                                 <div class="form-content">
                                     <div class="widget-media main-scroll nicescroll-box">
                                         <ul class="timeline">
@@ -423,7 +429,7 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </div> -->
                     <div class="my-account-wrapper widget-7">
                         <div class="account-wrapper">
                             <div class="account-control">
@@ -436,10 +442,10 @@
                                 </a>
                                 <div class="account-dropdown-form dropdown-container">
                                     <div class="form-content">
-                                        <a href="/doctor-settings">
+                                        <!-- <a href="/doctor-settings">
                                             <i class="far fa-user"></i>
                                             <span class="ml-2">Profile</span>
-                                        </a>
+                                        </a> -->
                                         {% comment %} <a href="#">
                                             <i class="far fa-envelope"></i>
                                             <span class="ml-2">Inbox</span>

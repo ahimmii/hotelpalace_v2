@@ -34,6 +34,7 @@ urlpatterns = [
 
     #appointments
     path('appointments/', views.appointment_list, name='appointment_list'),
+    path('withdrawal/', views.withdrawal_list, name='withdrawal_list'),
     path('appointments/<int:pk>/', views.appointment_detail, name='appointment_detail'),
     path('appointments/new/', views.appointment_create, name='appointment_create'),
     path('appointments/<pk>/edit/', views.appointment_edit, name='appointment_edit'),

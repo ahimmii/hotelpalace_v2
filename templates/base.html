@@ -7,8 +7,10 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>{% block title %} {% endblock %}-Doctor</title>
+    <title>{% block title %} {% endblock %}-HOTEL</title>
     <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet">
     <!-- Favicon icon -->
     <link rel="icon" type="image/png" href="{% static "images/favicon-32x32.png" %}">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.3/main.min.css">
@@ -17,6 +19,9 @@
     <!-- Base Styling  -->
     <link rel="stylesheet" href="{% static "main/css/fonts.css" %}">
     <link rel="stylesheet" href="{% static "main/css/style.css" %}">
+    <!-- select2.css -->
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+
     <!-- Add this line to include Font Awesome CSS -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous">
 
@@ -200,12 +205,14 @@
                             <span class="nav-label">Reservation</span>
                         </a>
                     </li>
+                    {% if user.last_name  == "Elyahyaoui" %}
                     <li class="has-submenu">
                         <a href="{% url 'withdrawal_list' %}">
                             <i class="fas fa-calendar-minus"></i>
                             <span class="nav-label">Withdrawal</span>
                         </a>
                     </li>
+                    {% endif %}
                     {% comment %} <li class="has-submenu">
                         <a href="javascript:void()" class="has-arrow mm-collapsed">
                             <i class="fas fa-book-medical"></i>
@@ -342,7 +349,7 @@
                                     <div class="pulse-css"></div>
                                 </a>
                             </div>
-                            <!-- <div class="cart-dropdown-form dropdown-container">
+                                <div class="cart-dropdown-form dropdown-container">
                                 <div class="form-content">
                                     <div class="widget-media main-scroll nicescroll-box">
                                         <ul class="timeline">
@@ -522,6 +529,9 @@
     <!-- Popper.js -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.10.2/umd/popper.min.js"></script>
 
+    <!-- select2.js -->
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+
 <!-- Bootstrap.js -->
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
@@ -534,5 +544,6 @@
 </html>{% else %}
 <script>
   window.location.pathname = '/login'
+  
 </script>
 {% endif %} 

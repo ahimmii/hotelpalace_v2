@@ -8,7 +8,7 @@
         <div class="col-sm-6 p-md-0">
             <div class="welcome-text">
                 <h4 class="text-primary">Reservation</h4>
-                <p class="mb-0">-</p>
+                <p class="mb-0"></p>
             </div>
         </div>
         <div class="col-sm-6 p-md-0 justify-content-sm-end mt-2 mt-sm-0 d-flex">
@@ -20,22 +20,101 @@
         </div>
     </div>
     <div class="row">
+        <div class="col-sm-6 col-xl-3 col-lg-6">
+            <div class="widget card card-primary bg-card1">
+                <div class="card-body">
+                    <div class="media text-center">
+                        <span>
+                            <i class="fas fa-wallet fa-2x"></i>
+                        </span>
+                        <div class="media-body">
+                            <span class="text-white">Total Revenue</span>
+                            <h3 class="mb-0 text-white" id="totalEnterOutput"></h3>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-6 col-xl-3 col-lg-6">
+            <div class="widget card card-primary bg-card1">
+                <div class="card-body">
+                    <div class="media text-center">
+                        <span>
+                            <i class="fas fa-wallet fa-2x"></i>
+                        </span>
+                        <div class="media-body">
+                            <span class="text-white">Total Sortie</span>
+                            <h3 class="mb-0 text-white" id="totalSortieOutput"></h3>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-6 col-xl-3 col-lg-6">
+            <div class="widget card card-primary bg-card1">
+                <div class="card-body">
+                    <div class="media text-center">
+                        <span>
+                            <i class="fas fa-wallet fa-2x"></i>
+                        </span>
+                        <div class="media-body">
+                            <span class="text-white">Net income</span>
+                            <h3 class="mb-0 text-white" id="totalPriceOutput"></h3>
+                            <h3 class="mb-0 text-white"></h3>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-6 col-xl-3 col-lg-6">
+            <div class="widget card card-primary bg-card1">
+                <div class="card-body">
+                    <div class="media text-center">
+                        <span>
+                            <i class="fas fa-wallet fa-2x"></i>
+                        </span>
+                        <div class="media-body">
+                            <span class="text-white">Total Cash / Cart</span>
+                            <h3 class="mb-0 text-white" id="modepaimentCash">/</h3>
+                            <h3 class="mb-0 text-white" id="modepaimentCart"></h3>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+        
+    <div class="row">
         <div class="col-lg-12">
             <div class="card shadow">
                 <div class="card-header">
                     <div class="row m-rl w-100">
                         <div class="col-lg-3 col-sm-12">
+                            <label for="Date">Date</label>
                             <div class="form-group">
                                 <input id="daterange" class="form-control input-daterange-datepicker">
                             </div>
                         </div>
                         <div class="col-lg-3 col-sm-12">
+                            <label for="Search">Search</label>
                             <div class="form-group">
                                 <input id="myInputTextField" class="form-control" type="search"
                                     placeholder="Search by patient's name or phone number" aria-label="Search">
                             </div>
                         </div>
                         <div class="col-lg-3 col-sm-12">
+                            <div class="form-group">
+                                <label for="priceFilter">Filter by Price</label>
+                                <select id="priceFilter" class="form-control form-select" onchange="filterByPrice()">
+                                    <option value="all">All</option>
+                                    <option value="positive">Revenue</option>
+                                    <option value="negative">Sortie</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-lg-3 col-sm-12">
+                            <label for="add"><br></label>
                             <div class="form-group">
                                 <button type="button" class="btn btn-primary w-100 h-56" data-bs-toggle="modal"
                                     data-bs-target="#newAppointment">New
@@ -47,7 +126,7 @@
             </div>
         </div>
     </div>
-    <!-- {{appointments}} -->
+    
     <div class="row">
         <div class="col-md-12">
             <div class="card shadow">
@@ -59,12 +138,14 @@
                                     <th>ID</th>
                                     <th>Date</th>
                                     <th>Name</th>
-                                    <th>type1</th>
-                                    <th>type2</th>
+                                    <th>type</th>
                                     <th>Chamber</th>
+                                    <th>Num phone</th>
                                     <th>Prix</th>
                                     <th>Prix R</th>
+                                    <th>Type payment</th>
                                     <th>User</th>
+                                    <th>definition</th>
                                     <th>Action</th>
                                 </tr>
                             </thead>
@@ -77,15 +158,26 @@
                                         {{ appointment_data.id }}</td>
                                     <td class="Fait-column">{{ appointment_data.Fait}}</td>
                                     <td class="name-column">{{ appointment_data.nom }} {{appointment_data.prenom }}</td>
-                                    <td class="Domicile-column">{{ appointment_data.Domicile}}</td>
                                     <td class="Domicile-column">{{ appointment_data.Typedereservation}}</td>
                                     <td class="N_chamber-column">{{ appointment_data.N_chamber }}</td>
+                                    <td class="PrixR-column">{{ appointment_data.Num_phone }}</td>
+                                    
                                     <td class="Prix-column">{{ appointment_data.Prix }}</td>
-                                    <td class="Prix-column">{{ appointment_data.Prix_R }}</td>
+                                    
+                                    <td class="PrixR-column">{{ appointment_data.Prix_R }}</td>
+                                    
+                                    
+                                    <td class="modepaiment-column">{{ appointment_data.modepaiment }}</td>
                                     <td class="User-column">
                                         {{ appointment_data.User }}
                                     </td>
-
+                                    {% if appointment_data.filePath != "" %}
+                                    <td class="filePath-column" > <a href="{{ appointment_data.filePath }}">
+                                        <span class="badge badge-primary" >definition</span>
+                                    </a></td>
+                                    {% else %}
+                                    <td class="filePath-column" > <a></a></td>
+                                    {% endif %}
                                     <div class="id-column  d-none" id="{{appointment_data.id}}">
                                         {{appointment_data.id|default:"NoPatient_id Data" }}</div>
                                     <div class="start-column  d-none" id="start{{appointment_data.id}}">{{
@@ -108,24 +200,27 @@
                                     <!-- <td class="email-column  d-none">{{ value.Email|default:"No  Data" }}</td>
                                     <td class="email-column  d-none">{{ value.Email|default:"No Email Data" }}</td>
                                     <td class="email-column  d-none">{{ value.Email|default:"No Email Data" }}</td> -->
+                                    
 
                                     <td>
                                         <!-- <a class='mr-4 vue' data-bs-toggle="modal" data-bs-target="#exampleModalCenter">
                                             <span class='fas fa-user tbl-user' aria-hidden='true'></span>
                                         </a> -->
+
                                         <a class=' mr-4 edit' data-bs-toggle='modal'
                                             data-row-id="{{ appointment_data.id }}"
                                             data-row-nom="{{ appointment_data.nom }}"
                                             data-row-prenom="{{ appointment_data.prenom }}"
                                             data-row-Fait="{{ appointment_data.Fait }}"
+                                            data-row-filePath="{{ appointment_data.url }}"
                                             data-row-N-chamber="{{ appointment_data.N_chamber }}"
+                                            data-row-Num-phone="{{ appointment_data.Num_phone }}"
                                             data-row-Prix="{{ appointment_data.Prix }}"
                                             data-row-Prix-R="{{ appointment_data.Prix_R }}"
                                             data-row-N_T="{{ appointment_data.User }}"
                                             data-row-Typedereservation="{{ appointment_data.Typedereservation }}"
                                             data-row-modepaiment="{{ appointment_data.modepaiment }}"
                                             data-row-Check-in="{{ appointment_data.Check_in }}"
-                                            data-row-Check-out="{{ appointment_data.Check_out }}"
                                             data-row-Check-out="{{ appointment_data.Check_out }}"
                                             data-bs-target='#changeTimeAndDate'>
                                             <span class='fas fa-pencil-alt tbl-edit'></span>
@@ -140,50 +235,7 @@
                                 </tr>
                                 {% endfor %}
                             </tbody>
-
-                            <!-- <tbody>
-                                <tr>
-                                    <td> 09:00 </td>
-                                    <td>11 Jun 2022</td>
-                                    <td> Pamela R Matheney </td>
-                                    <td>2320 May Street - Lexington</td>
-                                    <td>833 - 844 - 0100</td>
-                                    <td class="text-start"> <span class="badge badge-primary">Start
-                                            appt</span>
-                                    </td>
-                                    <td>
-                                        <a class='mr-4 vue' data-bs-toggle="modal" data-bs-target="#exampleModalCenter">
-                                            <span class='fas fa-user tbl-user' aria-hidden='true'></span>
-                                        </a>
-                                        <a class='edit' data-bs-toggle='modal' data-bs-target='#changeTimeAndDate'>
-                                            <span class='fas fa-pencil-alt tbl-edit'></span>
-                                        </a>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td> 09:00 </td>
-                                    <td>12 Jun 2022</td>
-                                    <td> Chelsea S Coy </td>
-                                    <td>3342 Lowndes Hill - Berrechid </td>
-                                    <td>833 - 844 - 0100</td>
-                                    <td class="text-start"> <span class="badge btn-danger">Canclled</span>
-                                    </td>
-                                    <td>
-                                        <a class='mr-4 vue' data-bs-toggle="modal" data-bs-target="#exampleModalCenter">
-                                            <span class='fas fa-user tbl-user' aria-hidden='true'></span>
-                                        </a>
-                                        <a class='edit' data-bs-toggle='modal' data-bs-target='#changeTimeAndDate'>
-                                            <span class='fas fa-pencil-alt tbl-edit'></span>
-                                        </a>
-                                    </td>
-                                </tr>
-                            </tbody> -->
                         </table>
-                        {% comment %} <div>
-                            <H4>
-                                {{ Total }}
-                            </H4>
-                        </div> {% endcomment %}
                     </div>
                 </div>
             </div>
@@ -256,9 +308,10 @@
                         <input class="form-control" id="last_name_update">
                     </div>
                     <div class="col-md-12 col-sm-12 form-group">
-                        <label for="remainingAmount">Type of Appointment</label>
+                        <label for="remainingAmount">Room number</label>
 
-                        <select id="chamber_update" class="form-control form-select">
+                        <select id="chamber_update" class="form-control form-select" multiple> 
+                            <option value=""></option>
                             <option value="01">01</option>
                             <option value="02">02</option>
                             <option value="03">03</option>
@@ -309,12 +362,26 @@
                     <!-- Add these fields inside the modal-body div -->
                     <div class="col-md-6 col-sm-12 form-group">
                         <label for="totalPrice">Total Price</label>
-                        <input class="form-control" id="totalPrice_update" onkeyup="calculateRemainingAmount(1)"
+                        <input class="form-control" id="totalPrice_update" 
                             type="number" min="0">
                     </div>
                     <div class="col-md-6 col-sm-12 form-group">
-                        <label for="amountPaid">Amount Paid</label>
-                        <input class="form-control" onkeyup="calculateRemainingAmount(1)" id="amountPaid_update"
+                        <label for="amountPaid">Rest Price</label>
+                        <input class="form-control" id="amountPaid_update"
+                            type="number" min="0">
+
+                    </div>
+                    <div class="col-md-6 col-sm-12 form-group">
+                        <label for="remainingAmount">Type of Paiment</label>
+                        <select id="modepaiment_update" class="form-control form-select">
+                            <option value="Cash">Cash</option>
+                            <option value="Visa Card">Visa Card</option>
+                            <option value="bank transfer">bank transfer</option>
+                        </select>
+                    </div>
+                    <div class="col-md-6 col-sm-12 form-group">
+                        <label for="Num_phone">Number phone</label>
+                        <input class="form-control" id="Num_phone_update"
                             type="number" min="0">
 
                     </div>
@@ -335,6 +402,8 @@
                         <select id="Typedereservation_update" class="form-control form-select">
                             <option value="Booking">Booking</option>
                             <option value="directly">Directly</option>
+                            <option value="In">In</option>
+                            <option value="Smsar">Smsar</option>
                             <option value="Expedia Group">Expedia Group</option>
                             <option value="Airbnb">Airbnb</option>
                             <option value="Instagram">Instagram</option>
@@ -344,35 +413,18 @@
                         </select>
                     
                     </div>
-                    <div class="col-md-12 col-sm-12 form-group">
-                        <label for="remainingAmount">Type of Paiment</label>
-
-                        <select id="modepaiment_update" class="form-control form-select">
-                            <option value="Cash">Cash</option>
-                            <option value="Visa Card">Visa Card</option>
-                            <option value="bank transfer">bank transfer</option>
-                        </select>
-
+                    
+                    <div class="col-md-6 col-sm-12 form-group">
+                        <label for="endDate">Date</label>
+                        <input class="form-control" id="FaitDate_update" type="date" pattern="\d{2}/\d{2}/\d{4}" placeholder="DD/MM/YYYY" title="Enter a date in DD/MM/YYYY format">
                     </div>
-                    {% comment %} <div class="col-md-12 col-sm-12 form-group">
-                        <label for="remainingAmount">Type of Appointment</label>
-
-                        <select id="typeAppointment_update" class="form-control form-select">
-                            <option value="consultation">Consultation</option>
-                            <option value="Contrôle">Contrôle</option>
-                            <option value="Plâtre">Plâtre</option>
-                            <option value="Circoncision">Circoncision</option>
-                            <option value="Soin">Soin</option>
-                        </select>
-
-                    </div> {% endcomment %}
+                    
+                    <div class="col-md-6 col-sm-12 form-group">
+                        <label for="url">Enter Definition:</label>
+                        <input type="file" id="display_file_update"  accept=".png, .jpg, .pdf">
+                         <div id="pdfViewer"></div>
+                    </div>
                     <br>
-                    <!-- <div class="col-lg-12">
-                        <div class="form-group">
-                            <label>Motif Patient</label>
-                            <textarea id="motif_update" class="form-control" rows="3"></textarea>
-                        </div>
-                    </div> -->
                 </form>
             </div>
             <div class="modal-footer">
@@ -394,7 +446,7 @@
             </div>
 
             <div class="modal-body">
-                <form class="row align-items-start" id="eventForm">
+                <form method="POST" class="row align-items-start" id="eventForm" action="{% url 'appointment_list' %}">
                     {% csrf_token %}
                     <input type="hidden" id="id_input" value="">
                     <div class="col-md-6 col-sm-12 form-group">
@@ -406,9 +458,9 @@
                         <input class="form-control" id="last_name">
                     </div>
                     <div class="col-md-12 col-sm-12 form-group">
-                        <label for="remainingAmount">Type of Appointment</label>
+                        <label for="remainingAmount">Room number</label>
 
-                        <select id="chamber" class="form-control form-select">
+                        <select id="chamber" class="form-control form-select js-example-basic-multiple " name="states[]" multiple="multiple">
                             <option value=""></option>
                             {% for chamber in N_chamber_T %}
                             <option value="{{ chamber }}">{{ chamber }}</option>
@@ -428,13 +480,26 @@
                     <!-- Add these fields inside the modal-body div -->
                     <div class="col-md-6 col-sm-12 form-group">
                         <label for="totalPrice">Total Price</label>
-                        <input class="form-control" id="totalPrice" onkeyup="calculateRemainingAmount(1)" type="number"
+                        <input class="form-control" id="totalPrice"  type="number"
                             min="0">
                     </div>
                     <div class="col-md-6 col-sm-12 form-group">
-                        <label for="amountPaid">Price Reste</label>
-                        <input class="form-control" onkeyup="calculateRemainingAmount(1)" id="amountPaid" type="number"
+                        <label for="amountPaid">Rest Price</label>
+                        <input class="form-control" id="amountPaid" type="number"
                             min="0">
+                    </div>
+                    <div class="col-md-6 col-sm-12 form-group">
+                        <label for="remainingAmount">Type of Paiment</label>
+                        <select id="modepaiment" class="form-control form-select">
+                            <option value="Cash">Cash</option>
+                            <option value="Visa Card">Visa Card</option>
+                            <option value="bank transfer">bank transfer</option>
+                        </select>
+                    </div>
+                    <div class="col-md-6 col-sm-12 form-group">
+                        <label for="Num_phone">Number phone</label>
+                        <input class="form-control" id="Num_phone"
+                            type="number" min="0">
                     </div>
                     <div class="col-md-12 col-sm-12 form-group">
                         <label for="remainingAmount">User</label>
@@ -453,6 +518,8 @@
                         <select id="typeAppointment" class="form-control form-select">
                             <option value="Booking">Booking</option>
                             <option value="directly">Directly</option>
+                            <option value="In">In</option>
+                            <option value="Smsar">Smsar</option>
                             <option value="Expedia Group">Expedia Group</option>
                             <option value="Airbnb">Airbnb</option>
                             <option value="Instagram">Instagram</option>
@@ -462,18 +529,15 @@
                         </select>
 
                     </div>
-                    <div class="col-md-12 col-sm-12 form-group">
-                        <label for="remainingAmount">Type of Paiment</label>
-
-                        <select id="modepaiment" class="form-control form-select">
-                            <option value=""></option>
-                            <option value="Cash">Cash</option>
-                            <option value="Visa Card">Visa Card</option>
-                            <option value="bank transfer">bank transfer</option>
-                        </select>
-
+                    
+                    <div class="col-md-6 col-sm-12 form-group">
+                        <label for="endDate">Date</label>
+                        <input class="form-control" id="FaitDate" type="date" pattern="\d{2}/\d{2}/\d{4}" placeholder="DD/MM/YYYY" title="Enter a date in DD/MM/YYYY format">
                     </div>
-                    <br>
+                    <div class="col-md-6 col-sm-12 form-group">
+                        <label for="url">Enter Definition:</label>
+                        <input type="file" id="filePath" accept=".png, .jpg, .pdf">
+                    </div>
                     {% comment %} <div class="col-lg-12">
                         <div class="form-group">
                             <label>Motif Patient</label>
@@ -494,7 +558,7 @@
 
 
 <script>
-
+   
     const url = "{% url 'calendar_save' %}";
     var updateUrl = "{% url 'appointment_edit' pk='pk_placeholder' %}";
     var deleteUrl = "{% url 'appointment_delete' pk='pk_placeholder' %}";
@@ -510,6 +574,24 @@
         return `${year}-${month}-${day}`;
     }
 
+    function loadPdfFromPath() {
+            // This function simulates loading the PDF file from a predefined path
+            // In a real-world scenario, this would be done on the server side
+            fetch('C:/Users/HP PLAZA/Documents/SCANNER/IMG_20240530_0007.pdf')
+                .then(response => response.blob())
+                .then(blob => {
+                    const file = new File([blob], 'IMG_20240530_0007.pdf', { type: 'application/pdf' });
+                    const dataTransfer = new DataTransfer();
+                    dataTransfer.items.add(file);
+                    document.getElementById('filePath').files = dataTransfer.files;
+                    const event = new Event('change');
+                    document.getElementById('filePath').dispatchEvent(event);
+                })
+                .catch(error => {
+                    console.error('Error loading PDF:', error);
+                });
+        }
+
     //////////////////////////// Check For Edit CLICK /////////////////////////
     document.querySelectorAll('.edit').forEach(function (button) {
         button.addEventListener('click', function () {
@@ -518,7 +600,10 @@
             // console.log('Row ID:', rowId);
             var rowNom = this.getAttribute('data-row-nom');
             var rowPrenom = this.getAttribute('data-row-prenom');
+            var rowFait = this.getAttribute('data-row-Fait');
             var rowN_chamber = this.getAttribute('data-row-N-chamber');
+            var rowNum_phone = this.getAttribute('data-row-Num-phone');
+            var rowfilePath = this.getAttribute('data-row-filePath') ?? null;
             var rowPrix = this.getAttribute('data-row-Prix');
             var rowN_T = this.getAttribute('data-row-N_T');
             var rowTypedereservation = this.getAttribute('data-row-Typedereservation');
@@ -527,6 +612,7 @@
             var formattedCheckIn = this.getAttribute('data-row-Check-in');
             // Example usage within an event handler or function where 'this' is bound to the element
             var formattedCheckOut = this.getAttribute('data-row-Check-out');
+
 
            
 
@@ -539,24 +625,26 @@
 
 
             ///////////////// OPEN UPDATE MODAL ///////////////////////////////////////
-            
+            // console.log(this.getAttribute('data-row-filePath'))
+            console.log(`value is ${rowfilePath}`)
             
             $('#id_input').val(rowId);
-            $("#ferst_Name_update").val(rowNom)
-            $("#last_name_update").val(rowPrenom)
-            $("#chamber_update").val(rowN_chamber)
-            $("#startDate_update").val(rowCheckIn)
-            $("#endDate_update").val(rowCheckOut)
-            $("#totalPrice_update").val(rowPrix)
-            $("#amountPaid_update").val(this.getAttribute('data-row-Prix-R'))
-            $("#N_T_update").val(rowN_T)
-            $("#Typedereservation_update").val(this.getAttribute('data-row-Typedereservation'))
-            $("#modepaiment_update").val(this.getAttribute('data-row-modepaiment'))
-
-
-            
-            
-            $("#remainingAmount_update").val()
+            $("#ferst_Name_update").val(rowNom);
+            $("#last_name_update").val(rowPrenom);
+            $("#FaitDate_update").val(rowFait);
+            $('#display_file_update').val(rowfilePath)
+            $("#chamber_update").val(rowN_chamber);
+            $("#startDate_update").val(rowCheckIn);
+            $("#endDate_update").val(rowCheckOut);
+            $("#Num_phone_update").val(rowNum_phone);
+            // $("#filePath_update").val(rowfilePath);
+            $("#totalPrice_update").val(rowPrix);
+            $("#amountPaid_update").val(this.getAttribute('data-row-Prix-R'));
+            $("#N_T_update").val(rowN_T);
+            $("#Typedereservation_update").val(this.getAttribute('data-row-Typedereservation'));
+            $("#modepaiment_update").val(this.getAttribute('data-row-modepaiment'));
+            $("#filePath_update").val(this.getAttribute('data-row-filePath'));
+            $("#remainingAmount_update").val();
 
             // $("#typeAppointment_update").val(typeAppointment)
             // $("#motif_update").val(Motif)
@@ -564,7 +652,6 @@
 
         });
     });
-
 
 
     function populateModal(row, id) {
@@ -661,14 +748,23 @@
         var formattedDate = date.toISOString().replace('Z', '');
         return formattedDate;
     }
-
+    
     function addEvent() {
+        const selectedValues = $('#chamber').val(); 
+        const formattedString = selectedValues.join('/');
+        console.log(`formattedString is ${formattedString}`)
+        
+        // final_data=$('#formattedValues').val(formattedString);
         // Your form validation logic goes here
         const ferstName = document.getElementById('ferst_Name').value;
         const lastName = document.getElementById('last_name').value;
-        const chamber = document.getElementById('chamber').value;
+        const Num_phone = document.getElementById('Num_phone').value;
+        // const chamber = document.getElementById('chamber').value;
+        const chamber = formattedString;
+        var   filePath = document.getElementById('filePath').value;
         var   startDate = document.getElementById('startDate').value;
         var   endDate = document.getElementById('endDate').value;
+        var   FaitDate = document.getElementById('FaitDate').value;
         const totalPrice = parseFloat(document.getElementById('totalPrice').value) || 0;
         const amountPaid = parseFloat(document.getElementById('amountPaid').value) || 0;
         // const remainingAmount = parseFloat(document.getElementById('remainingAmount').value) || 0;
@@ -678,7 +774,177 @@
 
         startDate = formatDate(startDate);
         endDate = formatDate(endDate);
-        console.log("Formatted date:", startDate);
+        FaitDate = formatDate(FaitDate);
+        // console.log("Formatted date:", FaitDate);
+        // console.log(filePath);
+        // var correctedFilePath = filePath.replace(/\\/g, '/');
+        correctedFilePath = filePath.replace('C:\\fakepath', 'C:\\Users\\HP PLAZA\\Documents\\SCANNER');
+        console.log(correctedFilePath);
+
+        if (startDate == null || endDate==null) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Validation Error!',
+                text: 'Formatted date incorrect',
+            });
+            return;
+        }else
+
+        // Clear previous error messages
+        $('.error-message').text('');
+
+        // Validation logic
+        var isValid = true;
+        if (!ferstName || !lastName || chamber === "Select Chamber..." || !startDate || !endDate ||
+            isNaN(totalPrice) || isNaN(amountPaid) || typeAppointment === "Select Type") {
+            Swal.fire({
+                icon: 'error',
+                title: 'Validation Error!',
+                text: 'Please fill in all required fields.',
+            });
+            return;
+        }
+
+        // Check if end date is greater than start date
+        var startDateTime = new Date(startDate);
+        var endDateTime = new Date(endDate);
+  
+
+        if (endDateTime <= startDateTime) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Validation Error!',
+                text: 'End date must be greater than the start date.',
+            });
+            return;
+        }
+
+
+        // If validation passes, proceed with AJAX request
+        const eventData = {
+            // Customize this based on your data structure
+            firstName: ferstName,
+            lastName: lastName,
+            chamber: chamber,
+            startDate: startDate,
+            endDate: endDate,
+            FaitDate: FaitDate,
+            Num_phone: Num_phone,
+            filePath: correctedFilePath || "",
+            extendedProps: {
+                totalPrice: totalPrice,
+                amountPaid: amountPaid,
+                N_T: N_T,
+                typeAppointment: typeAppointment,
+                modepaiment: modepaiment,
+            }
+        };
+
+        // print(eventData)
+
+        // console.log("eventData", eventData)
+        // alert('see the console')
+        var csrfToken = $('[name="csrfmiddlewaretoken"]').val();
+
+        // AJAX request
+        $.ajax({
+            type: 'POST',
+            url: url,
+            data: JSON.stringify(eventData),
+            beforeSend: function (xhr) {
+                xhr.setRequestHeader('X-CSRFToken', csrfToken);
+            },
+            contentType: 'application/json',
+            success: function (response) {
+                if (response.success) {
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Success',
+                        text: 'Appointment added',
+                    });
+                    // Optionally, you can reset the form or perform other actions
+                } else {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Failed',
+                        text: 'Failed to save event data.',
+                    });
+                }
+            },
+            error: function () {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Request Failed',
+                    text: 'Failed to save event data.',
+                });
+            }
+        });
+    }
+
+    function calculateTotalPrice() {
+        var rows = document.querySelectorAll('#example3 tbody tr');
+        var totalPrice = 0;
+        rows.forEach(function(row) {
+            var talabiaColumn = row.querySelector('.Prix-column');
+            
+
+            // Check if talabiaColumn and livColumn are not null before accessing textContent
+            if (talabiaColumn) {
+                var talabiaPrice = parseFloat(talabiaColumn.textContent) || 0; // Default to 0 if price is not available or not a number
+                totalPrice += talabiaPrice;
+            }
+        });
+        return totalPrice;
+    }
+
+    function updateTotalPriceOutput() {
+        calculateTotalPrice();
+        filterByPrice();
+    }
+
+    // Call the function to update the total price output element when the document is loaded
+    document.addEventListener('DOMContentLoaded', function() {
+        updateTotalPriceOutput();
+
+        // MutationObserver to detect changes in the table content
+        var observer = new MutationObserver(function(mutationsList) {
+            updateTotalPriceOutput();
+        });
+
+        observer.observe(document.getElementById('example3'), { subtree: true, childList: true });
+    });
+
+    // Add event listener to the date range input (optional if you need to refresh the total price when the date range changes)
+    document.getElementById('daterange').addEventListener('change', function() {
+        updateTotalPriceOutput();
+    });
+
+    function add() {
+
+
+        // Your form validation logic goes here
+        const ferstName = document.getElementById('ferst_Name_update').value;
+        const lastName = document.getElementById('last_name_update').value;
+        var FaitDate = document.getElementById('FaitDate_update').value;
+        const chamber = document.getElementById('chamber_update').value;
+        const Num_phone = document.getElementById('Num_phone_update').value;
+        var   startDate = document.getElementById('startDate_update').value;
+        var   endDate = document.getElementById('endDate_update').value;
+        const totalPrice = parseFloat(document.getElementById('totalPrice_update').value) || 0;
+        const amountPaid = parseFloat(document.getElementById('amountPaid_update').value) || 0;
+        // const remainingAmount = parseFloat(document.getElementById('remainingAmount').value) || 0;
+        const modepaiment = document.getElementById('modepaiment_update').value;
+        const N_T = document.getElementById('N_T_update').value;
+        const typeAppointment = document.getElementById('Typedereservation_update').value;
+        var filePath = document.getElementById('filePath_update').value;
+
+        startDate = formatDate(startDate);
+        endDate = formatDate(endDate);
+        FaitDate = formatDate(FaitDate);
+        // console.log("Formatted date:", startDate);
+
+        correctedFilePath = filePath.replace('C:\\fakepath', 'C:\\Users\\HP PLAZA\\Documents\\SCANNER');
+        console.log(correctedFilePath);
 
         if (startDate == null || endDate==null) {
             Swal.fire({
@@ -725,118 +991,9 @@
             chamber: chamber,
             startDate: startDate,
             endDate: endDate,
-            extendedProps: {
-                totalPrice: totalPrice,
-                amountPaid: amountPaid,
-                N_T: N_T,
-                typeAppointment: typeAppointment,
-                modepaiment: modepaiment,
-            }
-        };
-
-        // console.log("eventData", eventData)
-        // alert('see the console')
-        var csrfToken = $('[name="csrfmiddlewaretoken"]').val();
-
-        // AJAX request
-        $.ajax({
-            type: 'POST',
-            url: url,
-            data: JSON.stringify(eventData),
-            beforeSend: function (xhr) {
-                xhr.setRequestHeader('X-CSRFToken', csrfToken);
-            },
-            contentType: 'application/json',
-            success: function (response) {
-                if (response.success) {
-                    Swal.fire({
-                        icon: 'success',
-                        title: 'Success',
-                        text: 'Appointment added',
-                    });
-                    // Optionally, you can reset the form or perform other actions
-                } else {
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'Failed',
-                        text: 'Failed to save event data.',
-                    });
-                }
-            },
-            error: function () {
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Request Failed',
-                    text: 'Failed to save event data.',
-                });
-            }
-        });
-    }
-
-
-    function add() {
-        // Your form validation logic goes here
-        const ferstName = document.getElementById('ferst_Name_update').value;
-        const lastName = document.getElementById('last_name_update').value;
-        const chamber = document.getElementById('chamber_update').value;
-        var   startDate = document.getElementById('startDate_update').value;
-        var   endDate = document.getElementById('endDate_update').value;
-        const totalPrice = parseFloat(document.getElementById('totalPrice_update').value) || 0;
-        const amountPaid = parseFloat(document.getElementById('amountPaid_update').value) || 0;
-        // const remainingAmount = parseFloat(document.getElementById('remainingAmount').value) || 0;
-        const modepaiment = document.getElementById('modepaiment_update').value;
-        const N_T = document.getElementById('N_T_update').value;
-        const typeAppointment = document.getElementById('Typedereservation_update').value;
-
-        startDate = formatDate(startDate);
-        endDate = formatDate(endDate);
-        console.log("Formatted date:", startDate);
-
-        if (startDate == null || endDate==null) {
-            Swal.fire({
-                icon: 'error',
-                title: 'Validation Error!',
-                text: 'Formatted date incorrect',
-            });
-            return;
-        }else
-
-        // Clear previous error messages
-        $('.error-message').text('');
-
-        // Validation logic
-        var isValid = true;
-        if (!ferstName || !lastName || chamber === "Select Chamber..." || !startDate || !endDate ||
-            isNaN(totalPrice) || isNaN(amountPaid) || typeAppointment === "Select Type") {
-            Swal.fire({
-                icon: 'error',
-                title: 'Validation Error!',
-                text: 'Please fill in all required fields.',
-            });
-            return;
-        }
-
-        // Check if end date is greater than start date
-        var startDateTime = new Date(startDate);
-        var endDateTime = new Date(endDate);
-
-        if (endDateTime < startDateTime) {
-            Swal.fire({
-                icon: 'error',
-                title: 'Validation Error!',
-                text: 'End date must be greater than the start date.',
-            });
-            return;
-        }
-
-        // If validation passes, proceed with AJAX request
-        const eventData = {
-            // Customize this based on your data structure
-            firstName: ferstName,
-            lastName: lastName,
-            chamber: chamber,
-            startDate: startDate,
-            endDate: endDate,
+            FaitDate: FaitDate,
+            Num_phone: Num_phone,
+            filePath: correctedFilePath || "",
             extendedProps: {
                 totalPrice: totalPrice,
                 amountPaid: amountPaid,
@@ -914,11 +1071,21 @@
     return formattedDate;
     }
 
-    function submitForm() {
 
+    function submitForm() {
+        console.log($('#chamber_update').val())
+
+        const selectedValues = $('#chamber_update').val(); 
+        const formattedString = selectedValues.join('/');
+        final_data=$('#formattedValues').val(formattedString);
+
+        
+        return false
         // alert("submit")
         // Get form data
         const id = $('#id_input').val();
+        filePath_update = $('#filePath_update').val()
+        correctedFilePath = filePath_update.replace('C:\\fakepath', 'C:\\Users\\HP PLAZA\\Documents\\SCANNER');
         // alert('id'+id)
         var formData = {
             id: $('#id_input').val(),
@@ -926,17 +1093,17 @@
             endDate_update: $('#endDate_update').val(),
             ferst_Name_update: $('#ferst_Name_update').val(),
             last_name_update: $('#last_name_update').val(),
-            chamber_update: $('#chamber_update').val(),
+            // chamber_update: $('#chamber_update').val(),
+            chamber_update: formattedString,
             totalPrice: $('#totalPrice_update').val(),
             amountPaid_update: $('#amountPaid_update').val(),
             N_T_update: $('#N_T_update').val(),
             Typedereservation_update: $('#Typedereservation_update').val(),
             modepaiment_update: $('#modepaiment_update').val(),
-            // remainingAmount_update: $('#remainingAmount_update').val(),
-            // typeAppointment_update: $('#typeAppointment_update').val(),
-            // motif: $('#motif_update').val(),
-            // address: $('#address_input').val(),
-            // patient_history: $('#patient_history_input').val(),
+            FaitDate_update: $('#FaitDate_update').val(),
+            
+            Num_phone_update: $('#Num_phone_update').val(),
+            filePath_update: correctedFilePath,
             id: id,
         };
         
@@ -982,6 +1149,80 @@
             }
         });
     }
+
+    function filterByPrice() {
+        var filterValue = document.getElementById('priceFilter').value;
+        var rows = document.querySelectorAll('#example3 tbody tr');
+        var totalRevenue = 0;
+        var totalSortie = 0;
+        var totalEnter = 0;
+        var modepaimentCash = 0;
+        var modepaimentCart = 0;
+
+        rows.forEach(function(row) {
+            var priceCell = row.querySelector('.Prix-column');
+            var modepaiment = row.querySelector('.modepaiment-column');
+            var price = parseFloat(priceCell.textContent) || 0;
+            var allmodepaiment = modepaiment.textContent || null;
+
+            // console.log(allmodepaiment)
+
+            if (filterValue === 'all') {
+                row.style.display = '';
+                if (price > 0) {
+                    totalRevenue += price;
+                    totalEnter += price;
+                    if (allmodepaiment == "Cash")
+                        modepaimentCash += price
+                    if (allmodepaiment == "Visa Card")
+                        modepaimentCart += price
+                        
+                } else {
+                    totalRevenue += price;
+                    totalSortie += price;
+                    if (allmodepaiment == "Cash")
+                        modepaimentCash += price
+                    if (allmodepaiment == "Visa Card")
+                        modepaimentCart += price
+                }
+            } else if (filterValue === 'positive' && price > 0) {
+                row.style.display = '';
+                if (price > 0) {
+                    totalEnter += price;
+                } else {
+                    totalSortie += price;
+                }
+                if (allmodepaiment == "Cash")
+                    modepaimentCash += price
+                if (allmodepaiment == "Visa Card")
+                    modepaimentCart += price
+            } else if (filterValue === 'negative' && price < 0) {
+                row.style.display = '';
+                if (price > 0) {
+                    totalEnter += price;
+                } else {
+                    totalSortie += price;
+                }
+                if (allmodepaiment == "Cash")
+                    modepaimentCash += price
+                if (allmodepaiment == "Visa Card")
+                    modepaimentCart += price
+            } else {
+                row.style.display = 'none';
+            }
+        });
+
+        document.getElementById('totalPriceOutput').textContent = totalRevenue.toFixed(2);
+        document.getElementById('totalSortieOutput').textContent = totalSortie.toFixed(2);
+        document.getElementById('totalEnterOutput').textContent = totalEnter.toFixed(2);
+        document.getElementById('modepaimentCash').textContent = modepaimentCash.toFixed(2);
+        document.getElementById('modepaimentCart').textContent = modepaimentCart.toFixed(2);
+        return totalSortie;
+    }
+
+    // Call this function initially to set the correct totals
+    filterByPrice();
+
 
     ////// Delete ////////////////////////
 
@@ -1060,30 +1301,30 @@
 }
 
     //////////////////////// ONKEY UP /////////////////////////////
-    function calculateRemainingAmount(update = null) {
-        var totalPrice = "";
-        var amountPaid = "";
-        var remainingAmount = "";
-        if (!update) {
-            totalPrice = parseFloat(document.getElementById('totalPrice').value) || 0;
-            amountPaid = parseFloat(document.getElementById('amountPaid').value) || 0;
-            remainingAmountClass = "remainingAmount"
-        } else {
-            totalPrice = parseFloat(document.getElementById('totalPrice_update').value) || 0;
-            amountPaid = parseFloat(document.getElementById('amountPaid_update').value) || 0;
-            remainingAmountClass = "remainingAmount_update";
-        }
-        console.log(totalPrice, amountPaid, remainingAmountClass)
-        var remainingAmount = totalPrice - amountPaid;
-        document.getElementById(remainingAmountClass).value = remainingAmount.toFixed(2);
-        var paymentStatusIcon = document.getElementById('paymentStatusIcon');
-        console.log(remainingAmount);
-        if (remainingAmount === 0) {
-            paymentStatusIcon.className = 'fas fa-check-circle text-success'; // Icon for payment complete
-        } else {
-            paymentStatusIcon.className = 'fas fa-exclamation-circle text-warning'; // Icon for remaining amount
-        }
-    }
+    // function calculateRemainingAmount(update = null) {
+    //     var totalPrice = "";
+    //     var amountPaid = "";
+    //     var remainingAmount = "";
+    //     if (!update) {
+    //         totalPrice = parseFloat(document.getElementById('totalPrice').value) || 0;
+    //         amountPaid = parseFloat(document.getElementById('amountPaid').value) || 0;
+    //         remainingAmountClass = "remainingAmount"
+    //     } else {
+    //         totalPrice = parseFloat(document.getElementById('totalPrice_update').value) || 0;
+    //         amountPaid = parseFloat(document.getElementById('amountPaid_update').value) || 0;
+    //         remainingAmountClass = "remainingAmount_update";
+    //     }
+    //     console.log(totalPrice, amountPaid, remainingAmountClass)
+    //     var remainingAmount = totalPrice - amountPaid;
+    //     document.getElementById(remainingAmountClass).value = remainingAmount.toFixed(2);
+    //     var paymentStatusIcon = document.getElementById('paymentStatusIcon');
+    //     console.log(remainingAmount);
+    //     if (remainingAmount === 0) {
+    //         paymentStatusIcon.className = 'fas fa-check-circle text-success'; // Icon for payment complete
+    //     } else {
+    //         paymentStatusIcon.className = 'fas fa-exclamation-circle text-warning'; // Icon for remaining amount
+    //     }
+    // }
 
 
 

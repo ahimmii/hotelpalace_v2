@@ -9,8 +9,8 @@
 
 <div class="row page-titles mx-0">
     <div class="col-lg-12 p-md-0">
-        <h4 class="text-primary">Hi <span class="names">{{ user.first_name  }} {{ user.last_name }}</span></h4>
-        <p class="mb-0">-</p>
+        <h4 class="text-primary">Hi <span class="names">{{ user.first_name }} {{ user.last_name }}</span></h4>
+        
     </div>
 </div>
 
@@ -23,7 +23,7 @@
                 <div class="card-body">
                     <div class="media text-center">
                         <span>
-                            <i class="fas fa-calendar-check fa-2x"></i>
+                            <i class="fas fa-solid fa-cash-register fa-2x"></i>
                         </span>
                         <div class="media-body">
                             <span class="text-white">Total Revenue</span>
@@ -38,7 +38,7 @@
                 <div class="card-body">
                     <div class="media text-center">
                         <span>
-                            <i class="fas fa-user-nurse fa-2x"></i>
+                            <i class="fas fa-solid fa-door-closed fa-2x"></i>
                         </span>
                         <div class="media-body">
                             <span class="text-white">Rooms not available</span>
@@ -53,7 +53,7 @@
                 <div class="card-body">
                     <div class="media text-center">
                         <span>
-                            <i class="fas fa-user-plus fa-2x"></i>
+                            <i class="fas fa-door-open fa-2x"></i>
                         </span>
                         <div class="media-body">
                             <span class="text-white">Available rooms </span>
@@ -68,39 +68,98 @@
                 <div class="card-body">
                     <div class="media text-center">
                         <span>
-                            <i class="fas fa-database fa-2x"></i>
+                            <i class="fas fa-wallet fa-2x"></i>
                         </span>
                         <div class="media-body">
-                            <span class="text-white"> Cash / Visa Card</span>
+                            <span class="text-white"> Cash / Credit Card</span>
                             <h4 class="mb-0 text-white">{{total_prix_Cash}}DH / {{total_prix_Card}}DH </h4>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-        <!-- <div class="col-sm-6 col-xl-3 col-lg-6">
+        
+        {% if user.last_name  == "Elyahyaoui" %}
+        <div class="col-sm-6 col-xl-3 col-lg-6">
             <div class="widget card card-primary bg-card4">
                 <div class="card-body">
                     <div class="media text-center">
                         <span>
-                            <i class="fas fa-database fa-2x"></i>
+                            <i class="fas fa-dollar-sign fa-2x"></i>
                         </span>
                         <div class="media-body">
-                            <span class="text-white"> total month</span>
-                            <h4 class="mb-0 text-white">{{total_prix_month}}DH</h4>
+                            <span class="text-white">Total Month</span>
+                            <h4 class="mb-0 text-white">{{ total_prix_month }}</h4>
                         </div>
                     </div>
                 </div>
             </div>
-        </div> -->
+        </div>
+        <div class="col-sm-6 col-xl-3 col-lg-6">
+            <div class="widget card card-primary bg-card4">
+                <div class="card-body">
+                    <div class="media text-center">
+                        <span>
+                            <i class="fas fa-money-bill-wave fa-2x"></i>
+                        </span>
+                        <div class="media-body">
+                            <span class="text-white">Total Month Cash</span>
+                            <h4 class="mb-0 text-white">{{ total_prix_month_Cash }}</h4>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-6 col-xl-3 col-lg-6">
+            <div class="widget card card-primary bg-card4">
+                <div class="card-body">
+                    <div class="media text-center">
+                        <span>
+                            <i class="fas fa-credit-card fa-2x"></i>
+                        </span>
+                        <div class="media-body">
+                            <span class="text-white">Total Month Credit</span>
+                            <h4 class="mb-0 text-white">{{ total_prix_month_Visa_Card }}</h4>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-6 col-xl-3 col-lg-6">
+            <div class="widget card card-primary bg-card4">
+                <div class="card-body">
+                    <div class="media text-center">
+                        <span>
+                            <i class="fas fa-solid fa-chevron-up fa-2x"></i>
+                        </span>
+                        <div class="media-body">
+                            <span class="text-white">Total Year</span>
+                            <h4 class="mb-0 text-white">{{ total_prix_Year }}</h4>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endif %}
     </div>
+    
     <div class="row">
-        
-        
-        {% comment %} <div class="col-lg-6">
+        {% if user.last_name  == "Elyahyaoui" %}
+        <div class="col-lg-8">
             <div class="card shadow widget1">
                 <div class="card-header">
-                    <h4 class="card-title">Top Diseases</h4>
+                    <h4 class="card-title">Details of Month</h4>
+                    <span class="subtitle">{{date_today}}</span>
+                </div>
+                <div class="card-body"><div style="position: absolute; inset: 0px; overflow: hidden; pointer-events: none; visibility: hidden; z-index: -1;" class="chartjs-size-monitor"><div class="chartjs-size-monitor-expand" style="position:absolute;left:0;top:0;right:0;bottom:0;overflow:hidden;pointer-events:none;visibility:hidden;z-index:-1;"><div style="position:absolute;width:1000000px;height:1000000px;left:0;top:0"></div></div><div class="chartjs-size-monitor-shrink" style="position:absolute;left:0;top:0;right:0;bottom:0;overflow:hidden;pointer-events:none;visibility:hidden;z-index:-1;"><div style="position:absolute;width:200%;height:200%;left:0; top:0"></div></div></div>
+                    <canvas id="chart1" width="814" height="325" style="display: block; width: 814px; height: 325px;" class="chartjs-render-monitor"></canvas>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-4">
+            <div class="card shadow widget1">
+                <div class="card-header">
+                    <h4 class="card-title">total for this Month</h4>
                 </div>
                 <div class="card-body">
                     <div class="row justify-content-center">
@@ -110,38 +169,21 @@
                         <div class="col-lg-10">
                             <ul class="d-flex justify-content-between m-t-30">
                                 <li class="content-widget text-center">
-                                    <p class="mb-0 fs-14 text-muted">Stroke</p>
-                                    <h4 class="mb-0 fs-20 text-dark-gray">8952</h4>
+                                    <p class="mb-0 fs-14 text-muted">Revenue</p>
+                                    <h4 class="mb-0 fs-20 text-dark-gray" id="totalRevenue" style="color: #499cf5;"></h4>
                                 </li>
                                 <li class="content-widget text-center">
-                                    <p class="mb-0 fs-14 text-muted">Diabetes</p>
-                                    <h4 class="mb-0 fs-20 text-dark-gray">7458</h4>
+                                    <p class="mb-0 fs-14 text-muted">Sortie</p>
+                                    <h4 class="mb-0 fs-20 text-dark-gray" id="totalSortie" style="color: #f54949;"></h4>
                                 </li>
-                                <li class="content-widget text-center">
-                                    <p class="mb-0 fs-14 text-muted">Cirrhosis</p>
-                                    <h4 class="mb-0 fs-20 text-dark-gray">3254</h4>
-                                </li>
-                                <li class="content-widget text-center">
-                                    <p class="mb-0 fs-14 text-muted">Tuberculosis</p>
-                                    <h4 class="mb-0 fs-20 text-dark-gray">3254</h4>
                                 </li>
                             </ul>
                         </div>
                     </div>
                 </div>
             </div>
-        </div> {% endcomment %}
-        {% comment %} <div class="col-lg-6">
-            <div class="card shadow widget1">
-                <div class="card-header">
-                    <h4 class="card-title">Total Patient Per Day</h4>
-                </div>
-                <div class="card-body"><div style="position: absolute; inset: 0px; overflow: hidden; pointer-events: none; visibility: hidden; z-index: -1;" class="chartjs-size-monitor"><div class="chartjs-size-monitor-expand" style="position:absolute;left:0;top:0;right:0;bottom:0;overflow:hidden;pointer-events:none;visibility:hidden;z-index:-1;"><div style="position:absolute;width:1000000px;height:1000000px;left:0;top:0"></div></div><div class="chartjs-size-monitor-shrink" style="position:absolute;left:0;top:0;right:0;bottom:0;overflow:hidden;pointer-events:none;visibility:hidden;z-index:-1;"><div style="position:absolute;width:200%;height:200%;left:0; top:0"></div></div></div>
-                    <canvas id="chart2" width="590" height="303" style="display: block; width: 590px; height: 303px;" class="chartjs-render-monitor"></canvas>
-                </div>
-            </div>
         </div>
-    </div> {% endcomment %}
+        {% endif %}
     <div class="col-lg-4">
         <div class="card shadow widget-2">
             <div class="card-header">
@@ -234,6 +276,7 @@
             </div>
         </div>
     </div>
+
     <div class="row">
         <div class="col-md-12">
             <div class="card shadow">
@@ -258,7 +301,7 @@
                             </thead>
                             <tbody>
                                 <tr>
-                                    {% for key, value in stack.items %}
+                                    {% for value in data_new %}
                                     <td>
                                         {{ value.Nom }} {{ value.Prenom }}
                                     </td>
@@ -268,17 +311,19 @@
                                     <td>{{ value.Prix }} DH</td>
                                     <td>{{ value.Prix_R }} DH</td>
                                     <td>{{ value.N_T }}</td>
-                                    {% if  date_today >= value.Check_out %}
-                                        <td class="text-start"> <span
-                                            class="badge btn-danger">Check Out</span>
-                                        </td>
-                                    {% elif  date_today == value.Check_in %}
-                                        <td class="text-start">
-                                            <span class="badge badge-primary">Check In</span>
+                                    {% if  date_today >= value.Check_out and appointment_data.filePath != '' %}
+                                    <td class="filePath-column" > <a href="{{ value.filePath }}">
+                                        <span class="badge btn-danger" >definition</span>
+                                    </a></td>
+                                    {% elif  date_today == value.Check_in and appointment_data.filePath != '' %}
+                                        <td class="text-start" >
+                                            <a href="{{ value.filePath }}" >
+                                                <span class="badge badge-primary" >definition</span>
+                                            </a>
                                         </td>
                                     {% else %}
                                         <td class="text-start">
-                                            <span class="badge badge-primary">Check in</span>
+                                            <span class="badge badge-primary">definition</span>
                                         </td>
                                     {% endif %}
                                     <!-- <td>
@@ -300,9 +345,17 @@
 
 <script>
     var total_price_per_day_data = [
-        
+        {% for date, total_price in total_price_per_day.items %}
+            {{ total_price }},
+        {% endfor %}
     ];
-    var last7DaysData = total_price_per_day_data.slice(-7);
+    var total_price_per_day_Sortie = [
+        {% for date, total_price_Sortie in total_price_per_day_Sortie.items %}
+            {{ total_price_Sortie }},
+        {% endfor %}
+    ];
+    var last7DaysData = total_price_per_day_data;
+    var last7DaysDataSortie = total_price_per_day_Sortie;
 </script>
 
 {% endblock %}

@@ -15,31 +15,38 @@ gradientFill.addColorStop(0, "rgba(128, 182, 244, 0.5)");
 gradientFill.addColorStop(1, "rgba(128, 182, 244, 0)");
 
 var gradientFill2 = chartactivity.createLinearGradient(0, 0, 0, 350);
-gradientFill2.addColorStop(0, "rgba(255, 91, 204, 0.5)");
-gradientFill2.addColorStop(1, "rgba(255, 91, 204, 0)");
+gradientFill2.addColorStop(0, "rgba(244, 67, 54, 0.5)");
+gradientFill2.addColorStop(1, "rgba(244, 67, 54, 0)");
+
 
 // Get the current date
 var currentDate = new Date();
 
-// Array of day names
-var dayNames = ["Su", "Mo", "Tu", "We", "Th", "Fr", "Sa"];
+// Function to get the last 30 days' names
+function getLast30Days() {
+    var dates = [];
+    var monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+    var currentDate = new Date();
 
-// Get the day index of the current date (0 for Sunday, 1 for Monday, etc.)
-var currentDayIndex = currentDate.getDay();
+    console.log(currentDate.getDate())
 
-// Get the last 7 days' names
-var last7DaysNames = [];
-for (var i = 6; i >= 0; i--) {
-    var dayIndex = (currentDayIndex - i + 7) % 7; // Ensure the index is between 0 and 6
-    last7DaysNames.push(dayNames[dayIndex]);
+    for (var i = currentDate.getDate() - 1; i >= 0; i--) {  // Change 17 to 29 for the last 30 days
+        var pastDate = new Date(currentDate);
+        pastDate.setDate(currentDate.getDate() - i);
+        var day = pastDate.getDate();
+        var month = monthNames[pastDate.getMonth()]; // Get the month name from the array
+        dates.push(day + ' ' + month);
+    }
+    return dates;
 }
 
+var last30DaysNames = getLast30Days();
 
 var ActivityChart = new Chart(chartactivity, {
     type: 'line',
-    
+
     data: {
-        labels: last7DaysNames,
+        labels: last30DaysNames,
         datasets: [{
             label: "Revenue",
             borderColor: gradientStroke,
@@ -56,22 +63,22 @@ var ActivityChart = new Chart(chartactivity, {
             borderWidth: 1,
             data: last7DaysData,
         }, 
-        // {
-            //     label: "Patients",
-            //     borderColor: gradientStroke2,
-            //     pointBorderColor: gradientStroke2,
-            //     pointBackgroundColor: "rgba(255, 255, 255, 1)",
-            //     pointHoverBackgroundColor: "rgba(128, 182, 244, 1)",
-            //     pointHoverBorderColor: gradientStroke2,
-            //     pointBorderWidth: 1,
-            //     pointHoverRadius: 3,
-            //     pointHoverBorderWidth: 1,
-            //     pointRadius: 3,
-            //     fill: true,
-            //     backgroundColor: gradientFill2,
-            //     borderWidth: 1,
-            //     data: [0, 105, 190, 140, 270]
-            // }
+        {
+            label: "Sortie",
+            borderColor: gradientStroke2,
+            pointBorderColor: gradientStroke2,
+            pointBackgroundColor: "rgba(255, 255, 255, 1)",
+            pointHoverBackgroundColor: "rgba(253, 65, 60, 1)",
+            pointHoverBorderColor: gradientStroke2,
+            pointBorderWidth: 1,
+            pointHoverRadius: 3,
+            pointHoverBorderWidth: 1,
+            pointRadius: 3,
+            fill: true,
+            backgroundColor: gradientFill2,
+            borderWidth: 1,
+            data: last7DaysDataSortie,
+        },
         ]
     },
     options: {
@@ -96,7 +103,7 @@ var ActivityChart = new Chart(chartactivity, {
                     drawTicks: false,
                     display: false
                 }
-                
+
             }],
             xAxes: [{
                 gridLines: {
@@ -113,76 +120,93 @@ var ActivityChart = new Chart(chartactivity, {
 });
 
 // chart 2
-var ctx = document.getElementById("chart2").getContext('2d');
-var myChart = new Chart(ctx, {
-    type: 'bar',
-    data: {
-        labels: ['Sat', 'Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fr'],
-        datasets: [{
-            label: 'Admitted',
-            data: [150, 200, 190, 190, 200, 230, 220],
-            barPercentage: .5,
-            backgroundColor: "#5c79c3",
+// var ctx = document.getElementById("chart2").getContext('2d');
+// var myChart = new Chart(ctx, {
+//     type: 'bar',
+//     data: {
+//         labels: ['Sat', 'Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fr'],
+//         datasets: [{
+//             label: 'Admitted',
+//             data: last7DaysData,
+//             barPercentage: .5,
+//             backgroundColor: "#5c79c3",
 
 
-        }, {
-            label: 'Discharge',
-            data: [190, 140, 180, 240, 160, 190, 140],
-            barPercentage: .5,
-            backgroundColor: "#d17656",
+//         }, {
+//             label: 'Discharge',
+//             data: last7DaysDataSortie,
+//             barPercentage: .5,
+//             backgroundColor: "#d17656",
 
-        }]
-    },
-    options: {
-        maintainAspectRatio: false,
+//         }]
+//     },
+//     options: {
+//         maintainAspectRatio: false,
 
-        legend: {
-            display: false,
-            labels: {
-                fontColor: '#585757',
-                boxWidth: 40,
+//         legend: {
+//             display: false,
+//             labels: {
+//                 fontColor: '#585757',
+//                 boxWidth: 40,
 
-            }
-        },
-        tooltips: {
-            enabled: true
-        },
-        scales: {
-            xAxes: [{
-                ticks: {
-                    beginAtZero: true,
-                    fontColor: '#96a2b4'
-                },
-                gridLines: {
-                    display: false,
-                    color: "rgba(0, 0, 0, 0.07)"
-                },
-            }],
-            yAxes: [{
-                ticks: {
-                    beginAtZero: true,
-                    fontColor: '#96a2b4'
-                },
-                gridLines: {
-                    display: false,
-                    color: "rgba(0, 0, 0, 0.07)"
-                },
-            }]
-        }
-    }
-});
+//             }
+//         },
+//         tooltips: {
+//             enabled: true
+//         },
+//         scales: {
+//             xAxes: [{
+//                 ticks: {
+//                     beginAtZero: true,
+//                     fontColor: '#96a2b4'
+//                 },
+//                 gridLines: {
+//                     display: false,
+//                     color: "rgba(0, 0, 0, 0.07)"
+//                 },
+//             }],
+//             yAxes: [{
+//                 ticks: {
+//                     beginAtZero: true,
+//                     fontColor: '#96a2b4'
+//                 },
+//                 gridLines: {
+//                     display: false,
+//                     color: "rgba(0, 0, 0, 0.07)"
+//                 },
+//             }]
+//         }
+//     }
+// });
 
 
+// Calculate the total of last7DaysDataSortie
+var totalRevenue = last7DaysData.reduce(function(acc, val) {
+    return acc + val;
+}, 0);
+
+// Calculate the total of last7DaysDataSortie
+var totalSortie = last7DaysDataSortie.reduce(function(acc, val) {
+    return acc + val;
+}, 0);
+
+document.getElementById('totalRevenue').innerText = totalRevenue + " DH";
+document.getElementById('totalSortie').innerText = totalSortie + " DH";
+
+console.log(totalSortie);
+console.log(totalRevenue);
 // chart 3
 new Chart(document.getElementById("chart3"), {
+    
+    
     type: 'doughnut',
     data: {
-        labels: ["Stroke", "Diabetes", "Cirrhosis", "Tuberculosis"],
+        labels: ["Revenue","Sortie"],
         datasets: [{
-            label: "Top Diseases (millions)",
-            backgroundColor: ["rgba(115, 90, 132, 1)", "rgba(231, 100, 18, 1)", "rgba(155, 195, 17, 1)", "rgba(78, 152, 217, 1)"],
+            label: "Activity (millions)",
+            backgroundColor: ["rgba(128, 182, 244, 1)", "rgba(244, 67, 54, 1)", ],
             // data: [2478, 5267, 734, 784],
-            data: [1, 2, 1, 5]
+            data: [totalRevenue,totalSortie]
         }]
     },
     options: {
@@ -194,7 +218,7 @@ new Chart(document.getElementById("chart3"), {
         maintainAspectRatio: false,
         title: {
             display: false,
-            text: 'Top Diseases'
+            text: 'Activity'
         }
     }
 });

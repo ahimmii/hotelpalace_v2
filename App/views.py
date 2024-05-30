@@ -1,5 +1,9 @@
 # views.py
 from django.shortcuts import render, redirect
+from firebase_admin import storage
+from datetime import datetime, timedelta
+# from .models import Image
+# from .form import ImageForm
 from django.contrib.auth import authenticate, login as auth_login, logout
 from django.http import JsonResponse
 from datetime import datetime
@@ -12,6 +16,8 @@ import uuid
 import json
 from django.urls import reverse
 
+
+
 config = {
     "apiKey": "AIzaSyD_2f-l_8SdOrR4oCRtcyceGY9xyz8FdnE",
     "authDomain": "palace-d2b7f.firebaseapp.com",
@@ -22,6 +28,7 @@ config = {
     "appId": "1:225914163841:web:58ca77402cf3166078f380",
     "measurementId": "G-ZRMK9KFP6C"
 }
+
 
 # config = {
 #     "apiKey": "AIzaSyDfOPsPiKZJtTvowMkgkBC52mLHFv0agCk",
@@ -47,6 +54,8 @@ config = {
 firebase = pyrebase.initialize_app(config)
 authe = firebase.auth()
 database = firebase.database()
+storages = firebase.storage()
+
 
 class LoginForm(forms.Form):
     username = forms.CharField(max_length=50)
@@ -87,11 +96,18 @@ def user_login(request):
             form = LoginForm()
         return render(request, "login/login.html", {"form": form})
 
+def try_parse_date(date_str):
+    formats = ["%d/%m/%Y", "%Y-%m-%d"]
+    for fmt in formats:
+        try:
+            return datetime.strptime(date_str, fmt)
+        except ValueError:
+            continue
+    return None
 
 def user_dashboard(request):
     # return render(request, "index-3.html", {"form": []})
     start_date = datetime.today().strftime('01/01/%Y')
-    end_date = datetime.today().strftime('31/12/%Y')
     end_date = datetime.today().strftime('31/12/%Y')
     date_today = datetime.today().strftime('%d/%m/%Y')
 
@@ -100,22 +116,43 @@ def user_dashboard(request):
     total_prix = 0
     total_prix_Cash = 0
     total_prix_Card = 0
+    total_prix_Year = 0
+    total_prix_month_Cash = 0
+    total_prix_month_Visa_Card = 0
     total_Rooms_Av = 0
     total_prix_month = 0
     Rooms_Av = 0
     total_Rooms_N_Av = 35
     total_price_per_day = {}
+    total_price_per_day_Sortie = {}
+
+    
 
     for entry in stack.each():
         entry_date = datetime.strptime(entry.val().get('Fait'), '%d/%m/%Y')
+        prix_value = entry.val().get('Prix').replace('\xa0', '')
+        if datetime.strptime(entry.val().get('Fait'), '%d/%m/%Y') >= datetime.strptime(datetime.today().strftime('01/01/%Y'), '%d/%m/%Y') and datetime.strptime(entry.val().get('Fait'), '%d/%m/%Y') <= datetime.strptime(datetime.today().strftime('30/12/%Y'), '%d/%m/%Y'):
+            # print(entry.val().get('Fait'))
+            if prix_value and entry.val().get("N_T") != "ADMIN":
+                total_prix_Year += int(prix_value)
+            else:
+                pass
         if datetime.strptime(entry.val().get('Fait'), '%d/%m/%Y') >= datetime.strptime(datetime.today().strftime('01/%m/%Y'), '%d/%m/%Y') and datetime.strptime(entry.val().get('Fait'), '%d/%m/%Y') <= datetime.strptime(datetime.today().strftime('30/%m/%Y'), '%d/%m/%Y'):
-            prix_value = entry.val().get('Prix')
-            print(entry.val().get('Fait'))
-            if prix_value and prix_value.strip() != '':
+            # print(entry.val().get('Fait'))
+            if prix_value and prix_value.strip() != '' and entry.val().get("N_T") != "ADMIN":
                 total_prix_month += int(prix_value)
+                if entry.val().get("modepaiment") == "Cash":
+                    total_prix_month_Cash += int(prix_value)
+                if entry.val().get("modepaiment") == "Visa Card":
+                    total_prix_month_Visa_Card += int(prix_value)
                 total_price_per_day.setdefault(entry_date.date(), 0)
                 total_price_per_day[entry_date.date()] += int(prix_value)
+                if int(prix_value) < 0:
+                    total_price_per_day_Sortie.setdefault(entry_date.date(), 0)
+                    total_price_per_day_Sortie[entry_date.date()] -= int(prix_value)
+            
 
+    # print(total_price_per_day)
     # for date, total_price in total_price_per_day.items():
     #     print(f"{date.strftime('%d/%m/%Y')}: {total_price}")
 
@@ -123,22 +160,39 @@ def user_dashboard(request):
     data_av = []
     data_in = []
     data_out = []
+    filePath = ''
 
-    stack = database.child('Client').order_by_child("Fait").equal_to(datetime.today().strftime('%d/%m/%Y')).get()  
+    stack = database.child('Client').order_by_child("Fait").equal_to(datetime.today().strftime('%d/%m/%Y')).get()
+    
 
     for entry in stack.each():
         # print(entry.val().get('Fait'))
         prix_value = entry.val().get('Prix')
+        url = entry.val().get('filePath')
+
+        if url:
+            filePath = storages.child(entry.val().get('filePath')).get_url(None)
+
         try:
             if int(prix_value) > 0:
                 data_new.append({
-                    "nom":entry.val().get("Nom"),
-                    "prenom":entry.val().get("Prenom"),
+                    "Nom":entry.val().get("Nom"),
+                    "Prenom":entry.val().get("Prenom"),
                     "Prix":entry.val().get('Prix'),
+                    "modepaiment":entry.val().get('modepaiment'),
+                    "N_chamber":entry.val().get('N_chamber'),
+                    "Check_in":entry.val().get('Check_in'),
+                    "Check_out":entry.val().get('Check_out'),
+                    "Prix":entry.val().get('Prix'),
+                    "Prix_R":entry.val().get('Prix_R'),
+                    "User":entry.val().get('User'),
+                    "filePath":filePath,
+                    "Fait":entry.val().get('Fait'),
+                    "N_T":entry.val().get('N_T'),
                 })
         except ValueError:
             prix_value = 0
-        if prix_value and prix_value.strip() != '':
+        if prix_value and prix_value.strip() != '' and entry.val().get("N_T") != "ADMIN":
             if prix_value:
                 total_prix += int(prix_value)
                 if entry.val().get("modepaiment") == "Cash":
@@ -146,8 +200,6 @@ def user_dashboard(request):
                 if entry.val().get("modepaiment") == "Visa Card":
                     total_prix_Card += int(entry.val().get("Prix"))
         
-    
-
     Rooms = database.child('Client').order_by_child("Check_out").start_at(datetime.today().strftime('%d/%m/%Y')).get()
     
     for entry in Rooms.each():
@@ -213,36 +265,37 @@ def user_dashboard(request):
                     # Handle the case where the expression cannot be evaluated as an integer
                         print(f"Error: {e}")
 
-    if request.method == "POST":
-        First_Name = request.POST['nom']
-        Last_Name = request.POST['prenom']
-        Check_in = request.POST['check_in']
-        Check_out = request.POST['check_out']
-        Room = request.POST['n_chamber']
-        Prix = request.POST['prix']
+    # if request.method == "POST":
+        # First_Name = request.POST['nom']
+        # Last_Name = request.POST['prenom']
+        # Check_in = request.POST['check_in']
+        # Check_out = request.POST['check_out']
+        # Room = request.POST['n_chamber']
+        # Prix = request.POST['prix']
         # Unpaid_Price = request.POST['Unpaid_Price']
         # Nationalite = request.POST['Nationalite']
         # Domicile = request.POST['Domicile']
         # Num_Cin_Pas = request.POST['Num_Cin_Pas']
         # Image_Cin_Pas = request.POST['Image_Cin_Pas']
-        data = {
-            "Prenom": First_Name,
-            "Nom": Last_Name,
-            "Check_in": Check_in,
-            "Check_out": Check_out,
-            "N_chamber": Room,
-            "Prix": Prix,
-            # "Prix_R": Unpaid_Price,
-            # "Nationalite": Nationalite,
-            # "Domicile": Domicile,
-            # "Cin_Pas": Num_Cin_Pas,
-            # "Image_Cin_Pas": Image_Cin_Pas,
-            "Fait": datetime.today().strftime('%d/%m/%Y'),
-            # "ID": Id_value,
-            }
+        # data = {
+        #     "Prenom": First_Name,
+        #     "Nom": Last_Name,
+        #     "Check_in": Check_in,
+        #     "Check_out": Check_out,
+        #     "N_chamber": Room,
+        #     "Prix": Prix,
+        #     # "Prix_R": Unpaid_Price,
+        #     # "Nationalite": Nationalite,
+        #     # "Domicile": Domicile,
+        #     # "Cin_Pas": Num_Cin_Pas,
+        #     # "Image_Cin_Pas": Image_Cin_Pas,
+        #     "Fait": datetime.today().strftime('%d/%m/%Y'),
+        #     # "ID": Id_value,
+        #     }
     # print(data_new)
     
     context = {
+        # 'image_url': download_url,
         'data_out': data_out,
         'data_av': data_av,
         'data_in': data_in,
@@ -252,9 +305,14 @@ def user_dashboard(request):
         'total_prix_Cash': total_prix_Cash,
         'total_prix_Card': total_prix_Card,
         'total_prix_month': total_prix_month,
+        'total_prix_Year': total_prix_Year,
+        'total_prix_month_Visa_Card': total_prix_month_Visa_Card,
+        'total_prix_month_Cash': total_prix_month_Cash,
         'total_Rooms_Av': total_Rooms_Av,
         'total_Rooms_N_Av': total_Rooms_N_Av - total_Rooms_Av,
         'total_price_per_day': total_price_per_day,
+        'total_price_per_day_Sortie': total_price_per_day_Sortie,
+        # 'link_url': link_url,
         'date_today': datetime.today().strftime('%d/%m/%Y'),
     }
     # return JsonResponse({"data": data_new})
@@ -462,7 +520,7 @@ def patient_create(request):
     # return render(request, "patient_form.html", {"form": form})
 
     # -------------------metode Add-------------------
-    print("patient_create ==================================>>>>>>>")
+    # print("patient_create ==================================>>>>>>>")
 
     data_Patients = []
     if request.method == "POST":
@@ -499,10 +557,10 @@ def patient_create(request):
         # Update the data_Patients dictionary with the rendem id
         data_Patients["Patient_id"] = rendem_id
 
-        print(
-            "Data with Unique Identifier (rendem id) before push:",
-            data_Patients["typeAge"],
-        )
+        # print(
+        #     "Data with Unique Identifier (rendem id) before push:",
+        #     data_Patients["typeAge"],
+        # )
 
         # Now you can push the data to Firebase using the unique identifier
         database.child("Patients").child(rendem_id).set(data_Patients)
@@ -566,7 +624,7 @@ def patient_update(request, pk):
             "Patient_id": request.POST["id"],
         }
         database.child("Patients").child(pk).update(data_patient_update)
-    print("UPDATE =>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>\n")
+    # print("UPDATE =>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>\n")
     return JsonResponse({"status": "success"})
     # return redirect("patient_list")
 
@@ -588,9 +646,9 @@ def appointment_list(request):
     # return render(request, 'appointment_list.html', {'appointments': appointments})
     new_data = []
     N_chamber_T = ["01","02","03","04","05","06","07","08","09","10","11","12","13","14","15","16","17","18","19","20","21","22","23","24","25","26","27","28","29","30"]
-    total_lidkal = 0
-    total_likhrej = 0
+    total_Sortie = 0
     total = 0
+    link_url = ''
     start_date = datetime.today().strftime('01/01/%Y')
     end_date = datetime.today().strftime('31/12/%Y')
     appointments = database.child('Client').order_by_child("Fait").start_at(start_date).end_at(end_date).get()
@@ -601,66 +659,69 @@ def appointment_list(request):
     data = database.child('Client').order_by_child("Fait").start_at(start_date).end_at(end_date).get()
     
     for entry in data.each():
-        if datetime.strptime(entry.val().get('Fait'), '%d/%m/%Y') >= datetime.strptime(start_date, '%d/%m/%Y') and datetime.strptime(entry.val().get('Fait'), '%d/%m/%Y') <= datetime.strptime(end_date, '%d/%m/%Y'):
-            input_date = datetime.strptime(entry.val().get('Fait'), '%d/%m/%Y')
+        if try_parse_date(entry.val().get('Fait')) >= try_parse_date(start_date) and try_parse_date(entry.val().get('Fait')) <= try_parse_date(end_date):
+            input_date = try_parse_date(entry.val().get('Fait'))
             
             prix_str = entry.val().get('Prix')
             Prix_R_str = entry.val().get('Prix_R')
+            url = entry.val().get('filePath')
+
+            
             # Remove non-numeric characters (except for dots) from the Prix string
             prix_str = ''.join(char if char.isdigit() or char == '-' else '' for char in prix_str)
             Prix_R_str = ''.join(char if char.isdigit() or char == '-' else '' for char in Prix_R_str)
-            
-
+            if url:
+                link_url = storages.child(entry.val().get('filePath')).get_url(None)
+                print(entry.val().get('ID'))
+    
             # print(prix_str)
-            if datetime.strptime(entry.val().get('Check_out'), '%d/%m/%Y') > datetime.strptime(datetime.today().strftime('%d/%m/%Y'), '%d/%m/%Y') and datetime.strptime(entry.val().get('Check_in'), '%d/%m/%Y') <= datetime.strptime(datetime.today().strftime('%d/%m/%Y'), '%d/%m/%Y'):
+            if try_parse_date(entry.val().get('Check_out')) > try_parse_date(datetime.today().strftime('%d/%m/%Y')) and try_parse_date(entry.val().get('Check_in')) <= try_parse_date(datetime.today().strftime('%d/%m/%Y')):
                 if entry.val().get('N_chamber') in N_chamber_T:
                     N_chamber_T.remove(entry.val().get('N_chamber'))
             if prix_str and prix_str.strip() != '' and Prix_R_str and Prix_R_str.strip() != '':
                 prix_value = int(prix_str)
                 Prix_R_value = int(Prix_R_str)
                 
-                if prix_value >= 0:
-                    total_lidkal += prix_value
-                    # if entry.val().get("Prix_R") == 0:
-                    #     status = True
-                    # else:
-                    #     status = False
-                    new_data.append({
-                        "nom" : entry.val().get("Nom"),
-                        "prenom" : entry.val().get("Prenom"),
-                        "Domicile" : entry.val().get("Domicile"),
-                        "User" : entry.val().get("N_T"),
-                        "Prix" : prix_value,
-                        "Prix_R" : Prix_R_value,
-                        "N_chamber": entry.val().get('N_chamber'),
-                        "Check_in": convert_date_to_timestamp(entry.val().get('Check_in')),
-                        "Check_out": convert_date_to_timestamp(entry.val().get('Check_out')),
-                        "id" : entry.val().get('ID'),
-                        "Fait" : input_date.strftime('%Y-%m-%d'),
-                        "Typedereservation": entry.val().get('Typedereservation'),
-                        "modepaiment": entry.val().get('modepaiment'),
-                        
-                        # "Status" : status,
-                    })
+                if entry.val().get("N_T") != "ADMIN":
+                    if prix_value or prix_value == 0:
+                        total_Sortie += prix_value
+                        # if entry.val().get("Prix_R") == 0:
+                        #     status = True
+                        # else:
+                        #     status = False
+                        new_data.append({
+                            "nom" : entry.val().get("Nom"),
+                            "prenom" : entry.val().get("Prenom"),
+                            "Domicile" : entry.val().get("Domicile"),
+                            "User" : entry.val().get("N_T"),
+                            "Prix" : prix_value,
+                            "Prix_R" : Prix_R_value,
+                            "N_chamber" : entry.val().get('N_chamber'),
+                            "Num_phone" : entry.val().get("Num_phone"),
+                            "Check_in" : convert_date_to_timestamp(entry.val().get('Check_in')),
+                            "Check_out" : convert_date_to_timestamp(entry.val().get('Check_out')),
+                            "id" : entry.val().get('ID'),
+                            "Fait" : input_date.strftime('%Y-%m-%d'),
+                            "Typedereservation" : entry.val().get('Typedereservation'),
+                            "modepaiment" : entry.val().get('modepaiment'),
+                            "filePath" : link_url,
+                            "url" : url,
+                        })
                     # print(convert_date_to_timestamp(entry.val().get('Check_in')))
-                if prix_value < 0:
-                    total_likhrej += prix_value
                 total += prix_value
 
-
-    # print(total_lidkal)
-    # print(total_likhrej)
-    # print(total)
     return render(
         request,
         "appointement/new-appointment.html",
         {
             "appointments": new_data,
-            "Total" : total_lidkal,
+            "Total" : total_Sortie,
             "N_chamber_T" : N_chamber_T,
+            # "total_likhrej" : total_likhrej,
         },
     )
 
+@admin_only
 def withdrawal_list(request):
     # appointments = Appointment.objects.all()
     # return render(request, 'appointment_list.html', {'appointments': appointments})
@@ -693,7 +754,7 @@ def withdrawal_list(request):
                 prix_value = int(prix_str)
                 Prix_R_value = int(Prix_R_str)
                 
-                if prix_value < 0:
+                if entry.val().get("N_T") == 'ADMIN':
                     total_lidkal += prix_value
                     # if entry.val().get("Prix_R") == 0:
                     #     status = True
@@ -707,6 +768,7 @@ def withdrawal_list(request):
                         "Prix" : prix_value,
                         "Prix_R" : Prix_R_value,
                         "N_chamber": entry.val().get('N_chamber'),
+                        "Num_phone" : entry.val().get("Num_phone"),
                         "Check_in": convert_date_to_timestamp(entry.val().get('Check_in')),
                         "Check_out": convert_date_to_timestamp(entry.val().get('Check_out')),
                         "id" : entry.val().get('ID'),
@@ -788,6 +850,9 @@ def appointment_edit(request, pk):
             check_out_str = "" 
         # data = json.loads(request.body)
         # # print(data)
+
+        print(data["filePath_update"])
+
         updateData = {
             "ID":data["id"],
             "Check_in":check_in_str,
@@ -795,6 +860,7 @@ def appointment_edit(request, pk):
             "Cin_Pas":"",
             "DateN":"",
             "Domicile":"",
+            "identification":"",
             "Prenom":data["ferst_Name_update"],
             "Nom":data["last_name_update"],
             "N_chamber":str(data["chamber_update"]),
@@ -803,10 +869,13 @@ def appointment_edit(request, pk):
             "Prix":str(data["totalPrice"]),
             "Prix_R":str(data["amountPaid_update"]),
             "modepaiment":data["modepaiment_update"],
+            "Num_phone":data["Num_phone_update"],
             "Typedereservation":data["Typedereservation_update"],
+            "filePath":data["filePath_update"],
         }
         # print(updateData)
-       
+        if data["filePath_update"] != "":
+            storages.child(data["filePath_update"]).put(data["filePath_update"])
         database.child("Client").child(pk).update(updateData)
     return JsonResponse({"success": True})
 
@@ -938,6 +1007,22 @@ def save_calendar(request):
         # id = database.child('Client').order_by_child("Fait").limit_to_last(1)
         last_record = database.child('Client').order_by_child("ID").order_by_key().limit_to_last(1).get()
 
+        # if 'file' not in request.FILES:
+        #     return JsonResponse({'success': False, 'message': 'No file part'})
+
+        # file = request.FILES['file']
+
+        # if file.name == '':
+        #     return JsonResponse({'success': False, 'message': 'No selected file'})
+
+        # if file:
+        #     filename = file.name
+        #     with open(filename, 'wb+') as destination:
+        #         for chunk in file.chunks():
+        #             destination.write(chunk)
+
+        #     storages.child(filename).put(filename)
+
         for entry in last_record.each():
             ID_S = entry.val().get('ID')
         ID = int(ID_S) + 1
@@ -961,16 +1046,18 @@ def save_calendar(request):
         #     "Statut_de_paiement": data["extendedProps"]["Statut_de_paiement"],
         #     "typeAppointment": data["extendedProps"]["typeAppointment"],
         # }
+
         test={
             "Check_in":data["startDate"],
             "Check_out":data["endDate"],
             "Cin_Pas":"",
             "DateN":"",
             "Domicile":"",
-            "Fait":datetime.today().strftime('%d/%m/%Y'),
+            "Fait": data["FaitDate"],
             "ID":str(ID),
             "Prenom":data["firstName"],
             "Nom":data["lastName"],
+            "Num_phone":data["Num_phone"],
             "N_chamber":str(data["chamber"]),
             "Nationalite":"",
             "N_T":data['extendedProps']["N_T"],
@@ -978,8 +1065,12 @@ def save_calendar(request):
             "Prix_R":str(data['extendedProps']["amountPaid"]),
             "modepaiment":data['extendedProps']["modepaiment"],
             "Typedereservation":data['extendedProps']["typeAppointment"],
+            "filePath":data["filePath"] ,
         }
 
+        print(test)
+        if data["filePath"] != "":
+            storages.child(data["filePath"]).put(data["filePath"])
         database.child("Client").child(str(ID)).set(test)
 
         # event.save()

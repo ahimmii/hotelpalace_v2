@@ -460,7 +460,7 @@
                     <div class="col-md-12 col-sm-12 form-group">
                         <label for="remainingAmount">Room number</label>
 
-                        <select id="chamber" class="form-control form-select js-example-basic-multiple " name="states[]" multiple="multiple">
+                        <select id="chamber" class="form-control form-select select2 " style="width: 100%;" multiple="multiple">
                             <option value=""></option>
                             {% for chamber in N_chamber_T %}
                             <option value="{{ chamber }}">{{ chamber }}</option>
@@ -562,6 +562,13 @@
     const url = "{% url 'calendar_save' %}";
     var updateUrl = "{% url 'appointment_edit' pk='pk_placeholder' %}";
     var deleteUrl = "{% url 'appointment_delete' pk='pk_placeholder' %}";
+
+    $(document).ready(function() {
+        $('.select2').select2({
+            placeholder: "Select a Room",
+            allowClear: true
+        });
+    });
 
     function convertDate(input) {
         // Split the input into date and time components

@@ -310,46 +310,15 @@
                     <div class="col-md-12 col-sm-12 form-group">
                         <label for="remainingAmount">Room number</label>
 
-                        <select id="chamber_update" class="form-control form-select" multiple> 
+                        <select id="chamber_update" class=" select2 " style="width: 100%;" multiple="multiple">
                             <option value=""></option>
-                            <option value="01">01</option>
-                            <option value="02">02</option>
-                            <option value="03">03</option>
-                            <option value="04">04</option>
-                            <option value="05">05</option>
-                            <option value="06">06</option>
-                            <option value="07">07</option>
-                            <option value="08">08</option>
-                            <option value="09">09</option>
-                            <option value="10">10</option>
-                            <option value="11">11</option>
-                            <option value="12">12</option>
-                            <option value="13">13</option>
-                            <option value="14">14</option>
-                            <option value="15">15</option>
-                            <option value="16">16</option>
-                            <option value="17">17</option>
-                            <option value="18">18</option>
-                            <option value="19">19</option>
-                            <option value="20">20</option>
-                            <option value="21">21</option>
-                            <option value="22">22</option>
-                            <option value="23">23</option>
-                            <option value="24">24</option>
-                            <option value="25">25</option>
-                            <option value="26">26</option>
-                            <option value="27">27</option>
-                            <option value="28">28</option>
-                            <option value="29">29</option>
-                            <option value="30">30</option>
-                            <option value="31">31</option>
-                            <option value="32">32</option>
-                            <option value="33">33</option>
-                            <option value="34">34</option>
-                            <option value="35">35</option>
+                            {% for chamber in N_chamber_T %}
+                            <option value="{{ chamber }}">{{ chamber }}</option>
+                            {% endfor %}
                         </select>
-
+                    
                     </div>
+
                     <div class="col-md-6 col-sm-12 form-group">
                         <label for="startDate">Start Date</label>
                         <input class="form-control" id="startDate_update" type="date">
@@ -460,7 +429,7 @@
                     <div class="col-md-12 col-sm-12 form-group">
                         <label for="remainingAmount">Room number</label>
 
-                        <select id="chamber" class="form-control form-select select2 " style="width: 100%;" multiple="multiple">
+                        <select id="chamber" class=" select2 " style="width: 100%;" multiple="multiple">
                             <option value=""></option>
                             {% for chamber in N_chamber_T %}
                             <option value="{{ chamber }}">{{ chamber }}</option>
@@ -557,6 +526,7 @@
 <!-- End Modal  -->
 
 
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script> 
 <script>
    
     const url = "{% url 'calendar_save' %}";
@@ -619,7 +589,7 @@
             var formattedCheckIn = this.getAttribute('data-row-Check-in');
             // Example usage within an event handler or function where 'this' is bound to the element
             var formattedCheckOut = this.getAttribute('data-row-Check-out');
-
+            
 
            
 
@@ -629,18 +599,18 @@
 
 
             var intRowPrix = parseInt(rowPrix, 10);
-
-
+            console.log(`rowN_chamber is ${rowN_chamber}`)
             ///////////////// OPEN UPDATE MODAL ///////////////////////////////////////
             // console.log(this.getAttribute('data-row-filePath'))
-            console.log(`value is ${rowfilePath}`)
+            // console.log(`value is ${rowfilePath}`)
             
             $('#id_input').val(rowId);
             $("#ferst_Name_update").val(rowNom);
             $("#last_name_update").val(rowPrenom);
             $("#FaitDate_update").val(rowFait);
             $('#display_file_update').val(rowfilePath)
-            $("#chamber_update").val(rowN_chamber);
+            // $("#chamber_update").val(rowN_chamber);
+            populateSelectFromString("chamber_update",rowN_chamber)
             $("#startDate_update").val(rowCheckIn);
             $("#endDate_update").val(rowCheckOut);
             $("#Num_phone_update").val(rowNum_phone);
@@ -1087,11 +1057,11 @@
         final_data=$('#formattedValues').val(formattedString);
 
         
-        return false
+        
         // alert("submit")
         // Get form data
         const id = $('#id_input').val();
-        filePath_update = $('#filePath_update').val()
+        filePath_update = $('#filePath_update').val() ?? ""
         correctedFilePath = filePath_update.replace('C:\\fakepath', 'C:\\Users\\HP PLAZA\\Documents\\SCANNER');
         // alert('id'+id)
         var formData = {
@@ -1169,7 +1139,7 @@
         rows.forEach(function(row) {
             var priceCell = row.querySelector('.Prix-column');
             var modepaiment = row.querySelector('.modepaiment-column');
-            var price = parseFloat(priceCell.textContent) || 0;
+            var price = parseFloat(priceCell?.textContent) || 0;
             var allmodepaiment = modepaiment.textContent || null;
 
             // console.log(allmodepaiment)
@@ -1334,8 +1304,20 @@
     // }
 
 
+    ////////////////////////////GET Select Chambre Format  ////////////////////
 
-
+    function populateSelectFromString(selectId, stringValue) {
+        console.log("in populateSelectFromString",selectId,stringValue)
+    var selectTag = document.getElementById(selectId);
+    var selectedArray = stringValue.split('/');
+    
+    selectedArray.forEach(function(value) {
+        var option = document.createElement("option");
+        option.text = value;
+        option.value = value;
+        selectTag.appendChild(option);
+    });
+}
     ////////////////////////////GET NAME ////////////////////
     function getSelectedOptionId(selectId) {
         const selectElement = document.getElementById(selectId);

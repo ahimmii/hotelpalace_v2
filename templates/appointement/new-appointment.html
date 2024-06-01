@@ -157,7 +157,7 @@
                                     <td class="id-column">
                                         {{ appointment_data.id }}</td>
                                     <td class="Fait-column">{{ appointment_data.Fait}}</td>
-                                    <td class="name-column">{{ appointment_data.nom }} {{appointment_data.prenom }}</td>
+                                    <td class="name-column">{{appointment_data.prenom }} {{ appointment_data.nom }}</td>
                                     <td class="Domicile-column">{{ appointment_data.Typedereservation}}</td>
                                     <td class="N_chamber-column">{{ appointment_data.N_chamber }}</td>
                                     <td class="PrixR-column">{{ appointment_data.Num_phone }}</td>
@@ -311,10 +311,42 @@
                         <label for="remainingAmount">Room number</label>
 
                         <select id="chamber_update" class=" select2 " style="width: 100%;" multiple="multiple">
-                            <option value=""></option>
-                            {% for chamber in N_chamber_T %}
-                            <option value="{{ chamber }}">{{ chamber }}</option>
-                            {% endfor %}
+                            <!-- <option value=""></option> -->
+                            <option value="01">01</option>
+                            <option value="02">02</option>
+                            <option value="03">03</option>
+                            <option value="04">04</option>
+                            <option value="05">05</option>
+                            <option value="06">06</option>
+                            <option value="07">07</option>
+                            <option value="08">08</option>
+                            <option value="09">09</option>
+                            <option value="10">10</option>
+                            <option value="11">11</option>
+                            <option value="12">12</option>
+                            <option value="13">13</option>
+                            <option value="14">14</option>
+                            <option value="15">15</option>
+                            <option value="16">16</option>
+                            <option value="17">17</option>
+                            <option value="18">18</option>
+                            <option value="19">19</option>
+                            <option value="20">20</option>
+                            <option value="21">21</option>
+                            <option value="22">22</option>
+                            <option value="23">23</option>
+                            <option value="24">24</option>
+                            <option value="25">25</option>
+                            <option value="26">26</option>
+                            <option value="27">27</option>
+                            <option value="28">28</option>
+                            <option value="29">29</option>
+                            <option value="30">30</option>
+                            <option value="31">31</option>
+                            <option value="32">32</option>
+                            <option value="33">33</option>
+                            <option value="34">34</option>
+                            <option value="35">35</option>
                         </select>
                     
                     </div>
@@ -435,8 +467,9 @@
                             <option value="{{ chamber }}">{{ chamber }}</option>
                             {% endfor %}
                         </select>
-
+                        
                     </div>
+                    
                     <div class="col-md-6 col-sm-12 form-group">
                         <label for="startDate">Start Date</label>
                         <input class="form-control" id="startDate" type="date" pattern="\d{2}/\d{2}/\d{4}" placeholder="DD/MM/YYYY" title="Enter a date in DD/MM/YYYY format">
@@ -592,7 +625,6 @@
             
 
            
-
             var rowCheckOut = convertDate(formattedCheckOut);
             var rowCheckIn = convertDate(formattedCheckIn);
 
@@ -603,14 +635,15 @@
             ///////////////// OPEN UPDATE MODAL ///////////////////////////////////////
             // console.log(this.getAttribute('data-row-filePath'))
             // console.log(`value is ${rowfilePath}`)
-            
+            // console.log(rowN_chamber)
+
             $('#id_input').val(rowId);
             $("#ferst_Name_update").val(rowNom);
             $("#last_name_update").val(rowPrenom);
             $("#FaitDate_update").val(rowFait);
             $('#display_file_update').val(rowfilePath)
             // $("#chamber_update").val(rowN_chamber);
-            populateSelectFromString("chamber_update",rowN_chamber)
+            populateSelectFromString("chamber_update", rowN_chamber)
             $("#startDate_update").val(rowCheckIn);
             $("#endDate_update").val(rowCheckOut);
             $("#Num_phone_update").val(rowNum_phone);
@@ -1307,22 +1340,18 @@
     ////////////////////////////GET Select Chambre Format  ////////////////////
 
     function populateSelectFromString(selectId, stringValue) {
-    console.log("in populateSelectFromString", selectId, stringValue);
-    var selectTag = $("#" + selectId);
-    var selectedArray = stringValue.split('/');
-    
-    // Deselect all options first
-    selectTag.val(null).trigger('change');
+        console.log("in populateSelectFromString",selectId,stringValue)
+        var selectTag = $("#" + selectId);
+        var selectedArray = stringValue.split('/');
+        
+        // Deselect all options first
+        selectTag.val(null).trigger('change');
+        selectedArray.forEach(function(value){
+            selectTag.find('option[value="' + value + '"]').prop('selected', true);
+        });
 
-    // Select options that match the values in selectedArray
-    selectedArray.forEach(function(value) {
-        selectTag.find('option[value="' + value + '"]').prop('selected', true);
-    });
-
-    // Trigger change event to notify Select2 of changes
-    selectTag.trigger('change');
-}
-
+        selectTag.trigger('change');
+    }
     ////////////////////////////GET NAME ////////////////////
     function getSelectedOptionId(selectId) {
         const selectElement = document.getElementById(selectId);

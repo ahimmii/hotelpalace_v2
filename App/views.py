@@ -672,7 +672,8 @@ def appointment_list(request):
             Prix_R_str = ''.join(char if char.isdigit() or char == '-' else '' for char in Prix_R_str)
             if url:
                 link_url = storages.child(entry.val().get('filePath')).get_url(None)
-                print(entry.val().get('ID'))
+            else:
+                link_url = "f"    
     
             # print(prix_str)
             if try_parse_date(entry.val().get('Check_out')) > try_parse_date(datetime.today().strftime('%d/%m/%Y')) and try_parse_date(entry.val().get('Check_in')) <= try_parse_date(datetime.today().strftime('%d/%m/%Y')):

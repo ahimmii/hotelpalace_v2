@@ -311,19 +311,19 @@
                                     <td>{{ value.Prix }} DH</td>
                                     <td>{{ value.Prix_R }} DH</td>
                                     <td>{{ value.N_T }}</td>
-                                    {% if  date_today >= value.Check_out and appointment_data.filePath != '' %}
-                                    <td class="filePath-column" > <a href="{{ value.filePath }}">
+                                    {% if  date_today >= value.Check_out and appointment_data.filePath != "f" %}
+                                    <td class="filePath-column" >
                                         <span class="badge btn-danger" >definition</span>
-                                    </a></td>
-                                    {% elif  date_today == value.Check_in and appointment_data.filePath != '' %}
+                                    </td>
+                                    {% elif  date_today == value.Check_in and appointment_data.filePath != "f" %}
                                         <td class="text-start" >
-                                            <a href="{{ value.filePath }}" >
-                                                <span class="badge badge-primary" >definition</span>
-                                            </a>
+                                                <span class="badge btn-danger" >definition</span>
                                         </td>
                                     {% else %}
                                         <td class="text-start">
-                                            <span class="badge badge-primary">definition</span>
+                                            <a href="{{ value.filePath }}" >
+                                                <span class="badge badge-primary">definition</span>
+                                            </a>
                                         </td>
                                     {% endif %}
                                     <!-- <td>

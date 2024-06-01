@@ -171,7 +171,7 @@
                                     <td class="User-column">
                                         {{ appointment_data.User }}
                                     </td>
-                                    {% if appointment_data.filePath != "" %}
+                                    {% if appointment_data.filePath != "f" %}
                                     <td class="filePath-column" > <a href="{{ appointment_data.filePath }}">
                                         <span class="badge badge-primary" >definition</span>
                                     </a></td>
@@ -311,7 +311,6 @@
                         <label for="remainingAmount">Room number</label>
 
                         <select id="chamber_update" class=" select2 " style="width: 100%;" multiple="multiple">
-                            <!-- <option value=""></option> -->
                             <option value="01">01</option>
                             <option value="02">02</option>
                             <option value="03">03</option>
@@ -422,7 +421,7 @@
                     
                     <div class="col-md-6 col-sm-12 form-group">
                         <label for="url">Enter Definition:</label>
-                        <input type="file" id="display_file_update"  accept=".png, .jpg, .pdf">
+                        <input type="file" id="filePath_update"  accept=".png, .jpg, .pdf">
                          <div id="pdfViewer"></div>
                     </div>
                     <br>
@@ -462,7 +461,6 @@
                         <label for="remainingAmount">Room number</label>
 
                         <select id="chamber" class=" select2 " style="width: 100%;" multiple="multiple">
-                            <option value=""></option>
                             {% for chamber in N_chamber_T %}
                             <option value="{{ chamber }}">{{ chamber }}</option>
                             {% endfor %}
@@ -641,7 +639,7 @@
             $("#ferst_Name_update").val(rowNom);
             $("#last_name_update").val(rowPrenom);
             $("#FaitDate_update").val(rowFait);
-            $('#display_file_update').val(rowfilePath)
+            // $('#display_file_update').val(rowfilePath)
             // $("#chamber_update").val(rowN_chamber);
             populateSelectFromString("chamber_update", rowN_chamber)
             $("#startDate_update").val(rowCheckIn);
@@ -820,14 +818,14 @@
         var endDateTime = new Date(endDate);
   
 
-        if (endDateTime <= startDateTime) {
-            Swal.fire({
-                icon: 'error',
-                title: 'Validation Error!',
-                text: 'End date must be greater than the start date.',
-            });
-            return;
-        }
+        // if (endDateTime <= startDateTime) {
+        //     Swal.fire({
+        //         icon: 'error',
+        //         title: 'Validation Error!',
+        //         text: 'End date must be greater than the start date.',
+        //     });
+        //     return;
+        // }
 
 
         // If validation passes, proceed with AJAX request
@@ -984,14 +982,14 @@
         var startDateTime = new Date(startDate);
         var endDateTime = new Date(endDate);
 
-        if (endDateTime <= startDateTime) {
-            Swal.fire({
-                icon: 'error',
-                title: 'Validation Error!',
-                text: 'End date must be greater than the start date.',
-            });
-            return;
-        }
+        // if (endDateTime <= startDateTime) {
+        //     Swal.fire({
+        //         icon: 'error',
+        //         title: 'Validation Error!',
+        //         text: 'End date must be greater than the start date.',
+        //     });
+        //     return;
+        // }
 
         // If validation passes, proceed with AJAX request
         const eventData = {
@@ -1003,7 +1001,7 @@
             endDate: endDate,
             FaitDate: FaitDate,
             Num_phone: Num_phone,
-            filePath: correctedFilePath || "",
+            filePath: correctedFilePath || "F",
             extendedProps: {
                 totalPrice: totalPrice,
                 amountPaid: amountPaid,
@@ -1113,7 +1111,7 @@
             FaitDate_update: $('#FaitDate_update').val(),
             
             Num_phone_update: $('#Num_phone_update').val(),
-            filePath_update: correctedFilePath,
+            filePath_update: correctedFilePath || "",
             id: id,
         };
         

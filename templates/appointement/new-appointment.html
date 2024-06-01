@@ -1307,17 +1307,22 @@
     ////////////////////////////GET Select Chambre Format  ////////////////////
 
     function populateSelectFromString(selectId, stringValue) {
-        console.log("in populateSelectFromString",selectId,stringValue)
-    var selectTag = document.getElementById(selectId);
+    console.log("in populateSelectFromString", selectId, stringValue);
+    var selectTag = $("#" + selectId);
     var selectedArray = stringValue.split('/');
     
+    // Deselect all options first
+    selectTag.val(null).trigger('change');
+
+    // Select options that match the values in selectedArray
     selectedArray.forEach(function(value) {
-        var option = document.createElement("option");
-        option.text = value;
-        option.value = value;
-        selectTag.appendChild(option);
+        selectTag.find('option[value="' + value + '"]').prop('selected', true);
     });
+
+    // Trigger change event to notify Select2 of changes
+    selectTag.trigger('change');
 }
+
     ////////////////////////////GET NAME ////////////////////
     function getSelectedOptionId(selectId) {
         const selectElement = document.getElementById(selectId);

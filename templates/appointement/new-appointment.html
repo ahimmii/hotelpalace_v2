@@ -173,10 +173,10 @@
                                     </td>
                                     {% if appointment_data.filePath != "f" %}
                                     <td class="filePath-column" > <a href="{{ appointment_data.filePath }}">
-                                        <span class="badge badge-primary" >definition</span>
+                                        <span class="badge badge-primary" >definition </span>
                                     </a></td>
                                     {% else %}
-                                    <td class="filePath-column" > <a></a></td>
+                                    <td class="filePath-column" ></td>
                                     {% endif %}
                                     <div class="id-column  d-none" id="{{appointment_data.id}}">
                                         {{appointment_data.id|default:"NoPatient_id Data" }}</div>
@@ -636,8 +636,8 @@
             // console.log(rowN_chamber)
 
             $('#id_input').val(rowId);
-            $("#ferst_Name_update").val(rowNom);
-            $("#last_name_update").val(rowPrenom);
+            $("#ferst_Name_update").val(rowPrenom);
+            $("#last_name_update").val(rowNom);
             $("#FaitDate_update").val(rowFait);
             // $('#display_file_update').val(rowfilePath)
             // $("#chamber_update").val(rowN_chamber);
@@ -760,7 +760,7 @@
     function addEvent() {
         const selectedValues = $('#chamber').val(); 
         const formattedString = selectedValues.join('/');
-        console.log(`formattedString is ${formattedString}`)
+        // console.log(`formattedString is ${formattedString}`)
         
         // final_data=$('#formattedValues').val(formattedString);
         // Your form validation logic goes here

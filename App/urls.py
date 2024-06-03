@@ -69,7 +69,7 @@ urlpatterns = [
 
 
     #calendar
-    path('calendar/', views.calendar, name='calendar_list'),
+    path('calendars/', views.calendars, name='calendar_list'),
     path('calendar/<pk>/edit/', views.calendar_edit, name='calendar_edit'),
     path('calendar_save/', views.save_calendar, name='calendar_save'),
 

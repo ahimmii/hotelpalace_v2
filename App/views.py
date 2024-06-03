@@ -2,6 +2,7 @@
 from django.shortcuts import render, redirect
 from firebase_admin import storage
 from datetime import datetime, timedelta
+import calendar
 # from .models import Image
 # from .form import ImageForm
 from django.contrib.auth import authenticate, login as auth_login, logout
@@ -126,18 +127,26 @@ def user_dashboard(request):
     total_price_per_day = {}
     total_price_per_day_Sortie = {}
 
+    date = datetime.today()
+    year = date.year
+    month = date.month
+    monthrange = calendar.monthrange(year, month)
+    today = monthrange[1]
+    date_string = f"{today}/{month}/{year}"
+    # print(date_string)
+ 
     
 
     for entry in stack.each():
         entry_date = datetime.strptime(entry.val().get('Fait'), '%d/%m/%Y')
         prix_value = entry.val().get('Prix').replace('\xa0', '')
-        if datetime.strptime(entry.val().get('Fait'), '%d/%m/%Y') >= datetime.strptime(datetime.today().strftime('01/01/%Y'), '%d/%m/%Y') and datetime.strptime(entry.val().get('Fait'), '%d/%m/%Y') <= datetime.strptime(datetime.today().strftime('30/12/%Y'), '%d/%m/%Y'):
+        if datetime.strptime(entry.val().get('Fait'), '%d/%m/%Y') >= datetime.strptime(datetime.today().strftime('01/01/%Y'), '%d/%m/%Y') and datetime.strptime(entry.val().get('Fait'), '%d/%m/%Y') <= datetime.strptime(datetime.today().strftime('31/12/%Y'), '%d/%m/%Y'):
             # print(entry.val().get('Fait'))
             if prix_value and entry.val().get("N_T") != "ADMIN":
                 total_prix_Year += int(prix_value)
             else:
                 pass
-        if datetime.strptime(entry.val().get('Fait'), '%d/%m/%Y') >= datetime.strptime(datetime.today().strftime('01/%m/%Y'), '%d/%m/%Y') and datetime.strptime(entry.val().get('Fait'), '%d/%m/%Y') <= datetime.strptime(datetime.today().strftime('30/%m/%Y'), '%d/%m/%Y'):
+        if datetime.strptime(entry.val().get('Fait'), '%d/%m/%Y') >= datetime.strptime(datetime.today().strftime('01/%m/%Y'), '%d/%m/%Y') and datetime.strptime(entry.val().get('Fait'), '%d/%m/%Y') <= datetime.strptime(date_string, '%d/%m/%Y'):
             # print(entry.val().get('Fait'))
             if prix_value and prix_value.strip() != '' and entry.val().get("N_T") != "ADMIN":
                 total_prix_month += int(prix_value)
@@ -1108,7 +1117,7 @@ def calendar_edit(request, pk):
         print(pk)
     return JsonResponse({"success": True})
 
-def calendar(request):
+def calendars(request):
     # rendem_id = "Appointment_" + str(uuid.uuid4())
 
     Patients = database.child("Patients").get().val()

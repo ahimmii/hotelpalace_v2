@@ -657,9 +657,11 @@ def appointment_list(request):
     total_Sortie = 0
     total = 0
     link_url = ''
-    
     start_date = datetime.today().strftime('01/01/%Y')
     end_date = datetime.today().strftime('31/12/%Y')
+    appointments = database.child('Client').order_by_child("Fait").start_at(start_date).end_at(end_date).get()
+
+
 
     #appointments = database.child('Client').order_by_child("Fait").start_at(start_date).end_at(end_date).get()
 
@@ -670,9 +672,6 @@ def appointment_list(request):
         print( start_date,end_date)
         appointments=database.child('Client').order_by_child("Check_in").start_at(start_date).end_at(end_date+ "\uf8ff").get()
         return JsonResponse({"success": True, "events": appointments.val()})
-    
-    appointments = database.child('Client').order_by_child("Fait").start_at(start_date).end_at(end_date).get()
-    data = database.child('Client').order_by_child("Fait").start_at(start_date).end_at(end_date).get()
     
     for entry in data.each():
         if try_parse_date(entry.val().get('Fait')) >= try_parse_date(start_date) and try_parse_date(entry.val().get('Fait')) <= try_parse_date(end_date):

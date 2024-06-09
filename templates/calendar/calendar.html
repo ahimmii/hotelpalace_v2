@@ -229,8 +229,7 @@
         // });
         // console.log(start_date,end_date)
         console.log(start_date,end_date)
-        start_date="01/06/2024"
-        end_date="01/07/2024"
+        
         fill_calendar(start_date,end_date)
         // Fetch events from Django and add them to the calendar
         
@@ -279,7 +278,7 @@
                 // Compare current dates with previous dates
                 if (currentDates.start < prevDates.start) {
                     // User navigated to the previous month or week
-                    fill_calendar(currentDates.start,currentDates.end)
+                    fill_calendar(formatDateToDMY(currentDates.start),formatDateToDMY(currentDates.end))
                     console.log("User navigated to the previous month or week");
                 }
             }

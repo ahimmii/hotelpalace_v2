@@ -670,8 +670,10 @@ def appointment_list(request):
         start_date = request.POST.get('start_date')
         end_date = request.POST.get('end_date')
         print( start_date,end_date)
-        appointments=database.child('Client').order_by_child("Check_in").start_at(start_date).end_at(end_date+ "\uf8ff").get()
-        return JsonResponse({"success": True, "events": data.val()})
+        appointments = database.child('Client').order_by_child("Fait").start_at(start_date).end_at(end_date).get()
+        for entry in appointments.each():
+            print(entry.val().get('Fait'))
+        return JsonResponse({"success": True, "events": appointments.val()})
     
     for entry in data.each():
         if try_parse_date(entry.val().get('Fait')) >= try_parse_date(start_date) and try_parse_date(entry.val().get('Fait')) <= try_parse_date(end_date):

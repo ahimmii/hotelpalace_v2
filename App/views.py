@@ -663,19 +663,18 @@ def appointment_list(request):
 
 
 
-    #appointments = database.child('Client').order_by_child("Fait").start_at(start_date).end_at(end_date).get()
+    # appointments = database.child('Client').order_by_child("Fait").start_at(start_date).end_at(end_date).get()
 
     
     if request.method == "POST":
         start_date = request.POST.get('start_date')
         end_date = request.POST.get('end_date')
-        print( start_date,end_date)
-        appointments = database.child('Client').order_by_child("Check_in").start_at(start_date).get()
+        print("date ", start_date)
+        appointments = database.child('Client').order_by_child("Check_out").end_at(end_date).get()
         for entry in appointments.each():
             prix_str = entry.val().get('Prix')
             prix_str = ''.join(char if char.isdigit() or char == '-' else '' for char in prix_str)
             if datetime.strptime(entry.val().get('Check_in'), '%d/%m/%Y') >= datetime.strptime(datetime.today().strftime('01/%m/%Y'), '%d/%m/%Y') and  datetime.strptime(entry.val().get('Check_in'), '%d/%m/%Y') <= datetime.strptime(datetime.today().strftime('30/%m/%Y'), '%d/%m/%Y') and entry.val().get("N_T") != "ADMIN" and int(prix_str) > 0:
-                # print(entry.val().get('Fait'))
                 new_data.append({
                             "Nom" : entry.val().get("Nom"),
                             "Prenom" : entry.val().get("Prenom"),

@@ -670,10 +670,30 @@ def appointment_list(request):
         start_date = request.POST.get('start_date')
         end_date = request.POST.get('end_date')
         print( start_date,end_date)
-        appointments = database.child('Client').order_by_child("Fait").start_at(start_date).end_at(end_date).get()
+        appointments = database.child('Client').order_by_child("Fait").start_at(start_date).get()
         for entry in appointments.each():
-            print(entry.val().get('Fait'))
-        return JsonResponse({"success": True, "events": appointments.val()})
+            prix_str = entry.val().get('Prix')
+            prix_str = ''.join(char if char.isdigit() or char == '-' else '' for char in prix_str)
+            if datetime.strptime(entry.val().get('Fait'), '%d/%m/%Y') >= datetime.strptime(datetime.today().strftime('01/%m/%Y'), '%d/%m/%Y') and  datetime.strptime(entry.val().get('Fait'), '%d/%m/%Y') <= datetime.strptime(datetime.today().strftime('30/%m/%Y'), '%d/%m/%Y') and entry.val().get("N_T") != "ADMIN" and int(prix_str) > 0:
+                # print(entry.val().get('Fait'))
+                new_data.append({
+                            "Nom" : entry.val().get("Nom"),
+                            "Prenom" : entry.val().get("Prenom"),
+                            "Domicile" : entry.val().get("Domicile"),
+                            "N_T" : entry.val().get("N_T"),
+                            "Prix" : entry.val().get('Prix'),
+                            "Prix_R" : entry.val().get('Prix_R'),
+                            "N_chamber" : entry.val().get('N_chamber'),
+                            "Num_phone" : entry.val().get("Num_phone"),
+                            "Check_in" : entry.val().get('Check_in'),
+                            "Check_out" : entry.val().get('Check_out'),
+                            "ID" : entry.val().get('ID'),
+                            "Fait" : entry.val().get('Fait'),
+                            "Typedereservation" : entry.val().get('Typedereservation'),
+                            "modepaiment" : entry.val().get('modepaiment'),
+                            "filePath" : entry.val().get('filePath'),
+                        })
+        return JsonResponse({"success": True, "events": new_data })
     
     for entry in data.each():
         if try_parse_date(entry.val().get('Fait')) >= try_parse_date(start_date) and try_parse_date(entry.val().get('Fait')) <= try_parse_date(end_date):

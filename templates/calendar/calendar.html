@@ -6,7 +6,7 @@
 {% load static %}
 
 
-
+<div class="loader"></div> 
 <div class="row page-titles mx-0">
     <div class="col-sm-6 p-md-0">
         <div class="welcome-text">
@@ -180,15 +180,20 @@
             </div>
             <div class="modal-body">
                 <div class="insertHere">
-                    <p><strong>Patient Name:</strong> <span id="patientName"></span></p>
-                    <p><strong>Doctor Name:</strong> <span id="doctorName"></span></p>
-                    <p><strong>Type Appointment:</strong> <span id="typeAppointment_display"></span></p>
+                    <p><strong>Client Name:</strong> <span id="patientName"></span></p>
+                    <!-- <p><strong>Doctor Name:</strong> <span id="doctorName"></span></p> -->
+                    <p><strong>Fait:</strong> <span id="Fait"></span></p>
                     <p><strong>Start Date:</strong> <span id="startDate_display"></span></p>
                     <p><strong>End Date:</strong> <span id="endDate_display"></span></p>
                     <p><strong>Total Price:</strong> <span id="totalPrice_display"></span></p>
-                    <p><strong>Amount Paid:</strong> <span id="amountPaid_display"></span></p>
-                    <p><strong>Remaining Amount:</strong> <span id="remainingAmount_display"></span></p>
-                    <p><strong>Motive:</strong> <span id="motive_display"></span></p>
+                    <p><strong>Prix_R:</strong> <span id="prix_R"></span></p>
+                    <p><strong>Cin_Pas:</strong> <span id="Cin_Pas"></span></p>
+                    <p><strong>Nationalite:</strong> <span id="Nationalite"></span></p>
+                    <p><strong>Num_phone:</strong> <span id="Num_phone"></span></p>
+                    <p><strong>N_T:</strong> <span id="N_T"></span></p>
+                    <p><strong>Domicile:</strong> <span id="domicile"></span></p>
+                    <p><strong>DateN:</strong> <span id="dateN"></span></p>
+                    <p><strong>N_chamber:</strong> <span id="N_chamber"></span></p>
                 </div>
             </div>
             <div class="modal-footer">
@@ -209,63 +214,26 @@
     const updateUrl = "{% url 'calendar_edit' pk='pk_placeholder' %}";
 
     const calendarEl = document.getElementById('calendar');
-
+    var prevDates = null; // Variable to store the previous dates
     // var Patients = JSON.parse('{{ Patients|safe }}');
-
-
+    const csrfToken = $('[name="csrfmiddlewaretoken"]').val();
+    const url_list = "{% url 'appointment_list' %}"
+    let start_date=null;
+    let end_date=null;
     document.addEventListener('DOMContentLoaded', function () {
         // var calendarEl = document.getElementById('calendar');
-        const csrfToken = $('[name="csrfmiddlewaretoken"]').val();
-        const url_list = "{% url 'appointment_list' %}"
+    //    console.log(start_date,end_date)
         // Initialize your calendar here (you need to have the calendar object)
         // const calendar = new FullCalendar.Calendar(calendarEl, {
         //     // your calendar configuration options
         // });
-
+        // console.log(start_date,end_date)
+        console.log(start_date,end_date)
+        start_date="01/06/2024"
+        end_date="01/07/2024"
+        fill_calendar(start_date,end_date)
         // Fetch events from Django and add them to the calendar
-        $.ajax({
-            url: url_list,  // Replace with your Django endpoint to fetch events
-            type: 'post',
-            dataType: 'json',
-            headers: {
-                'X-CSRFToken': csrfToken
-            },
-            success: function (data) {
-                console.log('Onloead', data.events)
-                if (data.success) {
-                    // Loop through the events and add them to the calendar
-                    Object.values(data.events).forEach(function (eventData) {
-                        console.log("eventData", eventData)
-                        calendar.addEvent({
-                            title: eventData?.Motif,
-                            start: eventData?.startDate,
-                            end: eventData?.endDate,
-                            extendedProps: {
-                                start: eventData?.start,
-                                end: eventData?.end,
-                                patient_id: eventData?.Patient_id,
-                                doctor_id: eventData?.Doctor_id,
-                                Motif: eventData?.Motif ?? "Motif",
-                                Appointment_id: eventData?.Appointment_id,
-                                totalPrice: eventData?.totalPrice,
-                                amountPaid: eventData?.amountPaid,
-                                Statut_de_paiement: eventData?.Statut_de_paiement,
-                                typeAppointment: eventData?.typeAppointment
-                            }
-                            // Add other event properties as needed
-                        });
-                    });
-
-                    //calendar.render();  // Render the calendar after adding events
-                } else {
-                    console.error('Failed to fetch events.');
-                }
-            },
-            error: function (err) {
-                console.log("erorre is ",err)
-                console.error('Error making the AJAX request.');
-            }
-        });
+        
     });
 
     const calendar = new FullCalendar.Calendar(calendarEl, {
@@ -279,46 +247,70 @@
             right: 'dayGridMonth,timeGridWeek,timeGridDay'
         },
         defaultView: 'timeGridWeek', // Display in week view by default
-        eventTimeFormat: {
-            hour: 'numeric',
-            minute: '2-digit',
-            meridiem: 'short'
-        },
-        slotLabelFormat: {
-            hour: 'numeric',
-            minute: '2-digit',
-            omitZeroMinute: false,
-            meridiem: 'short'
-        },
+        // eventTimeFormat: {
+        //     hour: 'numeric',
+        //     minute: '2-digit',
+        //     meridiem: 'short'
+        // },
+        // slotLabelFormat: {
+        //     hour: 'numeric',
+        //     minute: '2-digit',
+        //     omitZeroMinute: false,
+        //     meridiem: 'short'
+        // },
         nowIndicator: true,
-        businessHours: {
-            daysOfWeek: [1, 2, 3, 4, 5, 6], // Monday - Friday are working days
-            startTime: '09:00', // Working day start time
-            endTime: '17:00' // Working day end time
-        },
-        dayRender: function (info) {
-            // Check if the day is Sunday
-            if (info.date.getDay() === 0) {
-                // Change the background color of Sunday
-                info.el.style.backgroundColor = 'black'; // Set your desired background color
+        // businessHours: {
+        //     // daysOfWeek: [1, 2, 3, 4, 5, 6], // Monday - Friday are working days
+        //     startTime: '09:00', // Working day start time
+        //     endTime: '17:00' // Working day end time
+        // },
+        datesSet: function(info) {
+            // console.log(info.start,info.end)
+
+            start_date=formatDateToDMY(info.start)
+            end_date=formatDateToDMY(info.end)
+
+            var currentDates = {
+                start: info.start,
+                end: info.end
+            };
+
+            if (prevDates !== null) {
+                // Compare current dates with previous dates
+                if (currentDates.start < prevDates.start) {
+                    // User navigated to the previous month or week
+                    fill_calendar(currentDates.start,currentDates.end)
+                    console.log("User navigated to the previous month or week");
+                }
             }
+
+            // Update previous dates with current dates for the next comparison
+            prevDates = currentDates;
         },
-        events: [
+        // dayRender: function (info) {
+        //     // Check if the day is Sunday
+        //     if (info.date.getDay() === 0) {
+        //         // Change the background color of Sunday
+        //         info.el.style.backgroundColor = 'black'; // Set your desired background color
+        //     }
+        // },
+        // events: [
             // {
             //     title: 'Meeting with John and a very long title that should wrap to the next line',
-            //     start: new Date('2023-12-05 12:00:00'),
-            //     end: new Date('2023-12-05T12:00:00'),
+            //     start: new Date('2024-06-05 12:00:00'),
+            //     end: new Date('2024-06-05T12:00:00'),
             // },
             // {
             //     title: 'Conference call',
-            //     start: new Date('2023-12-07 19:00:00'),
-            //     end: new Date('2023-12-07T19:00:00'),
+            //     start: new Date('2024-06-05 12:00:00'),
+            //     end: new Date('2024-06-05T12:00:00'),
             // },
             // {
             //     title: 'Sunday Morning',
-            //     start: '2023-12-10T09:00:00',
-            //     end: '2023-12-10T12:00:00',
-            // },
+            //     start: '2024-06-05T12:00:00',
+            //     end: '2024-06-05T12:00:00',
+            // }
+            //,
             // {
             //     title: 'Sunday Afternoon',
             //     start: '2023-12-10T13:00:00',
@@ -326,8 +318,9 @@
             //     rendering: 'background', // Render as background to indicate day off
             //     color: '#FF7777' // Set a color to distinguish day off
             // },
-        ],
+        // ],
         eventDrop: (eventInfo) => {
+            // console.log("change date",eventInfo)
             const newDate = eventInfo.event.start;
             console.log(eventInfo.event.extendedProps)
             // alert('check')
@@ -354,7 +347,7 @@
                     xhr.setRequestHeader('X-CSRFToken', csrfToken);
                 },
                 success: function (data) {
-                    console.log('data is', data.success)
+                    // console.log('data is', data.success)
                     if (data.success) {
                         alert('Event updated!');
                     } else {
@@ -370,13 +363,13 @@
         },
         eventContent: function (arg) {
             return {
-                html: `<div class="fc-content">${customTimeFormat(arg.event.start)}<br>${arg.event.title}</div>`
+                html: `<div class="fc-content">${arg.event.title}</div>`
             };
         },
         eventDidMount: function (arg) {
             arg.el.querySelector('.fc-content').addEventListener('click', function () {
-
-                console.log('event', arg.event)
+                // alert('arg Mount')
+                // console.log('event', arg.event)
                 // alert('event', arg.event)
                 openEventModal(arg.event);
                 // alert('Event clicked! Title: event !!!!!!! ' + arg.event.title);
@@ -385,15 +378,15 @@
         eventTimeFormat: { hour: 'numeric', minute: '2-digit', meridiem: 'lowercase' },
     });
     calendar.render();
-    calendar.setOption('eventAfterAllRender', function (view) {
-                // Fetch the current date
-                var currentDate = new Date();
-                var currentDateString = currentDate.toISOString().split('T')[0];  // Get the current date as 'YYYY-MM-DD'
+    // calendar.setOption('eventAfterAllRender', function (view) {
+    //             // Fetch the current date
+    //             var currentDate = new Date();
+    //             var currentDateString = currentDate.toISOString().split('T')[0];  // Get the current date as 'YYYY-MM-DD'
 
-                // Find the day cell for the current date and change its background color
-                var currentDayCell = $('.fc-day[data-date="' + currentDateString + '"]');
-                currentDayCell.css('background-color', 'black');  // Change the color as needed
-            });
+    //             // Find the day cell for the current date and change its background color
+    //             var currentDayCell = $('.fc-day[data-date="' + currentDateString + '"]');
+    //             currentDayCell.css('background-color', 'black');  // Change the color as needed
+    //         });
 
     function getSelectedOptionId(selectId) {
         const selectElement = document.getElementById(selectId);
@@ -586,23 +579,30 @@
         var modalBody = document.getElementById('eventModalBody');
         console.log('event is ', event.extendedProps)
         // Update spans with event details
-        document.getElementById('myModalLabel').textContent=$('#' + event.extendedProps.patient_id).text() +":"+event.extendedProps.Motif
-        document.getElementById('patientName').textContent = $('#' + event.extendedProps.patient_id).text();
-        document.getElementById('doctorName').textContent = $('#' + event.extendedProps.doctor_id).text();
-        document.getElementById('typeAppointment_display').textContent = event.extendedProps.typeAppointment;
-        document.getElementById('startDate_display').textContent = moment(event.extendedProps.start).format('DD/MM/YYYY HH:mm');
-        document.getElementById('endDate_display').textContent = moment(event.extendedProps.end).format('DD/MM/YYYY HH:mm') ?? 'N/A';
-        document.getElementById('motive_display').textContent = event.extendedProps.Motif;
-        document.getElementById('amountPaid_display').textContent = event.extendedProps.amountPaid;
-        document.getElementById('totalPrice_display').textContent = event.extendedProps.totalPrice;
-        const paymentStatusIcon = document.getElementById('remainingAmount_display');
-        paymentStatusIcon.textContent = event.extendedProps.totalPrice - event.extendedProps.amountPaid;
+        var prenom = (event && event.extendedProps && event.extendedProps.Prenom !== undefined) ? event.extendedProps.Prenom : "";
 
-        if (event.extendedProps.totalPrice - event.extendedProps.amountPaid === 0) {
-            paymentStatusIcon.className = 'fas fa-check-circle text-success'; // Icon for payment complete
-        } else {
-            paymentStatusIcon.className = 'fas fa-exclamation-circle text-warning'; // Icon for remaining amount
-        }// Open the modal
+        document.getElementById('myModalLabel').textContent=event.extendedProps.Nom +" "+  prenom
+        document.getElementById('patientName').textContent = event.extendedProps.Nom;
+        document.getElementById('Cin_Pas').textContent = event.extendedProps.Cin_Pas ?? "No Data"
+        document.getElementById('dateN').textContent = event.extendedProps.dateN  ?? "No Data";
+        document.getElementById('Nationalite').textContent = event.extendedProps.Nationalite  ?? "No Data";
+        document.getElementById('Fait').textContent = event.extendedProps.Fait;
+        document.getElementById('N_T').textContent = event.extendedProps.N_T;
+        document.getElementById('domicile').textContent = event.extendedProps.Domicile;
+        document.getElementById('startDate_display').textContent =event.extendedProps.Check_in
+        document.getElementById('endDate_display').textContent = event.extendedProps.Check_out
+        document.getElementById('Num_phone').textContent = event.extendedProps?.Num_phone ?? "No Data"
+        document.getElementById('N_chamber').textContent = event.extendedProps.N_chamber;
+        document.getElementById('totalPrice_display').textContent = event.extendedProps.Prix;
+        document.getElementById('prix_R').textContent = event.extendedProps.Prix_R;
+        // const paymentStatusIcon = document.getElementById('remainingAmount_display');
+        // paymentStatusIcon.textContent = event.extendedProps.totalPrice - event.extendedProps.amountPaid;
+
+        // if (event.extendedProps.totalPrice - event.extendedProps.amountPaid === 0) {
+        //     paymentStatusIcon.className = 'fas fa-check-circle text-success'; // Icon for payment complete
+        // } else {
+        //     paymentStatusIcon.className = 'fas fa-exclamation-circle text-warning'; // Icon for remaining amount
+        // }// Open the modal
         $('#eventModal').modal('show');
     }
 
@@ -635,6 +635,79 @@
         } else {
             paymentStatusIcon.className = 'fas fa-exclamation-circle text-warning'; // Icon for remaining amount
         }
+    }
+    function convertDateFormat(originalDate) {
+    var parts = originalDate.split('/');
+    var jsDate = new Date(parts[2], parts[1] - 1, parts[0]); // Assuming "DD/MM/YYYY" format
+    var formattedDate = jsDate.getFullYear() + '-' + ('0' + (jsDate.getMonth() + 1)).slice(-2) + '-' + ('0' + jsDate.getDate()).slice(-2) + ' 12:00:00';
+    return formattedDate;
+}
+    function formatDateToDMY(originalDate) {
+        var date = new Date(originalDate);
+        var day = ('0' + date.getDate()).slice(-2);
+        var month = ('0' + (date.getMonth() + 1)).slice(-2);
+        var year = date.getFullYear();
+
+        return day + '/' + month + '/' + year;
+    } 
+    function fill_calendar(start_date,end_date) {
+
+        $.ajax({
+            url: url_list,  // Replace with your Django endpoint to fetch events
+            type: 'post',
+            dataType: 'json',
+            data: {
+                'start_date': start_date,
+                'end_date': end_date
+            },
+            headers: {
+                'X-CSRFToken': csrfToken
+            },
+            success: function (data) {
+                console.log('Onloead', data)
+                // console.log('start_date', start_date,"end_date",end_date)
+                if (data.success) {
+                    // Loop through the events and add them to the calendar
+                    $('.loader').hide()
+                    
+                    Object.values(data.events).forEach(function (eventData) {
+                        console.log("eventData", eventData)
+                        calendar.addEvent({
+                            title: eventData?.Nom + " "+ eventData?.Prenom,
+                            start: convertDateFormat(eventData?.Check_in),
+                            // start: "2024-06-09T16:00:00",
+                            // end: "2024-07-09T16:00:00",
+                            
+                            end: convertDateFormat(eventData?.Check_out),
+                            extendedProps: {
+                                start: convertDateFormat(eventData?.Check_in),
+                                end: convertDateFormat(eventData?.Check_out),
+                                Nom: eventData?.Nom+" "+eventData?.Prenom,
+                                Check_in: eventData?.Check_in,
+                                Check_out: eventData?.Check_out,
+                                Fait: eventData?.Fait,
+                                N_T: eventData?.N_T,
+                                Domicile: eventData?.Domicile,
+                                N_chamber: eventData?.N_chamber,
+                                Prix: eventData?.Prix,
+                                Prix_R: eventData?.Prix_R,
+                                Cin_Pas: eventData?.Cin_Pas,
+                                DateN: eventData?.DateN,
+                            }
+                            // Add other event properties as needed
+                        });
+                    });
+
+                calendar.render();  // Render the calendar after adding events
+                } else {
+                    console.error('Failed to fetch events.');
+                }
+            },
+            error: function (err) {
+                console.log("erorre is ",err)
+                console.error('Error making the AJAX request.');
+            }
+        });
     }
 </script>
 <!-- <script>
@@ -680,6 +753,52 @@
     /* .fc-event-today{
         background-color: black;
     } */
+    .loader {
+        background-color: red   ;
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        /* transform: translate(-50%, -50%); */
+        z-index: 9999;
+    }
+    /* HTML: <div class="loader"></div> */
+.loader {
+    
+  --R: 30px;
+  --g1: #514b82 96%, #0000;
+  --g2: #eeeeee 96%, #0000;
+  width: calc(2*var(--R));
+  aspect-ratio: 1;
+  border-radius: 50%;
+  display: grid;
+  -webkit-mask: linear-gradient(#000 0 0);
+  animation: l30 2s infinite linear;
+}
+.loader::before,
+.loader::after{
+  content:"";
+  grid-area: 1/1;
+  width: 50%;
+  background:
+    radial-gradient(farthest-side,var(--g1)) calc(var(--R) + 0.866*var(--R) - var(--R)) calc(var(--R) - 0.5*var(--R)   - var(--R)),
+    radial-gradient(farthest-side,var(--g1)) calc(var(--R) + 0.866*var(--R) - var(--R)) calc(var(--R) - 0.5*var(--R)   - var(--R)),
+    radial-gradient(farthest-side,var(--g2)) calc(var(--R) + 0.5*var(--R)   - var(--R)) calc(var(--R) - 0.866*var(--R) - var(--R)),
+    radial-gradient(farthest-side,var(--g1)) 0 calc(-1*var(--R)),
+    radial-gradient(farthest-side,var(--g2)) calc(var(--R) - 0.5*var(--R)   - var(--R)) calc(var(--R) - 0.866*var(--R) - var(--R)),
+    radial-gradient(farthest-side,var(--g1)) calc(var(--R) - 0.866*var(--R) - var(--R)) calc(var(--R) - 0.5*var(--R)   - var(--R)),
+    radial-gradient(farthest-side,var(--g2)) calc(-1*var(--R))  0,
+    radial-gradient(farthest-side,var(--g1)) calc(var(--R) - 0.866*var(--R) - var(--R)) calc(var(--R) + 0.5*var(--R)   - var(--R));
+   background-size: calc(2*var(--R)) calc(2*var(--R));
+   background-repeat :no-repeat;
+}
+.loader::after {
+ transform: rotate(180deg);
+ transform-origin: right;
+}
+
+@keyframes l30 {
+  100% {transform: rotate(-1turn)}
+}
 </style>
 
 

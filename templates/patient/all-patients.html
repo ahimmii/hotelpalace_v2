@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-{% block title %}Patients{% endblock %}
+{% block title %}Stock{% endblock %}
 
 {% block content %}
 {% load static %}
@@ -15,7 +15,7 @@
         <div class="col-sm-6 p-md-0 justify-content-sm-end mt-2 mt-sm-0 d-flex">
             <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a href="index.html">Home</a></li>
-                <li class="breadcrumb-item active"><a href="/new-patient.html">New Patient</a></li>
+                <li class="breadcrumb-item active"><a href="/new-patient.html">New Stock</a></li>
             </ol>
         </div>
     </div>
@@ -25,11 +25,10 @@
                 <div class="card-header fix-card">
                     <div class="row">
                         <div class="col-8">
-                            <h4 class="card-title"> All Patients </h4>
+                            <h4 class="card-title"> All Stock </h4>
                         </div>
-                        <div class="col-4 float-end">
-                            <a href="{% url 'patient_create' %}" class="btn btn-primary float-end">New
-                                Patient</a>
+                        <div class="col-4 ">
+                            <a href="{% url 'patient_create' %}" class="btn btn-primary">New Stock</a>
                         </div>
                     </div>
                 </div>
@@ -104,7 +103,7 @@
                                 </tr>
 
                                 {% endfor %} -->
-                                {% for key, value in patients.items %}
+                                {% for key, value in Stock.items %}
                                 
                                 <tr id="row{{ key }}">
                                     <td><img class="rounded-circle" width="35"

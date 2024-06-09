@@ -190,16 +190,6 @@
                         </ul>
                     </li> {% endcomment %}
                     {% endif %}
-                    {% comment %} <li class="has-submenu">
-                        <a href="javascript:void()" class="has-arrow mm-collapsed">
-                            <i class="fas fa-users"></i>
-                            <span class="nav-label">Patients</span>
-                        </a>
-                        <ul class="list-unstyled mm-collapse">
-                            <li><a href="{% url 'patient_create' %}">New Patient</a></li>
-                            <li><a href="{% url 'patient_list' %}">All Patients</a></li>
-                        </ul>
-                    </li> {% endcomment %}
                     <li class="has-submenu">
                         <a href="{% url 'appointment_list' %}">
                             <i class="fas fa-calendar-plus"></i>
@@ -247,11 +237,21 @@
                         </a>
                     </li>
                     <li class="has-submenu">
+                        <a href="javascript:void()" class="has-arrow mm-collapsed">
+                            <i class="fas fa-archive"></i>
+                            <span class="nav-label">Stock</span>
+                        </a>
+                        <ul class="list-unstyled mm-collapse">
+                            <li><a href="{% url 'patient_list' %}">All Stock</a></li>
+                            <li><a href="{% url 'patient_create' %}">New Stock</a></li>
+                        </ul>
+                    </li>
+                    <!-- <li class="has-submenu">
                         <a href="#">
                             <i class="fas fa-archive"></i>
                             <span class="nav-label">Stock</span>
                         </a>
-                    </li>
+                    </li> -->
                     {% comment %} <li class="has-submenu">
                         <a href="{% url 'report_list' %}">
                             <i class="fas fa-chart-pie"></i>

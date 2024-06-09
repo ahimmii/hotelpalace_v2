@@ -30,16 +30,15 @@ config = {
     "measurementId": "G-ZRMK9KFP6C"
 }
 
-
 # config = {
-#     "apiKey": "AIzaSyDfOPsPiKZJtTvowMkgkBC52mLHFv0agCk",
-#     "authDomain": "tabib-a4529.firebaseapp.com",
-#     "databaseURL": "https://tabib-a4529-default-rtdb.europe-west1.firebasedatabase.app",
-#     "projectId": "tabib-a4529",
-#     "storageBucket": "tabib-a4529.appspot.com",
-#     "messagingSenderId": "484081647935",
-#     "appId": "1:484081647935:web:fcfb4c8f2dfb468cbcd38a",
-#     "measurementId": "G-5WS88GHY67",
+#     "apiKey": "AIzaSyDo4BUk0x-5ogFESIxQGpthJZfbZQQbLEM",
+#     "authDomain": "data-test-27937.firebaseapp.com",
+#     "databaseURL": "https://data-test-27937-default-rtdb.europe-west1.firebasedatabase.app",
+#     "projectId": "data-test-27937",
+#     "storageBucket": "data-test-27937.appspot.com",
+#     "messagingSenderId": "607758979508",
+#     "appId": "1:607758979508:web:bc8c1787d8e50a48d7a2e1",
+#     "measurementId": "G-RQ54N3ZCEL"
 # }
 
 # config = {
@@ -506,9 +505,9 @@ def patient_list(request):
     # patients = Patient.objects.all()
     # return render(request, "patient_list.html", {"patients": patients})
 
-    Patients = database.child("Patients").get()
+    Stock = database.child("Stock").get()
 
-    return render(request, "patient/all-patients.html", {"patients": Patients.val()})
+    return render(request, "patient/all-patients.html", {"Stock": Stock.val()})
 
 
 def patient_detail(request, pk):
@@ -731,14 +730,17 @@ def appointment_list(request):
         },
     )
 
+
+
 @admin_only
 def withdrawal_list(request):
     # appointments = Appointment.objects.all()
     # return render(request, 'appointment_list.html', {'appointments': appointments})
     new_data = []
-    total_lidkal = 0
-    total_likhrej = 0
+    N_chamber_T = ["01","02","03","04","05","06","07","08","09","10","11","12","13","14","15","16","17","18","19","20","21","22","23","24","25","26","27","28","29","30"]
+    total_Sortie = 0
     total = 0
+    link_url = ''
     start_date = datetime.today().strftime('01/01/%Y')
     end_date = datetime.today().strftime('31/12/%Y')
     appointments = database.child('Client').order_by_child("Fait").start_at(start_date).end_at(end_date).get()
@@ -749,60 +751,64 @@ def withdrawal_list(request):
     data = database.child('Client').order_by_child("Fait").start_at(start_date).end_at(end_date).get()
     
     for entry in data.each():
-        if datetime.strptime(entry.val().get('Fait'), '%d/%m/%Y') >= datetime.strptime(start_date, '%d/%m/%Y') and datetime.strptime(entry.val().get('Fait'), '%d/%m/%Y') <= datetime.strptime(end_date, '%d/%m/%Y'):
-            input_date = datetime.strptime(entry.val().get('Fait'), '%d/%m/%Y')
+        if try_parse_date(entry.val().get('Fait')) >= try_parse_date(start_date) and try_parse_date(entry.val().get('Fait')) <= try_parse_date(end_date):
+            input_date = try_parse_date(entry.val().get('Fait'))
             
             prix_str = entry.val().get('Prix')
             Prix_R_str = entry.val().get('Prix_R')
+            url = entry.val().get('filePath')
+
+            
             # Remove non-numeric characters (except for dots) from the Prix string
             prix_str = ''.join(char if char.isdigit() or char == '-' else '' for char in prix_str)
             Prix_R_str = ''.join(char if char.isdigit() or char == '-' else '' for char in Prix_R_str)
-            
-
+            if url:
+                link_url = storages.child(entry.val().get('filePath')).get_url(None)
+            else:
+                link_url = "f"    
+    
             # print(prix_str)
+            if try_parse_date(entry.val().get('Check_out')) > try_parse_date(datetime.today().strftime('%d/%m/%Y')) and try_parse_date(entry.val().get('Check_in')) <= try_parse_date(datetime.today().strftime('%d/%m/%Y')):
+                if entry.val().get('N_chamber') in N_chamber_T:
+                    N_chamber_T.remove(entry.val().get('N_chamber'))
             if prix_str and prix_str.strip() != '' and Prix_R_str and Prix_R_str.strip() != '':
                 prix_value = int(prix_str)
                 Prix_R_value = int(Prix_R_str)
                 
-                if entry.val().get("N_T") == 'ADMIN':
-                    total_lidkal += prix_value
-                    # if entry.val().get("Prix_R") == 0:
-                    #     status = True
-                    # else:
-                    #     status = False
-                    new_data.append({
-                        "nom" : entry.val().get("Nom"),
-                        "prenom" : entry.val().get("Prenom"),
-                        "Domicile" : entry.val().get("Domicile"),
-                        "User" : entry.val().get("N_T"),
-                        "Prix" : prix_value,
-                        "Prix_R" : Prix_R_value,
-                        "N_chamber": entry.val().get('N_chamber'),
-                        "Num_phone" : entry.val().get("Num_phone"),
-                        "Check_in": convert_date_to_timestamp(entry.val().get('Check_in')),
-                        "Check_out": convert_date_to_timestamp(entry.val().get('Check_out')),
-                        "id" : entry.val().get('ID'),
-                        "Fait" : input_date.strftime('%Y-%m-%d'),
-                        "Typedereservation": entry.val().get('Typedereservation'),
-                        "modepaiment": entry.val().get('modepaiment'),
-                        
-                        # "Status" : status,
-                    })
+                if entry.val().get("N_T") == "ADMIN":
+                    if prix_value or prix_value == 0:
+                        total_Sortie += prix_value
+
+                        # if entry.val().get("Prix_R") == 0:
+                        #     status = True
+                        # else:
+                        #     status = False
+                        new_data.append({
+                            "nom" : entry.val().get("Nom"),
+                            "prenom" : entry.val().get("Prenom"),
+                            "Domicile" : entry.val().get("Domicile"),
+                            "User" : entry.val().get("N_T"),
+                            "Prix" : prix_value,
+                            "Prix_R" : Prix_R_value,
+                            "N_chamber" : entry.val().get('N_chamber'),
+                            "Num_phone" : entry.val().get("Num_phone"),
+                            "Check_in" : convert_date_to_timestamp(entry.val().get('Check_in')),
+                            "Check_out" : convert_date_to_timestamp(entry.val().get('Check_out')),
+                            "id" : entry.val().get('ID'),
+                            "Fait" : input_date.strftime('%Y-%m-%d'),
+                            "Typedereservation" : entry.val().get('Typedereservation'),
+                            "modepaiment" : entry.val().get('modepaiment'),
+                            "filePath" : link_url,
+                            "url" : url,
+                        })
                     # print(convert_date_to_timestamp(entry.val().get('Check_in')))
-                if prix_value < 0:
-                    total_likhrej += prix_value
                 total += prix_value
-
-
-    # print(total_lidkal)
-    # print(total_likhrej)
-    # print(total)
     return render(
         request,
         "appointement/new-appointment.html",
         {
             "appointments": new_data,
-            "Total" : total_lidkal
+            "Total" : total_Sortie,
         },
     )
 
@@ -884,7 +890,7 @@ def appointment_edit(request, pk):
             "filePath":data["filePath_update"],
         }
         # print(updateData)
-        if data["filePath_update"] != "":
+        if data["filePath_update"] != "" and data["filePath_update"] != "f" and data["filePath_update"] != "F":
             storages.child(data["filePath_update"]).put(data["filePath_update"])
         database.child("Client").child(pk).update(updateData)
     return JsonResponse({"success": True})
@@ -1079,7 +1085,7 @@ def save_calendar(request):
         }
 
         print(test)
-        if data["filePath"] != "":
+        if data["filePath"] != "" and data["filePath"] != "F" and data["filePath"] != "f":
             storages.child(data["filePath"]).put(data["filePath"])
         database.child("Client").child(str(ID)).set(test)
 
@@ -1120,8 +1126,7 @@ def calendar_edit(request, pk):
 def calendars(request):
     # rendem_id = "Appointment_" + str(uuid.uuid4())
 
-    Patients = database.child("Patients").get().val()
-    Doctors = database.child("Doctors").get().val()
+    Client = database.child("Client").get().val()
     # appointments = database.child("Appointments").get()
 
     # test = {
@@ -1143,7 +1148,7 @@ def calendars(request):
     # }
     # print(appointment)
     return render(
-        request, "calendar/calendar.html", {"Patients": Patients, "Doctors": Doctors}
+        request, "calendar/calendar.html", {"Patients": Client}
     )
 
 

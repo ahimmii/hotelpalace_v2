@@ -229,7 +229,7 @@
         // });
         // console.log(start_date,end_date)
         console.log(start_date,end_date)
-
+        
         fill_calendar(start_date,end_date)
         // Fetch events from Django and add them to the calendar
         
@@ -278,6 +278,7 @@
                 // Compare current dates with previous dates
                 if (currentDates.start < prevDates.start) {
                     // User navigated to the previous month or week
+                    clearCalendarEvents()
                     fill_calendar(formatDateToDMY(currentDates.start),formatDateToDMY(currentDates.end))
                     console.log("User navigated to the previous month or week");
                 }
@@ -650,6 +651,7 @@
         return day + '/' + month + '/' + year;
     } 
     function fill_calendar(start_date,end_date) {
+        $('.loader').show()
 
         $.ajax({
             url: url_list,  // Replace with your Django endpoint to fetch events
@@ -663,6 +665,7 @@
                 'X-CSRFToken': csrfToken
             },
             success: function (data) {
+
                 console.log('Onloead', data)
                 // console.log('start_date', start_date,"end_date",end_date)
                 if (data.success) {
@@ -708,6 +711,14 @@
             }
         });
     }
+    function clearCalendarEvents() {
+    if (calendar) {
+        var events = calendar.getEvents();
+        calendar.getEvents().forEach(function(event) {
+            event.remove();
+        });
+    }
+}
 </script>
 <!-- <script>
     const calendarEl = document.getElementById('calendar');

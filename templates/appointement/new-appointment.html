@@ -953,6 +953,7 @@
 
         correctedFilePath = filePath.replace('C:\\fakepath', 'C:\\Users\\HP PLAZA\\Documents\\SCANNER');
         console.log(correctedFilePath);
+        console.log(FaitDate)
 
         if (startDate == null || endDate==null) {
             Swal.fire({
@@ -1085,16 +1086,16 @@
 
         const selectedValues = $('#chamber_update').val(); 
         const formattedString = selectedValues.join('/');
-        final_data=$('#formattedValues').val(formattedString);
-
-        
-        
+        final_data = $('#formattedValues').val(formattedString);
         // alert("submit")
         // Get form data
         const id = $('#id_input').val();
+
         filePath_update = $('#filePath_update').val() ?? ""
         correctedFilePath = filePath_update.replace('C:\\fakepath', 'C:\\Users\\HP PLAZA\\Documents\\SCANNER');
         // alert('id'+id)
+        console.log($('#FaitDate_update').val())
+
         var formData = {
             id: $('#id_input').val(),
             startDate_update: $('#startDate_update').val(),
@@ -1255,14 +1256,13 @@
                     <input type="password" maxlength="1" autofocus class="pin-input" style="width: 50px; padding: 10px; border: 1px solid #ccc; border-radius: 4px; text-align: center;">
                     <input type="password" maxlength="1" autofocus class="pin-input" style="width: 50px; padding: 10px; border: 1px solid #ccc; border-radius: 4px; text-align: center;">
                     <input type="password" maxlength="1" autofocus class="pin-input" style="width: 50px; padding: 10px; border: 1px solid #ccc; border-radius: 4px; text-align: center;">
-                </div>
-                `,
+                </div>`,
                 focusConfirm: false,
                 preConfirm: () => {
                     let pinCode = '';
                     document.querySelectorAll('.pin-input').forEach((input) => {
                         pinCode += input.value;
-                    });                    
+                    });
                     return pinCode; // If pin code is correct
                 },
                 onOpen: () => {

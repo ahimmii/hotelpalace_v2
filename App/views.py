@@ -33,17 +33,6 @@ config = {
 # config = {
 #     "apiKey": "AIzaSyDo4BUk0x-5ogFESIxQGpthJZfbZQQbLEM",
 #     "authDomain": "data-test-27937.firebaseapp.com",
-#     "databaseURL": "https://data-test-27937-default-rtdb.europe-west1.firebasedatabase.app",
-#     "projectId": "data-test-27937",
-#     "storageBucket": "data-test-27937.appspot.com",
-#     "messagingSenderId": "607758979508",
-#     "appId": "1:607758979508:web:bc8c1787d8e50a48d7a2e1",
-#     "measurementId": "G-RQ54N3ZCEL"
-# }
-
-# config = {
-#     "apiKey": "AIzaSyDo4BUk0x-5ogFESIxQGpthJZfbZQQbLEM",
-#     "authDomain": "data-test-27937.firebaseapp.com",
 #     "databaseURL": "https://data-test-27937-default-rtdb.europe-west1.firebasedatabase.app/",
 #     "projectId": "data-test-27937",
 #     "storageBucket": "data-test-27937.appspot.com",
@@ -51,11 +40,11 @@ config = {
 #     "appId": "1:607758979508:web:bc8c1787d8e50a48d7a2e1",
 #     "measurementId": "G-RQ54N3ZCEL",
 # }
+
 firebase = pyrebase.initialize_app(config)
 authe = firebase.auth()
 database = firebase.database()
 storages = firebase.storage()
-
 
 class LoginForm(forms.Form):
     username = forms.CharField(max_length=50)
@@ -669,8 +658,11 @@ def appointment_list(request):
     if request.method == "POST":
         start_date = request.POST.get('start_date')
         end_date = request.POST.get('end_date')
-        print("date ", start_date)
-        appointments = database.child('Client').order_by_child("Check_out").end_at(end_date).get()
+        print("date ", end_date)
+        # start_date = datetime.today().strftime('01/01/%Y')
+        # end_date = datetime.today().strftime('31/12/%Y')
+
+        appointments = database.child('Client').order_by_child("Fait").start_at(start_date).end_at(end_date).get()
         for entry in appointments.each():
             prix_str = entry.val().get('Prix')
             prix_str = ''.join(char if char.isdigit() or char == '-' else '' for char in prix_str)

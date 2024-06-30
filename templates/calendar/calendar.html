@@ -187,13 +187,11 @@
                     <p><strong>End Date:</strong> <span id="endDate_display"></span></p>
                     <p><strong>Total Price:</strong> <span id="totalPrice_display"></span></p>
                     <p><strong>Prix_R:</strong> <span id="prix_R"></span></p>
-                    <p><strong>Cin_Pas:</strong> <span id="Cin_Pas"></span></p>
-                    <p><strong>Nationalite:</strong> <span id="Nationalite"></span></p>
+                    <p><strong>Typedereservation:</strong> <span id="Typedereservation"></span></p>
+                    <p><strong>modepaiment:</strong> <span id="modepaiment"></span></p>
                     <p><strong>Num_phone:</strong> <span id="Num_phone"></span></p>
-                    <p><strong>N_T:</strong> <span id="N_T"></span></p>
-                    <p><strong>Domicile:</strong> <span id="domicile"></span></p>
-                    <p><strong>DateN:</strong> <span id="dateN"></span></p>
                     <p><strong>N_chamber:</strong> <span id="N_chamber"></span></p>
+                    <p><strong>N_T:</strong> <span id="N_T"></span></p>
                 </div>
             </div>
             <div class="modal-footer">
@@ -582,13 +580,12 @@
         var prenom = (event && event.extendedProps && event.extendedProps.Prenom !== undefined) ? event.extendedProps.Prenom : "";
 
         document.getElementById('myModalLabel').textContent=event.extendedProps.Nom +" "+  prenom
-        document.getElementById('patientName').textContent = event.extendedProps.Nom;
-        document.getElementById('Cin_Pas').textContent = event.extendedProps.Cin_Pas ?? "No Data"
-        document.getElementById('dateN').textContent = event.extendedProps.dateN  ?? "No Data";
-        document.getElementById('Nationalite').textContent = event.extendedProps.Nationalite  ?? "No Data";
+        document.getElementById('patientName').textContent = event.extendedProps.Nom + " " + prenom;
+        document.getElementById('Typedereservation').textContent = event.extendedProps.Typedereservation ?? "No Data"
+        document.getElementById('Typedereservation').textContent = event.extendedProps.Typedereservation  ?? "No Data";
+        document.getElementById('modepaiment').textContent = event.extendedProps.modepaiment  ?? "No Data";
         document.getElementById('Fait').textContent = event.extendedProps.Fait;
         document.getElementById('N_T').textContent = event.extendedProps.N_T;
-        document.getElementById('domicile').textContent = event.extendedProps.Domicile;
         document.getElementById('startDate_display').textContent =event.extendedProps.Check_in
         document.getElementById('endDate_display').textContent = event.extendedProps.Check_out
         document.getElementById('Num_phone').textContent = event.extendedProps?.Num_phone ?? "No Data"
@@ -689,12 +686,11 @@
                                 Check_out: eventData?.Check_out,
                                 Fait: eventData?.Fait,
                                 N_T: eventData?.N_T,
-                                Domicile: eventData?.Domicile,
                                 N_chamber: eventData?.N_chamber,
                                 Prix: eventData?.Prix,
                                 Prix_R: eventData?.Prix_R,
-                                Cin_Pas: eventData?.Cin_Pas,
-                                DateN: eventData?.DateN,
+                                Typedereservation: eventData?.Typedereservation,
+                                modepaiment: eventData?.modepaiment,
                             }
                             // Add other event properties as needed
                         });
